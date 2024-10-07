@@ -6,7 +6,7 @@ defmodule TimeTracker.UserContext.User do
     field :username, :string
     field :email, :string
 
-    has_many :clocks, TimeTracker.Clock
+    has_many :clocks, TimeTracker.ClockContext.Clock
     has_many :working_times, TimeTracker.WorkingTime
 
     timestamps(type: :utc_datetime)

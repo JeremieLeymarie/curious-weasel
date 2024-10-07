@@ -10,6 +10,9 @@ defmodule TimeTrackerWeb.Router do
 
     resources "/working_times", WorkingTimeController, except: [:new, :edit]
     resources "/users", UserController, except: [:new, :edit]
+
+    get "/clocks/:userId", ClockController, :index
+    post "/clocks/:userId", ClockController, :create
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
