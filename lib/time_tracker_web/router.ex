@@ -8,6 +8,7 @@ defmodule TimeTrackerWeb.Router do
   scope "/api", TimeTrackerWeb do
     pipe_through :api
 
+    resources "/working_times", WorkingTimeController, except: [:new, :edit]
     resources "/users", UserController, except: [:new, :edit]
   end
 
