@@ -7,6 +7,8 @@ defmodule TimeTrackerWeb.Router do
 
   scope "/api", TimeTrackerWeb do
     pipe_through :api
+
+    resources "/users", UserController, except: [:new, :edit]
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

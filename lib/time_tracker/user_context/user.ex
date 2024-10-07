@@ -1,4 +1,4 @@
-defmodule TimeTracker.User do
+defmodule TimeTracker.UserContext.User do
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -17,7 +17,5 @@ defmodule TimeTracker.User do
     user
     |> cast(attrs, [:username, :email])
     |> validate_required([:username, :email])
-
-    # TODO email validation
   end
 end
