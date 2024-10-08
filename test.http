@@ -13,11 +13,10 @@ content-type: application/json
 
 {"working_time" : {
     "start": "2024-10-06 13:02:00Z",
-    "end": "2024-10-10 13:02:00Z",
-    "user_id":  "1"
+    "end": "2024-10-10 13:02:00Z"
 }}
 
-## List working_time
+### List working_time
 GET http://localhost:4000/api/workingtimes?start=2024-10-03%2013%3A02%3A00Z&end=2024-10-10%2013%3A02%3A00Z HTTP/1.1
 
 
@@ -27,6 +26,6 @@ content-type: application/json
 
 {"clock" : {
     "time": "2024-10-06 13:02:00Z",
-    "status": true,
-    "user_id":  "1"
+    "status": true
 }}
+
