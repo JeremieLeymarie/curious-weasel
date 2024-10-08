@@ -6,8 +6,8 @@ defmodule TimeTrackerWeb.UserController do
 
   action_fallback TimeTrackerWeb.FallbackController
 
-  def index(conn, _params) do
-    users = UserContext.list_users()
+  def index(conn, params) do
+    users = UserContext.list_users(params)
     render(conn, :index, users: users)
   end
 

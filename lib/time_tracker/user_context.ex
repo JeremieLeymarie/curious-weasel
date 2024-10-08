@@ -4,6 +4,7 @@ defmodule TimeTracker.UserContext do
   """
 
   import Ecto.Query, warn: false
+
   alias TimeTracker.Repo
 
   alias TimeTracker.UserContext.User
@@ -17,8 +18,27 @@ defmodule TimeTracker.UserContext do
       [%User{}, ...]
 
   """
-  def list_users do
-    Repo.all(User)
+  def list_users(params) do
+    filter_email =
+      if params["email"] do
+        dynamic([p], like(p.email, ^"%#{String.replace(params["email"], "%", "\\%")}%"))
+      else
+        true
+      end
+
+    filter_username =
+      if params["username"] do
+        dynamic([p], like(p.username, ^"%#{String.replace(params["username"], "%", "\\%")}%"))
+      else
+        true
+      end
+
+    query =
+      from User,
+        where: ^filter_email,
+        where: ^filter_username
+
+    Repo.all(query)
   end
 
   @doc """
