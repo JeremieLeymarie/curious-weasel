@@ -11,9 +11,15 @@ defmodule TimeTrackerWeb.WorkingTimeController do
     render(conn, :index, working_times: working_times)
   end
 
-  def create(conn, %{"working_time" => working_time_params}) do
+  def create(conn, %{"working_time" => working_time_params, "userId" => user_id}) do
+    params = %{
+      start: working_time_params["start"],
+      end: working_time_params["end"],
+      user_id: user_id
+    }
+
     with {:ok, %WorkingTime{} = working_time} <-
-           WorkingTimeContext.create_working_time(working_time_params) do
+           WorkingTimeContext.create_working_time(params) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", ~p"/api/workingtimes/#{working_time}")
@@ -54,6 +60,4 @@ defmodule TimeTrackerWeb.WorkingTimeController do
         render(conn, :show, working_time: working_time)
     end
   end
-
-
 end
