@@ -1,11 +1,11 @@
-# TODO: make all fields non-nullable
+# TODO: make all fields non-nullable?
 
 defmodule TimeTracker.ClockContext.Clock do
   use Ecto.Schema
   import Ecto.Changeset
 
   schema "clocks" do
-    field :status, :boolean, default: false
+    field :status, :boolean, default: true
     field :time, :utc_datetime
 
     belongs_to :user, TimeTracker.UserContext.User

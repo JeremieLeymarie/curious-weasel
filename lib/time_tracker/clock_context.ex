@@ -21,8 +21,7 @@ defmodule TimeTracker.ClockContext do
   def list_clocks(userId) do
     query =
       from Clock,
-        where: [user_id: ^userId],
-        select: [:time, :status, :user_id, :id]
+        where: [user_id: ^userId]
 
     Repo.all(query)
   end
