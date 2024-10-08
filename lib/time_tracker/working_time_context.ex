@@ -59,12 +59,11 @@ defmodule TimeTracker.WorkingTimeContext do
       ** (Ecto.NoResultsError)
 
   """
-  def get_working_time!(id), do: Repo.get!(WorkingTime, id)
+  def get_working_time(id), do: Repo.get(WorkingTime, id)
 
   def get_working_time_for_user(user_id, working_time_id) do
-    Repo.get_by(WorkingTime, [id: working_time_id, user_id: user_id])
+    Repo.get_by(WorkingTime, id: working_time_id, user_id: user_id)
   end
-
 
   @doc """
   Creates a working_time.
