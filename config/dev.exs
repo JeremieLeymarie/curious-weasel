@@ -9,7 +9,7 @@ config :time_tracker, TimeTracker.Repo,
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10,
-  port: System.get_env("PGPORT", 5432)
+  port: System.get_env("PGPORT", "5432")
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
