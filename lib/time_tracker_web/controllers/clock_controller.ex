@@ -7,8 +7,6 @@ defmodule TimeTrackerWeb.ClockController do
   action_fallback TimeTrackerWeb.FallbackController
 
   def index(conn, %{"userId" => userId}) do
-    IO.inspect(userId)
-
     clocks = ClockContext.list_clocks(userId)
     render(conn, :index, clocks: clocks)
   end
@@ -19,6 +17,8 @@ defmodule TimeTrackerWeb.ClockController do
       "status" => Map.get(clock_params, "status"),
       "user" => String.to_integer(userId || "0")
     }
+
+    IO.inspect(clock_params)
 
     with {:ok, %Clock{} = clock} <- ClockContext.create_clock(data) do
       conn

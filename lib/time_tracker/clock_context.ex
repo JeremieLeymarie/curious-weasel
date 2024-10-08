@@ -56,11 +56,12 @@ defmodule TimeTracker.ClockContext do
 
   """
   def create_clock(attrs \\ %{}) do
-    Repo.get!(User, Map.get(attrs, "user"))
+    {:ok, time, _} = DateTime.from_iso8601(attrs["time"])
+
+    Repo.get!(User, attrs["user"])
     |> Ecto.build_assoc(:clocks,
-      status: Map.get(attrs, "status"),
-      # TODO: get actual date from input
-      time: ~U[2024-10-06 14:18:00Z]
+      status: attrs["status"],
+      time: time
     )
     |> Repo.insert()
   end
@@ -78,8 +79,10 @@ defmodule TimeTracker.ClockContext do
 
   """
   def update_clock(%Clock{} = clock, attrs) do
+    {:ok, time, _} = DateTime.from_iso8601(attrs["time"])
+
     clock
-    |> Clock.changeset(attrs)
+    |> Clock.changeset(%{status: attrs["status"], time: time})
     |> Repo.update()
   end
 

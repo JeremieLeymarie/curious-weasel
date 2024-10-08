@@ -1,3 +1,5 @@
+# TODO: make all fields non-nullable
+
 defmodule TimeTracker.ClockContext.Clock do
   use Ecto.Schema
   import Ecto.Changeset
@@ -14,7 +16,7 @@ defmodule TimeTracker.ClockContext.Clock do
   @doc false
   def changeset(clock, attrs) do
     clock
-    |> cast(attrs, [:time, :status])
-    |> validate_required([:time, :status])
+    |> cast(attrs, [:time, :status, :user])
+    |> validate_required([:time, :status, :user])
   end
 end
