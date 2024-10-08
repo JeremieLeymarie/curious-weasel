@@ -6,8 +6,8 @@ defmodule TimeTrackerWeb.WorkingTimeController do
 
   action_fallback TimeTrackerWeb.FallbackController
 
-  def index(conn, _params) do
-    working_times = WorkingTimeContext.list_working_times()
+  def index(conn, params) do
+    working_times = WorkingTimeContext.list_working_times(params)
     render(conn, :index, working_times: working_times)
   end
 
@@ -16,7 +16,7 @@ defmodule TimeTrackerWeb.WorkingTimeController do
            WorkingTimeContext.create_working_time(working_time_params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", ~p"/api/working_times/#{working_time}")
+      |> put_resp_header("location", ~p"/api/workingtimes/#{working_time}")
       |> render(:show, working_time: working_time)
     end
   end

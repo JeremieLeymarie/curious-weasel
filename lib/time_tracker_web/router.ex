@@ -8,12 +8,14 @@ defmodule TimeTrackerWeb.Router do
   scope "/api", TimeTrackerWeb do
     pipe_through :api
 
-    resources "/workingtimes", WorkingTimeController, only: [:update, :delete, :index]
     resources "/users", UserController, except: [:new, :edit]
+
+    resources "/workingtimes", WorkingTimeController, only: [:update, :delete]
+    get "/workingtimes", WorkingTimeController, :index
+    post "/workingtimes/:userId", WorkingTimeController, :create
 
     get "/clocks/:userId", ClockController, :index
     post "/clocks/:userId", ClockController, :create
-    post "/workingtimes/:userId", WorkingTimeController, :create
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
