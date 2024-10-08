@@ -1,6 +1,14 @@
 version: "3.9"
 
 services:
+  app:
+    build:
+      context: .
+    ports:
+      - "4000:4000"
+    depends_on:
+      - postgres
+
   postgres:
     image: postgres:16-alpine
     ports:
