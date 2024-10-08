@@ -9,10 +9,13 @@ defmodule TimeTrackerWeb.Router do
     pipe_through :api
 
     resources "/users", UserController, except: [:new, :edit]
-
     resources "/workingtimes", WorkingTimeController, only: [:update, :delete]
+
     get "/workingtimes", WorkingTimeController, :index
     post "/workingtimes/:userId", WorkingTimeController, :create
+    # get "/workingtimes/:userId", WorkingTimeController, :show2
+    get "/workingtimes/:userId/:id", WorkingTimeController, :show_user_working_time
+
 
     get "/clocks/:userId", ClockController, :index
     post "/clocks/:userId", ClockController, :create

@@ -11,6 +11,12 @@ defmodule TimeTrackerWeb.WorkingTimeController do
     render(conn, :index, working_times: working_times)
   end
 
+  def show2(conn, %{"userId" => user_id}) do
+    working_times = WorkingTimeContext.list_working_times_for_user(user_id)
+    render(conn, :show2, working_times: working_times)
+  end
+
+
   def create(conn, %{"working_time" => working_time_params}) do
     with {:ok, %WorkingTime{} = working_time} <-
            WorkingTimeContext.create_working_time(working_time_params) do
@@ -42,4 +48,18 @@ defmodule TimeTrackerWeb.WorkingTimeController do
       send_resp(conn, :no_content, "")
     end
   end
+
+  def show_user_working_time(conn, %{"userId" => user_id, "id" => working_time_id}) do
+    case WorkingTimeContext.get_working_time_for_user(user_id, working_time_id) do
+      nil ->
+        conn
+        |> put_status(:not_found)
+        |> render("error.json", message: "Working time not found")
+
+      working_time ->
+        render(conn, :show, working_time: working_time)
+    end
+  end
+
+
 end

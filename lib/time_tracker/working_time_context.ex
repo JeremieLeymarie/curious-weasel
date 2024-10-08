@@ -40,6 +40,11 @@ defmodule TimeTracker.WorkingTimeContext do
     Repo.all(query)
   end
 
+  def list_working_times_for_user(user_id) do
+    query = from(w in WorkingTime, where: w.user_id == ^user_id)
+    Repo.all(query)
+  end
+
   @doc """
   Gets a single working_time.
 
@@ -55,6 +60,11 @@ defmodule TimeTracker.WorkingTimeContext do
 
   """
   def get_working_time!(id), do: Repo.get!(WorkingTime, id)
+
+  def get_working_time_for_user(user_id, working_time_id) do
+    Repo.get_by(WorkingTime, [id: working_time_id, user_id: user_id])
+  end
+
 
   @doc """
   Creates a working_time.

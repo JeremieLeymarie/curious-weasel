@@ -11,9 +11,14 @@ defmodule TimeTrackerWeb.WorkingTimeJSON do
   @doc """
   Renders a single working_time.
   """
-  def show(%{working_time: working_time}) do
-    %{data: data(working_time)}
+  def show(%{working_time: working_times}) do
+    %{data: data(working_times)}
   end
+
+  def show2(%{working_times: working_times}) do
+    %{data: Enum.map(working_times, &data/1)}
+  end
+
 
   defp data(%WorkingTime{} = working_time) do
     %{
