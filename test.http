@@ -1,0 +1,28 @@
+### create user
+POST http://localhost:4000/api/users HTTP/1.1
+content-type: application/json
+
+{"user" : {
+    "username": "some username",
+    "email": "some@email.fr"
+}}
+
+### create working_time
+POST http://localhost:4000/api/workingtimes/1 HTTP/1.1
+content-type: application/json
+
+{"working_time" : {
+    "start": "2024-10-06 13:02:00Z",
+    "end": "2024-10-06 13:02:00Z",
+    "user_id":  "1"
+}}
+
+### create clocks
+POST http://localhost:4000/api/clocks/1 HTTP/1.1
+content-type: application/json
+
+{"clock" : {
+    "time": "2024-10-06 13:02:00Z",
+    "status": true,
+    "user_id":  "1"
+}}

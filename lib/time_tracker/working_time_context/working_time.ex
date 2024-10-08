@@ -5,7 +5,7 @@ defmodule TimeTracker.WorkingTimeContext.WorkingTime do
   schema "working_times" do
     field :start, :utc_datetime
     field :end, :utc_datetime
-    field :user, :id
+    field :user_id, :id
 
     timestamps(type: :utc_datetime)
   end
@@ -13,7 +13,7 @@ defmodule TimeTracker.WorkingTimeContext.WorkingTime do
   @doc false
   def changeset(working_time, attrs) do
     working_time
-    |> cast(attrs, [:start, :end])
-    |> validate_required([:start, :end])
+    |> cast(attrs, [:start, :end, :user_id])
+    |> validate_required([:start, :end, :user_id])
   end
 end
