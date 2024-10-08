@@ -5,11 +5,11 @@ services:
     build:
       context: .
     ports:
-      - 4000:4000
+      - 5000:4000
     environment:
       PGUSER: postgres
       PGPASSWORD: postgres
-      PGDATABASE: time_tracket_dev
+      PGDATABASE: time_tracker_dev
       PGPORT: 5432
       PGHOST: postgres
     depends_on:
