@@ -21,12 +21,14 @@ defmodule TimeTrackerWeb.UserController do
   end
 
   def show(conn, %{"id" => id}) do
-    user = UserContext.get_user!(id)
-    render(conn, :show, user: user)
+    case UserContext.get_user(id) do
+      nil -> conn |> put_status(:not_found) |> json(%{error: "User not found"})
+      user -> render(conn, :show, user: user)
+    end
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do
-    user = UserContext.get_user!(id)
+    user = UserContext.get_user(id)
 
     with {:ok, %User{} = user} <- UserContext.update_user(user, user_params) do
       render(conn, :show, user: user)
@@ -34,7 +36,7 @@ defmodule TimeTrackerWeb.UserController do
   end
 
   def delete(conn, %{"id" => id}) do
-    user = UserContext.get_user!(id)
+    user = UserContext.get_user(id)
 
     with {:ok, %User{}} <- UserContext.delete_user(user) do
       send_resp(conn, :no_content, "")
