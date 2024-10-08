@@ -48,7 +48,7 @@ defmodule TimeTrackerWeb.WorkingTimeController do
       nil ->
         conn
         |> put_status(:not_found)
-        |> render("error.json", message: "Working time not found")
+        |> json(%{error: "Working time not found"})
 
       working_time ->
         render(conn, :show, working_time: working_time)
