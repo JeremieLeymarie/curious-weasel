@@ -4,12 +4,6 @@ WORKDIR /app
 COPY . /app
 
 RUN mix local.hex --force
+RUN chmod +x ./entrypoint.sh
 
-# RUN mix do compile
-
-
-RUN mix ecto.create
-
-RUN mix ecto.migrate
-
-CMD mix phx.server
+CMD ./entrypoint.sh
