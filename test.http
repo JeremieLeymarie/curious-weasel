@@ -29,3 +29,16 @@ content-type: application/json
     "status": true
 }}
 
+### List specific WT for a specific User
+GET http://localhost:4000/api/workingtimes/2/1
+content-type: application/json
+
+{
+  "working_time": {
+    "start": "2024-10-08T09:00:00Z",
+    "end": "2024-10-08T17:00:00Z",
+    "user_id": "2"
+  }
+}
+
+

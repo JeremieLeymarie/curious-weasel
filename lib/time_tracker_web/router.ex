@@ -13,7 +13,6 @@ defmodule TimeTrackerWeb.Router do
 
     get "/workingtimes", WorkingTimeController, :index
     post "/workingtimes/:userId", WorkingTimeController, :create
-    # get "/workingtimes/:userId", WorkingTimeController, :show2
     get "/workingtimes/:userId/:id", WorkingTimeController, :show_user_working_time
 
 

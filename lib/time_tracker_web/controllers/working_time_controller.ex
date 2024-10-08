@@ -11,12 +11,6 @@ defmodule TimeTrackerWeb.WorkingTimeController do
     render(conn, :index, working_times: working_times)
   end
 
-  def show2(conn, %{"userId" => user_id}) do
-    working_times = WorkingTimeContext.list_working_times_for_user(user_id)
-    render(conn, :show2, working_times: working_times)
-  end
-
-
   def create(conn, %{"working_time" => working_time_params}) do
     with {:ok, %WorkingTime{} = working_time} <-
            WorkingTimeContext.create_working_time(working_time_params) do

@@ -15,11 +15,6 @@ defmodule TimeTrackerWeb.WorkingTimeJSON do
     %{data: data(working_times)}
   end
 
-  def show2(%{working_times: working_times}) do
-    %{data: Enum.map(working_times, &data/1)}
-  end
-
-
   defp data(%WorkingTime{} = working_time) do
     %{
       id: working_time.id,
