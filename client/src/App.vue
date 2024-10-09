@@ -13,7 +13,7 @@ import Footer from './components/Footer.vue';
       <RouterLink to="/user" class="p-4"><i class="pi pi-user"></i></RouterLink>
     </nav>
   </header>
-  <main>
+  <main class="p-4">
     <RouterView :key="$route.path" />
   </main>
   <footer class="flex items-center justify-center bg-[#1343ad] text-white h-24 text-center">
@@ -21,3 +21,9 @@ import Footer from './components/Footer.vue';
     </p>
   </footer>
 </template>
+
+<script lang="ts"></script>
+
+<style>
+/* Ajoutez des styles globaux si nécessaire */
+</style>
