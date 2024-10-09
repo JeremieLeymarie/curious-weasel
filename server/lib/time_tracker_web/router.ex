@@ -11,7 +11,7 @@ defmodule TimeTrackerWeb.Router do
     resources "/users", UserController, except: [:new, :edit]
     resources "/workingtimes", WorkingTimeController, only: [:update, :delete]
 
-    get "/workingtimes", WorkingTimeController, :index
+    get "/workingtimes/:userId", WorkingTimeController, :index
     post "/workingtimes/:userId", WorkingTimeController, :create
     get "/workingtimes/:userId/:id", WorkingTimeController, :show_user_working_time
 

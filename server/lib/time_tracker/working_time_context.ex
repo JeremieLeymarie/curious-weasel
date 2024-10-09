@@ -17,7 +17,30 @@ defmodule TimeTracker.WorkingTimeContext do
       [%WorkingTime{}, ...]
 
   """
-  def list_working_times(params) do
+  # def list_working_times(params) do
+  #   filter_start =
+  #     if params["start"] do
+  #       dynamic([p], p.start >= ^params["start"])
+  #     else
+  #       true
+  #     end
+
+  #   filter_end =
+  #     if params["end"] do
+  #       dynamic([p], p.end <= ^params["end"])
+  #     else
+  #       true
+  #     end
+
+  #   query =
+  #     from WorkingTime,
+  #       where: ^filter_start,
+  #       where: ^filter_end
+
+  #   Repo.all(query)
+  # end
+
+  def list_working_times(params, user_id) do
     filter_start =
       if params["start"] do
         dynamic([p], p.start >= ^params["start"])
@@ -33,12 +56,14 @@ defmodule TimeTracker.WorkingTimeContext do
       end
 
     query =
-      from WorkingTime,
+      from w in WorkingTime,
+        where: w.user_id == ^user_id,
         where: ^filter_start,
         where: ^filter_end
 
     Repo.all(query)
   end
+
 
   def list_working_times_for_user(user_id) do
     query = from(w in WorkingTime, where: w.user_id == ^user_id)
