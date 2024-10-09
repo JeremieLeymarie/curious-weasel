@@ -8,15 +8,13 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    vue(),
-    vueJsx(),
-    nightwatchPlugin(),
-    vueDevTools(),
-  ],
+  plugins: [vue(), vueJsx(), nightwatchPlugin(), vueDevTools()],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
+  },
+  server: {
+    port: 3000
   }
 })
