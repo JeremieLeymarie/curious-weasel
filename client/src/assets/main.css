@@ -1,21 +1,14 @@
 @import 'primeicons/primeicons.css';
 
 
-#app {
-  max-width: 1280px;
+* {
   margin: 0;
   padding: 0;
   font-weight: normal;
 }
 
-a, i, RouterLink {
-  text-decoration: none;
-  color: white;
-  padding: 1em;
-}
-
-.header {
-  background-color: #1343ad;
+header {
+  font-family: Ubuntu, sans-serif;
 }
 
 @media (hover: hover) {
@@ -25,9 +18,5 @@ a, i, RouterLink {
 }
 
 @media (min-width: 1024px) {
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
+ 
 }
