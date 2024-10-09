@@ -6,10 +6,16 @@ defmodule TimeTrackerWeb.WorkingTimeController do
 
   action_fallback TimeTrackerWeb.FallbackController
 
-  def index(conn, params) do
-    working_times = WorkingTimeContext.list_working_times(params)
+  # def index(conn, params) do
+  #   working_times = WorkingTimeContext.list_working_times(params)
+  #   render(conn, :index, working_times: working_times)
+  # end
+
+  def index(conn, %{"userId" => user_id} = params) do
+    working_times = WorkingTimeContext.list_working_times(params, user_id)
     render(conn, :index, working_times: working_times)
   end
+
 
   def create(conn, %{"working_time" => working_time_params, "userId" => user_id}) do
     params = %{
