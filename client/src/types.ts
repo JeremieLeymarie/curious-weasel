@@ -12,3 +12,9 @@ export type WorkingTime = {
   end: Date
   userId: string
 }
+
+export type Clock = {
+  id: string
+  status: boolean
+  time: Date
+}
