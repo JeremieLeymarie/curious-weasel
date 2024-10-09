@@ -19,7 +19,7 @@ import Footer from './components/Footer.vue';
     <RouterView :key="$route.path" />
   </main>
   <footer class="flex items-center justify-center bg-[#1343ad] text-white h-24 text-center">
-    <p class="">Need help? Contact the IT service at the following number : +1 252 258 4736 or download the <a class="bold underline">documentation</a>.
+    <p class="">Need help? Contact the IT service at the following number : +1 252 258 4736 <b>or</b> download the <a class="bold underline" href="server/documentation/UserGuide.pdf" download>documentation</a>.
     </p>
   </footer>
 </template>
