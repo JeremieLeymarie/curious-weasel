@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { User } from '@/types'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 const user = ref<User>()
 
@@ -8,8 +9,21 @@ const formValues = ref<Partial<User>>({})
 
 const BASE_URL = 'http://localhost:4000/api/users'
 
+const route = useRoute()
+const router = useRouter()
+
+watch(
+  () => route.params.id,
+  (id) => {
+    getUser(id as string).then((res) => {
+      user.value = res
+      formValues.value = res
+    })
+  }
+)
+
 onMounted(() => {
-  getUser('1').then((res) => {
+  getUser(route.params.id as string).then((res) => {
     user.value = res
     formValues.value = res
   })
@@ -28,18 +42,6 @@ const updateUser = async (user: User) => {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ user })
-  })
-    .then((res) => res.json())
-    .catch((err) => console.error(err))
-
-  return response.data
-}
-
-const createUser = async (user: User) => {
-  const response: { data: User } = await fetch(`${BASE_URL}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ user: user })
   })
     .then((res) => res.json())
     .catch((err) => console.error(err))
@@ -66,14 +68,19 @@ const handleUpdate = (event: Event) => {
 const handleDelete = () => {
   if (!user.value?.id) return
   deleteUser(user.value?.id)
+
+  router.push('/')
 }
 </script>
 
 <template>
   <div v-if="user">
     <div class="mb-2 flex gap-2 items-center">
-      <p class="text-3xl" @click="handleDelete">Account</p>
-      <button class="text-sm text-red-800 block rounded-lg px-3 py-1 hover:underline">
+      <p class="text-3xl">Account</p>
+      <button
+        class="text-sm text-red-800 block rounded-lg px-3 py-1 hover:underline"
+        @click="handleDelete"
+      >
         Delete
       </button>
     </div>
@@ -111,4 +118,5 @@ const handleDelete = () => {
       </form>
     </div>
   </div>
+  <div v-else>User not found</div>
 </template>
