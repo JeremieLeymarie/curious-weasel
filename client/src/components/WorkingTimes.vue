@@ -28,9 +28,17 @@ const deleteWorkingTime = async (id: string) => {
   }
 }
 
-const updateWorkingTime = async (id: string, start: Date, end: Date) => {
+const NewWorkingTime = async () => {
   try {
     console.log(router)
+    router.push(`/workingtimecreated`)
+  } catch (error) {
+    console.error('Error fetching working times:', error)
+  }
+}
+
+const updateWorkingTime = async (id: string, start: Date, end: Date) => {
+  try {
     router.push(`/workingtimeupdate/${id}/${start}/${end}`)
   } catch (error) {
     console.error('Error fetching working times:', error)
@@ -108,6 +116,7 @@ onMounted(() => {
 <template>
   <div class="p-6 bg-gray-800 shadow-lg rounded-lg w-full">
     <h2 class="text-2xl font-bold mb-6 text-white">Working Times for User {{ userId }}</h2>
+    <button @click="NewWorkingTime" class="mt-1 p-1 bg-gray-600 text-white rounded">New</button>
     <div v-if="data.loading" class="text-center text-gray-300">Loading...</div>
     <div v-else>
       <ul>
