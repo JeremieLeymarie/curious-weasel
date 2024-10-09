@@ -21,7 +21,7 @@ content-type: application/json
 GET http://localhost:4000/api/workingtimes/1/1
 
 ### List WT with start and end dates
-GET http://localhost:4000/api/workingtimes?start=2024-10-03%2013%3A02%3A00Z&end=2024-10-10%2013%3A02%3A00Z HTTP/1.1
+GET http://localhost:4000/api/workingtimes/1/?start=2024-10-03%2013%3A02%3A00Z&end=2024-10-10%2013%3A02%3A00Z HTTP/1.1
 
 
 ### Create clocks
@@ -42,5 +42,5 @@ content-type: application/json
     "user_id" : "1"
 }}
 
-### delete working time
-DELETE http://localhost:4000/api/workingtimes/20 HTTP/1.1
+### Delete working time
+DELETE http://localhost:4000/api/workingtimes/3 HTTP/1.1
