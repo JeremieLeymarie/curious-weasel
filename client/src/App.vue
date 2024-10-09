@@ -7,10 +7,12 @@ import Footer from './components/Footer.vue';
   <header class="flex items-center justify-between bg-[#1343ad] text-white">
     <img alt="CGT-U logo" class="ml-10" src="./assets/img/Logo_nobg.png" width="100" />
     <nav class="space-x-2 mr-10">
-      <RouterLink to="/" class="p-4">Home</RouterLink>
-      <RouterLink to="/" class="p-4">Clock</RouterLink>
-      <RouterLink to="/" class="p-4">Dashboard</RouterLink>
-      <RouterLink to="/user" class="p-4"><i class="pi pi-user"></i></RouterLink>
+      <RouterLink to="/">Home</RouterLink>
+      <RouterLink to="/workingtimecreated">Working Time created</RouterLink>
+      <RouterLink to="/workingtimeupdate">Update Working Time</RouterLink>
+      <RouterLink to="/workingtime">Working Time</RouterLink>
+      <RouterLink to="/chart-manager/1">Dashboard</RouterLink>
+      <RouterLink to="/user/1" class="p-4"><i class="pi pi-user"></i></RouterLink>
     </nav>
   </header>
   <main class="p-4">
