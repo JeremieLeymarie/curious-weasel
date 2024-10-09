@@ -16,6 +16,7 @@
     "start": "npx ts-node src/"
   },
   "dependencies": {
+    "@types/vue-router": "^2.0.0",
     "pinia": "^2.1.7",
     "vue": "^3.4.29",
     "vue-router": "^4.4.5"
