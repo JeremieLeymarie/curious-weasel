@@ -15,6 +15,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 
 const route = useRoute()
 
@@ -22,7 +24,6 @@ const start = ref(null)
 const end = ref(null)
 
 async function createWorkingTime(id: any) {
-  console.log(id, start.value, end.value)
   let data = JSON.stringify({
     working_time: {
       end: end.value,
@@ -36,7 +37,7 @@ async function createWorkingTime(id: any) {
       body: data
     })
     if (res.status == 200) {
-      console.log('gg')
+      router.push(`/workingtime`)
     }
   } else {
     console.log('no end or start')
