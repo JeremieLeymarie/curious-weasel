@@ -9,10 +9,7 @@
         <div class="m-4 w-6/12">
             <h3 class="text-2xl m-4">Fast Clocking</h3>
             <div class="flex m-4">
-                <button class="bg-[#1343ad] text-white rounded-full p-3 w-8/12 mt-4"><a>DECLARE MY ARRIVAL</a></button>
-            </div>
-            <div class="flex m-4">
-                <button class="bg-[#1343ad] text-white rounded-full p-3 w-8/12 mt-4"><a>DECLARE MY DEPARTURE</a></button>
+                <button class="bg-[#1343ad] text-white rounded-full p-3 w-8/12 mt-4"><a>Clock</a></button>
             </div>
         </div>
         <div class="m-4 w-6/12">
