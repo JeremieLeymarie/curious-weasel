@@ -45,6 +45,7 @@ export default {
   },
   computed: {
     groupedWorkingTimes() {
+      // Crée un objet pour grouper les working times par date
       const grouped = {};
       this.workingTimes.forEach(time => {
         const dateKey = new Date(time.start).toLocaleDateString();
@@ -53,7 +54,17 @@ export default {
         }
         grouped[dateKey].push(time);
       });
-      return grouped;
+
+      // Trie les dates du plus ancien au plus récent
+      const sortedKeys = Object.keys(grouped).sort((a, b) => new Date(a) - new Date(b));
+      
+      // Retourne un nouvel objet trié par date
+      const sortedGrouped = {};
+      sortedKeys.forEach(key => {
+        sortedGrouped[key] = grouped[key];
+      });
+
+      return sortedGrouped;
     },
   },
   methods: {
@@ -67,8 +78,8 @@ export default {
       }
     },
     formatTime(dateString) {
-      const options = { hour: '2-digit', minute: '2-digit' };
-      return new Date(dateString).toLocaleTimeString(undefined, options);
+    const date = new Date(dateString);
+    return date.getUTCHours().toString().padStart(2, '0') + ':' + date.getUTCMinutes().toString().padStart(2, '0');
     },
     calculateDuration(start, end) {
       const startDate = new Date(start);
