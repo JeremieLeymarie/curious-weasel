@@ -21,6 +21,18 @@
                 {{ formatTime(time.end) }}
               </p>
               <p>Duration: {{ calculateDuration(time.start, time.end) }} hours</p>
+              <button
+                @click="deleteWorkingTime(time.id)"
+                class="mt-1 p-1 bg-gray-600 text-white rounded"
+              >
+                Delete
+              </button>
+              <button
+                @click="updateWorkingTime(time.id, time.start, time.end)"
+                class="mt-1 p-1 bg-gray-600 text-white rounded"
+              >
+                Update
+              </button>
             </div>
           </div>
         </li>
@@ -31,6 +43,9 @@
 
 <script>
 import axios from 'axios'
+import { useRoute, useRouter } from 'vue-router'
+import { ref } from 'vue'
+const router = ref(useRouter())
 
 export default {
   props: {
@@ -71,6 +86,28 @@ export default {
     }
   },
   methods: {
+    async deleteWorkingTime(id) {
+      try {
+        let res = await fetch('http://localhost:4000/api/workingtimes/' + id, {
+          method: 'DELETE'
+        })
+        if (res.status == 204) {
+          console.log('ok')
+        } else {
+          console.log('ko')
+        }
+      } catch (error) {
+        console.error('Error fetching working times:', error)
+      }
+    },
+    async updateWorkingTime(id, start, end) {
+      try {
+        console.log(router)
+        router.push(`/workingtimeupdate/${id}/${start}/${end}`)
+      } catch (error) {
+        console.error('Error fetching working times:', error)
+      }
+    },
     async getWorkingTimes() {
       try {
         const response = await axios.get(`http://localhost:4000/api/workingtimes/` + 1)

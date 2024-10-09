@@ -17,7 +17,7 @@ import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
-
+console.log(route.params)
 const start = ref(new Date('2024-10-06 13:02:00Z').toISOString().split('.')[0])
 const end = ref(new Date('2024-10-06 13:02:00Z').toISOString().split('.')[0])
 async function updateWorkingTime(id: any) {
