@@ -6,6 +6,8 @@
     <div class="space-x-2">
       <RouterLink to="/">Home</RouterLink>
       <RouterLink to="/user">User</RouterLink>
+      <RouterLink to="/workingtime">Working Time</RouterLink>
+      <RouterLink to="/workingtimeupdate">Working Time</RouterLink>
     </div>
   </header>
   <main>
