@@ -8,12 +8,12 @@ content-type: application/json
 }}
 
 ### Create working_time
-POST http://localhost:4000/api/workingtimes/1 HTTP/1.1
+POST http://localhost:4000/api/workingtimes/2 HTTP/1.1
 content-type: application/json
 
 {"working_time" : {
-    "start": "2024-10-06 13:02:00Z",
-    "end": "2024-10-10 13:02:00Z"
+    "start": "2024-09-04 08:02:00Z",
+    "end": "2024-09-04 11:02:00Z"
 }}
 
 
@@ -43,4 +43,4 @@ content-type: application/json
 }}
 
 ### delete working time
-DELETE http://localhost:4000/api/workingtimes/3 HTTP/1.1
+DELETE http://localhost:4000/api/workingtimes/20 HTTP/1.1

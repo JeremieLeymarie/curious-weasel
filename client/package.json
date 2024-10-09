@@ -16,7 +16,15 @@
     "start": "npx ts-node src/"
   },
   "dependencies": {
+    "@devexpress/analytics-core": "^24.1.6",
     "@types/vue-router": "^2.0.0",
+    "axios": "^1.7.7",
+    "date-fns": "^4.1.0",
+    "date-fns-tz": "^3.2.0",
+    "devexpress-dashboard": "^24.1.6",
+    "devexpress-dashboard-vue": "^24.1.6",
+    "devextreme": "^24.1.6",
+    "devextreme-vue": "^24.1.6",
     "pinia": "^2.1.7",
     "vue": "^3.4.29",
     "vue-router": "^4.4.5"
