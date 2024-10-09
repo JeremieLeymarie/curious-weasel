@@ -11,7 +11,7 @@ const routes = [
   { path: '/', component: HomeComponent },
   { path: '/workingtimecreated', component: WorkingTimesCreated },
   { path: '/workingtime', component: WorkingTimes },
-  { path: '/workingtimeupdate', component: WorkingTimesUpdate },
+  { path: '/workingtimeupdate/:id/:start/:end', component: WorkingTimesUpdate },
   { path: '/user/:id', component: UserComponent },
   { path: '/user/new', component: NewUser }
 ]
