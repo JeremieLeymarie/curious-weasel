@@ -143,16 +143,16 @@ onMounted(() => {
               </p>
               <p>Duration: {{ calculateDuration(time.start, time.end) }}</p>
               <AppButton
-                @click="deleteWorkingTime(time.id)"
-                class="m-1 p-1 bg-gray-800 text-white rounded"
-              >
-                AppButton
-              </AppButton>
-              <AppButton
                 @click="updateWorkingTime(time.id, time.start, time.end)"
                 class="mt-1 p-1 bg-gray-800 text-white rounded"
               >
                 Update
+              </AppButton>
+              <AppButton
+                @click="deleteWorkingTime(time.id)"
+                class="m-1 p-1 bg-gray-800 text-white rounded"
+              >
+                Delete
               </AppButton>
               <hr class="my-4" />
             </div>
