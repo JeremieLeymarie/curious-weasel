@@ -5,6 +5,8 @@ import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { computed, onMounted, ref } from 'vue'
 import type { WorkingTime } from '@/types'
+import { getReadableInterval } from '@/utils/date'
+import { differenceInSeconds, formatDuration, intervalToDuration } from 'date-fns'
 const router = useRouter()
 
 const data = ref<{ workingTimes: WorkingTime[]; loading: boolean; expandedDate: Date | null }>({
@@ -65,20 +67,19 @@ const formatTime = (dateString: string) => {
 }
 
 const calculateDuration = (start: Date, end: Date) => {
-  const startDate = new Date(start)
-  const endDate = new Date(end)
-  const duration = (endDate - startDate) / (1000 * 60 * 60) // Duration in hours
-  return duration.toFixed(2)
+  return getReadableInterval({ start, end })
 }
 
 const calculateTotalDuration = (times: any[]) => {
-  return times
-    .reduce((total, time) => {
-      const startDate = new Date(time.start)
-      const endDate = new Date(time.end)
-      return total + (endDate - startDate) / (1000 * 60 * 60)
-    }, 0)
-    .toFixed(2)
+  const timeInSeconds = times.reduce((total, time) => {
+    return total + differenceInSeconds(new Date(time.end), new Date(time.start))
+  }, 0)
+
+  const duration = intervalToDuration({ start: 0, end: timeInSeconds * 1000 })
+
+  const formatted = formatDuration(duration, { format: ['hours', 'minutes'] })
+
+  return formatted
 }
 const getPeriod = (start: string) => {
   const hour = new Date(start).getHours()
@@ -130,7 +131,7 @@ onMounted(() => {
           >
             <div class="flex justify-between">
               <span>{{ date }}</span>
-              <span>{{ calculateTotalDuration(times) }} hours</span>
+              <span>{{ calculateTotalDuration(times) }}</span>
             </div>
           </div>
           <div v-if="data.expandedDate === date" class="mt-2 p-4 bg-gray-600 text-white rounded">
@@ -139,7 +140,7 @@ onMounted(() => {
                 <strong>{{ getPeriod(time.start) }}:</strong> {{ formatTime(time.start) }} -
                 {{ formatTime(time.end) }}
               </p>
-              <p>Duration: {{ calculateDuration(time.start, time.end) }} hours</p>
+              <p>Duration: {{ calculateDuration(time.start, time.end) }}</p>
               <button
                 @click="deleteWorkingTime(time.id)"
                 class="mt-1 p-1 bg-gray-600 text-white rounded"
