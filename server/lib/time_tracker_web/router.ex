@@ -2,22 +2,22 @@ defmodule TimeTrackerWeb.Router do
   use TimeTrackerWeb, :router
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug(:accepts, ["json"])
   end
 
   scope "/api", TimeTrackerWeb do
-    pipe_through :api
+    pipe_through(:api)
 
-    resources "/users", UserController, except: [:new, :edit]
-    resources "/workingtimes", WorkingTimeController, only: [:update, :delete]
+    resources("/users", UserController, except: [:new, :edit])
+    resources("/workingtimes", WorkingTimeController, only: [:update, :delete])
 
-    get "/workingtimes/:userId", WorkingTimeController, :index
-    post "/workingtimes/:userId", WorkingTimeController, :create
-    get "/workingtimes/:userId/:id", WorkingTimeController, :show_user_working_time
+    get("/workingtimes/:userId", WorkingTimeController, :index)
+    post("/workingtimes/:userId", WorkingTimeController, :create)
+    get("/workingtimes/:userId/:id", WorkingTimeController, :show_user_working_time)
 
-
-    get "/clocks/:userId", ClockController, :index
-    post "/clocks/:userId", ClockController, :create
+    get("/clocks/:userId", ClockController, :index)
+    put("/clocks/:id", ClockController, :update)
+    post("/clocks/:userId", ClockController, :create)
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
@@ -30,10 +30,10 @@ defmodule TimeTrackerWeb.Router do
     import Phoenix.LiveDashboard.Router
 
     scope "/dev" do
-      pipe_through [:fetch_session, :protect_from_forgery]
+      pipe_through([:fetch_session, :protect_from_forgery])
 
-      live_dashboard "/dashboard", metrics: TimeTrackerWeb.Telemetry
-      forward "/mailbox", Plug.Swoosh.MailboxPreview
+      live_dashboard("/dashboard", metrics: TimeTrackerWeb.Telemetry)
+      forward("/mailbox", Plug.Swoosh.MailboxPreview)
     end
   end
 end
