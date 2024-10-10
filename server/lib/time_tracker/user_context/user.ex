@@ -3,11 +3,12 @@ defmodule TimeTracker.UserContext.User do
   import Ecto.Changeset
 
   schema "users" do
-    field :username, :string
-    field :email, :string
+    field(:username, :string)
+    field(:email, :string)
+    field(:role, Ecto.Enum, values: [:general_manager, :manager, :employee])
 
-    has_many :clocks, TimeTracker.ClockContext.Clock
-    has_many :working_times, TimeTracker.WorkingTime
+    has_many(:clocks, TimeTracker.ClockContext.Clock)
+    has_many(:working_times, TimeTracker.WorkingTime)
 
     timestamps(type: :utc_datetime)
   end
@@ -15,8 +16,8 @@ defmodule TimeTracker.UserContext.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:username, :email])
-    |> validate_required([:username, :email])
+    |> cast(attrs, [:username, :email, :role])
+    |> validate_required([:username, :email, :role])
     |> validate_format(:email, ~r/(.+)@(.+)\.(.+)/)
     |> unique_constraint(:email)
   end
