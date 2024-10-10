@@ -116,9 +116,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="p-6 bg-gray-800 shadow-lg rounded-lg w-full">
-    <h2 class="text-2xl font-bold mb-6 text-white">Working Times for User {{ userId }}</h2>
-    <button @click="NewWorkingTime" class="mb-2 p-1 bg-gray-600 text-white rounded">
+  <div class="p-6 shadow-lg rounded-lg w-full">
+    <h2 class="text-2xl">Working Times for User {{ userId }}</h2>
+    <button @click="NewWorkingTime" class="bg-[#1343ad] text-white rounded-full p-3 my-6 w-2/12 text-center">
       New Working Time
     </button>
     <div v-if="data.loading" class="text-center text-gray-300">Loading...</div>
@@ -127,14 +127,14 @@ onMounted(() => {
         <li v-for="(times, date) in groupedWorkingTimes" :key="date" class="mb-4">
           <div
             @click="toggleDetails(date)"
-            class="cursor-pointer p-4 bg-gray-700 text-white rounded hover:bg-gray-600 transition-colors duration-200"
+            class="cursor-pointer p-4 bg-[#1343ad] text-white rounded hover:bg-[#0b328a] transition-colors duration-200"
           >
             <div class="flex justify-between">
               <span>{{ date }}</span>
               <span>{{ calculateTotalDuration(times) }}</span>
             </div>
           </div>
-          <div v-if="data.expandedDate === date" class="mt-2 p-4 bg-gray-600 text-white rounded">
+          <div v-if="data.expandedDate === date" class="mt-2 p-4 bg-[#1343ad] text-white rounded">
             <div v-for="(time, index) in times" :key="index" class="mb-2">
               <p>
                 <strong>{{ getPeriod(time.start) }}:</strong> {{ formatTime(time.start) }} -
@@ -143,16 +143,17 @@ onMounted(() => {
               <p>Duration: {{ calculateDuration(time.start, time.end) }}</p>
               <button
                 @click="deleteWorkingTime(time.id)"
-                class="mt-1 p-1 bg-gray-600 text-white rounded"
+                class="m-1 p-1 bg-gray-800 text-white rounded"
               >
                 Delete
               </button>
               <button
                 @click="updateWorkingTime(time.id, time.start, time.end)"
-                class="mt-1 p-1 bg-gray-600 text-white rounded"
+                class="mt-1 p-1 bg-gray-800 text-white rounded"
               >
                 Update
               </button>
+              <hr class="my-4">
             </div>
           </div>
         </li>

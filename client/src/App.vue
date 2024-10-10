@@ -16,7 +16,7 @@
     <RouterView :key="$route.path" />
   </main>
   <footer
-    class="flex items-center justify-center bg-[#1343ad] text-white h-20 text-center fixed bottom-0 w-full"
+    class="flex items-center justify-center bg-[#1343ad] text-white h-12 text-center fixed bottom-0 w-full"
   >
     <p class="">
       Need help? Contact the IT service at the following number : +1 252 258 4736 <b>or</b> download
