@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { deleteUser, getUser, updateUser } from '@/requests/user'
 import type { User } from '@/types'
 import { ref, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -6,8 +7,6 @@ import { useRoute, useRouter } from 'vue-router'
 const user = ref<User>()
 
 const formValues = ref<Partial<User>>({})
-
-const BASE_URL = 'http://localhost:4000/api/users'
 
 const route = useRoute()
 const router = useRouter()
@@ -28,30 +27,6 @@ onMounted(() => {
     formValues.value = res
   })
 })
-
-const getUser = async (userId: string) => {
-  const response: { data: User } = await fetch(`${BASE_URL}/${userId}`)
-    .then((res) => res.json())
-    .catch((err) => console.error(err))
-
-  return response.data
-}
-
-const updateUser = async (user: User) => {
-  const response: { data: User } = await fetch(`${BASE_URL}/${user.id}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ user })
-  })
-    .then((res) => res.json())
-    .catch((err) => console.error(err))
-
-  return response.data
-}
-
-const deleteUser = async (userId: string) => {
-  await fetch(`${BASE_URL}/${userId}`, { method: 'DELETE' })
-}
 
 const handleUpdate = (event: Event) => {
   event.preventDefault()

@@ -69,7 +69,7 @@ defmodule TimeTracker.ClockContext do
     Repo.get!(User, attrs["user"])
     |> Ecto.build_assoc(:clocks,
       status: attrs["status"],
-      time: time
+      time: DateTime.truncate(time, :second)
     )
     |> Repo.insert()
   end
@@ -96,7 +96,7 @@ defmodule TimeTracker.ClockContext do
       end
 
     clock
-    |> Clock.changeset(%{status: attrs["status"], time: time})
+    |> Clock.changeset(%{status: attrs["status"], time: DateTime.truncate(time, :second)})
     |> Repo.update()
   end
 

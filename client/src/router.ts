@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import UserComponent from './components/UserComponent.vue'
-import HomeComponent from './components/Home.vue'
+import HomeComponent from './components/HomePage.vue'
 import NewUser from './components/NewUser.vue'
 import WorkingTimesCreated from './components/WorkingTime.vue'
 import WorkingTimesUpdate from './components/WorkingTimeUpdate.vue'
