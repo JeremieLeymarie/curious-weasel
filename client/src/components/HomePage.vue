@@ -42,7 +42,7 @@ const today = readableDate(new Date())
 
   <div v-if="user" class="flex ml-8">
     <div class="m-4 w-6/12">
-      <h3 class="text-2xl m-4">Fast Clocking</h3>
+      <p class="text-2xl my-4">Fast Clocking</p>
       <p v-if="currentClock">
         You have been working for
         <strong>{{ getReadableInterval({ start: currentClock.time, end: new Date() }) }}</strong>

@@ -76,13 +76,7 @@ const handleDelete = () => {
         </div>
         <div class="space-x-4">
           <label for="email" class="w-[150px] inline-block">Email address</label>
-          <input
-            class="px-2"
-            id="email"
-            name="email"
-            placeholder="bob@mail.com"
-            v-model="formValues.email"
-          />
+          <input id="email" name="email" placeholder="bob@mail.com" v-model="formValues.email" />
         </div>
         <button
           type="submit"

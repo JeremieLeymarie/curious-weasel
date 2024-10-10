@@ -1,24 +1,30 @@
 <script setup lang="ts">
 import type { Clock } from '@/types'
+import { ref } from 'vue'
 
 const { userId, clock, refetch } = defineProps<{
   userId: string
   clock: Clock | null
   refetch: () => void
 }>()
+const dateInput = ref<Date>()
 
-const clockIn = async () => {
+const clockIn = async (date?: Date) => {
+  const d = date ?? new Date()
+
   await fetch(`http://localhost:4000/api/clocks/${userId}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ clock: { time: new Date().toISOString(), status: true } })
+    body: JSON.stringify({ clock: { time: d.toISOString(), status: true } })
   })
   refetch()
 }
 
-const clockOut = async () => {
+const clockOut = async (date?: Date) => {
+  const d = date ?? new Date()
+
   const newClock = {
-    time: new Date().toISOString(),
+    time: d.toISOString(),
     status: false,
     user_id: userId
   }
@@ -51,15 +57,38 @@ const clockOut = async () => {
 
   refetch()
 }
+
+const manualClock = () => {
+  if (!dateInput.value) return
+  if (clock) clockOut(new Date(dateInput.value))
+  else clockIn(new Date(dateInput.value))
+}
 </script>
 
 <template>
   <div>
-    <button
-      class="bg-[#1343ad] text-white rounded-full p-3 m-4 w-4/12 text-center"
-      @click="clock ? clockOut() : clockIn()"
-    >
-      <a>Clock {{ clock ? 'out' : 'in' }}</a>
-    </button>
+    <div class="flex items-center justify-center my-4">
+      <button
+        class="bg-blue-900 text-white rounded-lg px-3 py-1 shadow-md hover:shadow-xl text-xl"
+        @click="clock ? clockOut() : clockIn()"
+      >
+        <a>Clock {{ clock ? 'out' : 'in' }}</a>
+      </button>
+    </div>
+    <div class="space-y-4">
+      <label for="date-input" class="w-[150px] block text-lg"
+        >Manual clock {{ clock ? 'out' : 'in' }}</label
+      >
+      <div class="flex gap-4">
+        <input v-model="dateInput" type="datetime-local" name="date-input" id="date-input" />
+        <button
+          type="submit"
+          class="bg-blue-900 text-white rounded-lg px-3 py-1 shadow-md hover:shadow-xl"
+          @click="manualClock()"
+        >
+          Submit
+        </button>
+      </div>
+    </div>
   </div>
 </template>

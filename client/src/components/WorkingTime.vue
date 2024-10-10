@@ -14,11 +14,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRoute } from 'vue-router'
 import { useRouter } from 'vue-router'
 const router = useRouter()
-
-const route = useRoute()
 
 const start = ref(null)
 const end = ref(null)
