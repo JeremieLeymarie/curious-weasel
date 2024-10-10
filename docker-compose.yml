@@ -1,9 +1,19 @@
 version: "3.9"
 
 services:
-  app:
+  client:
     build:
-      context: .
+      context: ./client
+    ports:
+      - 3000:3000
+    environment:
+      HOST: api
+    networks:
+      - net
+
+  api:
+    build:
+      context: ./server
     ports:
       - 4000:4000
     environment:
