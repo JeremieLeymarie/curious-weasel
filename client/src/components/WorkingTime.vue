@@ -31,15 +31,20 @@ async function createWorkingTime(id: any) {
 </script>
 
 <template>
-  <div class="h-full max-h-80">
-    <p>Create a Working Time</p>
-    <hr />
-    <p>Start</p>
-    <AppInput v-model="start" type="datetime-local" />
-    <br />
-    <p>End</p>
-    <AppInput v-model="end" type="datetime-local" />
-    <br />
-    <button @click="createWorkingTime(1)">submit</button>
+  <div class="ml-8">
+    <p class="text-2xl my-4">Create a Working Time</p>
+    <hr class="h-1 mb-4 ml-1 mr-16 bg-[#1343ad] border-0">
+    <div class="flex space-x-10">
+      <div class="p-2">
+        <p>Start</p>
+        <AppInput v-model="start" type="datetime-local" class="border-2"/>
+      </div>
+      <div class="p-2">
+        <p>End</p>
+        <hr>
+        <AppInput v-model="end" type="datetime-local" class="border-2"/>
+      </div>  
+    </div>
+    <button @click="createWorkingTime(1)" class="bg-[#1343ad] text-white rounded-full p-2 my-6 w-1/12 text-center">Submit</button>
   </div>
 </template>
