@@ -35,8 +35,6 @@ defmodule TimeTracker.UserContext do
 
     query =
       from(u in User,
-        # join: c in assoc(u, :clocks),
-        # join: w in assoc(u, :working_times),
         where: ^filter_email,
         where: ^filter_username,
         preload: [:clocks, :working_times]
