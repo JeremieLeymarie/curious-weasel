@@ -51,30 +51,28 @@ const handleDelete = () => {
 </script>
 
 <template>
-  <div v-if="user">
+  <div v-if="user" class="ml-8 mt-3">
     <div class="mb-2 flex gap-2 items-center">
-      <p class="text-3xl">Account</p>
+      <h2 class="text-2xl">Account</h2>
       <AppButton variant="danger" @click="handleDelete"> Delete </AppButton>
     </div>
-    <hr />
-
+    <hr class="h-1 mr-16 bg-[#1343ad] border-0"/>
     <div class="mt-4">
-      <p class="text-xl text-blue-900">My information</p>
+      <div class="flex">
+        <h3 class="text-xl mr-4 mb-2">My information</h3>
+        <AppButton type="submit" class="ml-4 mb-2"> Edit </AppButton>
+      </div>
       <form class="space-y-2" @submit="handleUpdate">
-        <div class="space-x-4 mt-2">
+        <div class="space-x-4 mt-4">
           <label for="username" class="w-[150px] inline-block">Username</label>
-          <AppInput
-            id="username"
-            name="username"
-            placeholder="bob_bidou"
-            v-model="formValues.username"
-          />
+          <AppInput id="username" name="username" placeholder="bob_bidou" v-model="formValues.username"
+            class="bg-[#1343ad] rounded text-white p-1 text-center" />
         </div>
         <div class="space-x-4">
           <label for="email" class="w-[150px] inline-block">Email address</label>
-          <AppInput id="email" name="email" placeholder="bob@mail.com" v-model="formValues.email" />
+          <AppInput id="email" name="email" placeholder="bob@mail.com" v-model="formValues.email"
+            class="bg-[#1343ad] rounded text-white p-1 text-center" />
         </div>
-        <AppButton type="submit"> Update </AppButton>
       </form>
     </div>
   </div>

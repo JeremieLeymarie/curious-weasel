@@ -39,7 +39,7 @@ const today = readableDate(new Date())
 <template>
   <h1 class="text-3xl m-4 ml-8">Welcome, {{ user?.username }}!</h1>
   <p class="text-l m-4 ml-8">Today is {{ today }}</p>
-  <hr class="h-1 m-3 ml-8 mr-16 bg-[#1343ad] border-0" />
+  <hr class="h-1 m-3 ml-8 mr-16 bg-[#1343ad] border-0"/>
 
   <div v-if="user" class="flex ml-8">
     <div class="m-4 w-6/12">
