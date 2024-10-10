@@ -36,7 +36,7 @@ async function createWorkingTime(id: any) {
       headers: { 'Content-Type': 'application/json' },
       body: data
     })
-    if (res.status == 200) {
+    if (res.status == 201) {
       router.push(`/workingtime`)
     }
   } else {
