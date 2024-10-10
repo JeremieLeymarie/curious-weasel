@@ -3,6 +3,7 @@ import { deleteUser, getUser, updateUser } from '@/requests/user'
 import type { User } from '@/types'
 import { ref, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import AppInput from './ui/AppInput.vue'
 
 const user = ref<User>()
 
@@ -66,8 +67,8 @@ const handleDelete = () => {
       <form class="space-y-2" @submit="handleUpdate">
         <div class="space-x-4 mt-2">
           <label for="username" class="w-[150px] inline-block">Username</label>
-          <input
-            class="px-2"
+          <AppInput
+            class="text-red-200"
             id="username"
             name="username"
             placeholder="bob_bidou"
@@ -76,7 +77,7 @@ const handleDelete = () => {
         </div>
         <div class="space-x-4">
           <label for="email" class="w-[150px] inline-block">Email address</label>
-          <input id="email" name="email" placeholder="bob@mail.com" v-model="formValues.email" />
+          <AppInput id="email" name="email" placeholder="bob@mail.com" v-model="formValues.email" />
         </div>
         <button
           type="submit"

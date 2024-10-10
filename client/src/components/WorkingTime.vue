@@ -1,20 +1,8 @@
-<template lang="">
-  <div class="h-full max-h-80">
-    <p>Create a workingtime</p>
-    <hr />
-    <p>Start</p>
-    <input v-model="start" type="datetime-local" name="" id="" />
-    <br />
-    <p>End</p>
-    <input v-model="end" type="datetime-local" name="" id="" />
-    <br />
-    <button @click="createWorkingTime(1)">submit</button>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import AppInput from './ui/AppInput.vue'
+
 const router = useRouter()
 
 const start = ref(null)
@@ -41,4 +29,17 @@ async function createWorkingTime(id: any) {
   }
 }
 </script>
-<style lang=""></style>
+
+<template>
+  <div class="h-full max-h-80">
+    <p>Create a Working Time</p>
+    <hr />
+    <p>Start</p>
+    <AppInput v-model="start" type="datetime-local" />
+    <br />
+    <p>End</p>
+    <AppInput v-model="end" type="datetime-local" />
+    <br />
+    <button @click="createWorkingTime(1)">submit</button>
+  </div>
+</template>
