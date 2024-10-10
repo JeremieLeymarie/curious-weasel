@@ -2,7 +2,9 @@
 
 <template>
   <header class="flex items-center justify-between bg-[#1343ad] text-white">
-    <img alt="CGT-U logo" class="ml-10" src="./assets/img/Logo_nobg.png" width="100" />
+    <RouterLink to="/">
+      <img alt="CGT-U logo" class="ml-10" src="./assets/img/Logo_nobg.png" width="100" />
+    </RouterLink>
     <nav class="space-x-2 mr-10">
       <RouterLink to="/">Home</RouterLink>
       <RouterLink to="/workingtime">Working Time</RouterLink>
