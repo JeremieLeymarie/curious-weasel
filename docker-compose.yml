@@ -27,6 +27,7 @@ services:
         condition: service_healthy
     networks:
       - net
+    profiles: [api]
 
   postgres:
     image: postgres:16-alpine
@@ -44,6 +45,7 @@ services:
       retries: 120
     networks:
       - net
+    profiles: [api]
 
 networks:
   net:
