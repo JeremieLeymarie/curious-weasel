@@ -84,7 +84,7 @@ const manualClock = () => {
         <AppInput v-model="dateInput" type="datetime-local" name="date-input" id="date-input" />
         <button
           type="submit"
-          class="bg-blue-900 text-white rounded-lg px-3 py-1 shadow-md hover:shadow-xl text-xl"
+          class="bg-[#1343ad] text-white rounded p-1 m-4 w-2/12 text-center"
           @click="manualClock()"
         >
           Submit
