@@ -1,26 +1,14 @@
-<template lang="">
-  <div class="h-full max-h-80">
-    <p>Update a workingtime</p>
-    <hr />
-    <p>Start</p>
-    <input v-model="start" type="datetime-local" name="" id="" />
-    <br>
-    <p>End</p>
-    <input v-model="end" type="datetime-local" name="" id="" />
-    <br />
-    <button @click="updateWorkingTime(1)">submit</button>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useRouter } from 'vue-router'
+import AppInput from './ui/AppInput.vue'
+
 const router = useRouter()
 const route = useRoute()
 
-const start = ref(new Date(route.params.start).toISOString().split('.')[0])
-const end = ref(new Date(route.params.end).toISOString().split('.')[0])
+const start = ref(new Date(route.params.start as string).toISOString().split('.')[0])
+const end = ref(new Date(route.params.end as string).toISOString().split('.')[0])
 async function updateWorkingTime(id: any) {
   console.log(id, start.value, end.value)
   let data = JSON.stringify({
@@ -43,4 +31,17 @@ async function updateWorkingTime(id: any) {
   }
 }
 </script>
-<style lang=""></style>
+
+<template lang="">
+  <div class="h-full max-h-80">
+    <p>Update a workingtime</p>
+    <hr />
+    <p>Start</p>
+    <AppInput v-model="start" type="datetime-local" name="" id="" />
+    <br />
+    <p>End</p>
+    <AppInput v-model="end" type="datetime-local" name="" id="" />
+    <br />
+    <button @click="updateWorkingTime(1)">submit</button>
+  </div>
+</template>

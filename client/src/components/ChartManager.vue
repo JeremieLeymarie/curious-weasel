@@ -12,14 +12,24 @@ import {
   PointElement
 } from 'chart.js'
 import { ref, onMounted, watch, computed } from 'vue'
+import AppInput from './ui/AppInput.vue'
 
 // Enregistrer les composants nécessaires de Chart.js
-ChartJS.register(Title, Tooltip, Legend, BarElement, LineElement, CategoryScale, LinearScale, PointElement)
+ChartJS.register(
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  LineElement,
+  CategoryScale,
+  LinearScale,
+  PointElement
+)
 
 interface WorkingTime {
-  id: number;
-  start: string;
-  end: string;
+  id: number
+  start: string
+  end: string
 }
 
 // Références pour les données des temps de travail et le graphique
@@ -91,7 +101,8 @@ const generateChartData = () => {
     datasets: [
       {
         label: 'Hours Worked',
-        backgroundColor: chartType.value === 'line' ? 'rgba(75, 192, 192, 0.2)' : 'rgba(220, 53, 69, 0.6)',
+        backgroundColor:
+          chartType.value === 'line' ? 'rgba(75, 192, 192, 0.2)' : 'rgba(220, 53, 69, 0.6)',
         borderColor: chartType.value === 'line' ? 'rgba(75, 192, 192, 1)' : 'rgba(220, 53, 69, 1)',
         borderWidth: 2,
         data: datasetData.value,
@@ -144,7 +155,7 @@ const chartOptions = {
       backgroundColor: '#333333',
       titleColor: '#ffffff',
       bodyColor: '#ffffff'
-    },
+    }
   },
   scales: {
     x: {
@@ -191,7 +202,12 @@ const chartOptions = {
       </div>
       <div class="bg-gray-700 text-white p-4 rounded-lg">
         <h3 class="text-lg">Hourly Rate:</h3>
-        <input type="number" v-model="hourlyRate" class="bg-gray-600 text-white rounded p-2" min="0" />
+        <AppInput
+          type="number"
+          v-model="hourlyRate"
+          class="bg-gray-600 text-white rounded p-2"
+          min="0"
+        />
       </div>
     </div>
     <div class="mb-4 flex space-x-4">
@@ -206,7 +222,11 @@ const chartOptions = {
       </div>
       <div>
         <label for="month-select" class="text-white">Select Month:</label>
-        <select id="month-select" v-model="selectedMonth" class="bg-gray-700 text-white rounded p-2">
+        <select
+          id="month-select"
+          v-model="selectedMonth"
+          class="bg-gray-700 text-white rounded p-2"
+        >
           <option value="1">January</option>
           <option value="2">February</option>
           <option value="3">March</option>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Clock } from '@/types'
 import { ref } from 'vue'
+import AppInput from './ui/AppInput.vue'
 
 const { userId, clock, refetch } = defineProps<{
   userId: string
@@ -80,7 +81,7 @@ const manualClock = () => {
         >Manual clock {{ clock ? 'out' : 'in' }}</label
       >
       <div class="flex gap-4">
-        <input v-model="dateInput" type="datetime-local" name="date-input" id="date-input" />
+        <AppInput v-model="dateInput" type="datetime-local" name="date-input" id="date-input" />
         <button
           type="submit"
           class="bg-blue-900 text-white rounded-lg px-3 py-1 shadow-md hover:shadow-xl text-xl"

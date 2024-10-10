@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { User, UserWithoutId } from '@/types'
 import { ref } from 'vue'
+import AppInput from './ui/AppInput.vue'
 
 const formValues = ref<Partial<UserWithoutId>>({})
 const BASE_URL = 'http://localhost:4000/api/users'
@@ -34,8 +35,7 @@ const handleCreate = (e: Event) => {
     <form class="space-y-2" @submit="handleCreate">
       <div class="space-x-4 mt-2">
         <label for="username" class="w-[150px] inline-block">Username</label>
-        <input
-          class="px-2"
+        <AppInput
           id="username"
           name="username"
           placeholder="bob_bidou"
@@ -44,13 +44,7 @@ const handleCreate = (e: Event) => {
       </div>
       <div class="space-x-4">
         <label for="email" class="w-[150px] inline-block">Email address</label>
-        <input
-          class="px-2"
-          id="email"
-          name="email"
-          placeholder="bob@mail.com"
-          v-model="formValues.email"
-        />
+        <AppInput id="email" name="email" placeholder="bob@mail.com" v-model="formValues.email" />
       </div>
       <button
         type="submit"
