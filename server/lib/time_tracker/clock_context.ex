@@ -20,8 +20,9 @@ defmodule TimeTracker.ClockContext do
   """
   def list_clocks(userId) do
     query =
-      from Clock,
+      from(Clock,
         where: [user_id: ^userId]
+      )
 
     Repo.all(query)
   end
@@ -40,7 +41,15 @@ defmodule TimeTracker.ClockContext do
       ** (Ecto.NoResultsError)
 
   """
-  def get_clock!(id), do: Repo.get!(Clock, id)
+  def get_clock!(id) do
+    query =
+      from(Clock,
+        where: [id: ^id],
+        preload: [:user]
+      )
+
+    Repo.one!(query)
+  end
 
   @doc """
   Creates a clock.
@@ -60,7 +69,7 @@ defmodule TimeTracker.ClockContext do
     Repo.get!(User, attrs["user"])
     |> Ecto.build_assoc(:clocks,
       status: attrs["status"],
-      time: time
+      time: DateTime.truncate(time, :second)
     )
     |> Repo.insert()
   end
@@ -78,10 +87,16 @@ defmodule TimeTracker.ClockContext do
 
   """
   def update_clock(%Clock{} = clock, attrs) do
-    {:ok, time, _} = DateTime.from_iso8601(attrs["time"])
+    time =
+      if attrs["time"] do
+        {:ok, time, _} = DateTime.from_iso8601(attrs["time"])
+        time
+      else
+        clock.time
+      end
 
     clock
-    |> Clock.changeset(%{status: attrs["status"], time: time})
+    |> Clock.changeset(%{status: attrs["status"], time: DateTime.truncate(time, :second)})
     |> Repo.update()
   end
 

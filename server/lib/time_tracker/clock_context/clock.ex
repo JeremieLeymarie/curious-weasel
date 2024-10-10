@@ -5,10 +5,10 @@ defmodule TimeTracker.ClockContext.Clock do
   import Ecto.Changeset
 
   schema "clocks" do
-    field :status, :boolean, default: true
-    field :time, :utc_datetime
+    field(:status, :boolean, default: true)
+    field(:time, :utc_datetime)
 
-    belongs_to :user, TimeTracker.UserContext.User
+    belongs_to(:user, TimeTracker.UserContext.User)
 
     timestamps(type: :utc_datetime)
   end
@@ -16,7 +16,7 @@ defmodule TimeTracker.ClockContext.Clock do
   @doc false
   def changeset(clock, attrs) do
     clock
-    |> cast(attrs, [:time, :status, :user])
+    |> cast(attrs, [:time, :status])
     |> validate_required([:time, :status, :user])
   end
 end

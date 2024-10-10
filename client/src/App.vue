@@ -1,7 +1,4 @@
-<script setup lang="ts">
-import Home from './components/Home.vue'
-import Footer from './components/Footer.vue'
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <header class="flex items-center justify-between bg-[#1343ad] text-white">
@@ -27,9 +24,3 @@ import Footer from './components/Footer.vue'
     </p>
   </footer>
 </template>
-
-<script lang="ts"></script>
-
-<style>
-/* Ajoutez des styles globaux si nécessaire */
-</style>
