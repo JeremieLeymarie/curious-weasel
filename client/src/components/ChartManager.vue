@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Bar, Line } from 'vue-chartjs'
+import { Bar, Line, Doughnut } from 'vue-chartjs'
 import {
   Chart as ChartJS,
   Title,
@@ -9,27 +9,19 @@ import {
   LineElement,
   CategoryScale,
   LinearScale,
-  PointElement
+  PointElement,
+  Filler,
+  ArcElement
 } from 'chart.js'
 import { ref, onMounted, watch, computed } from 'vue'
-import AppInput from './ui/AppInput.vue'
 
 // Enregistrer les composants nécessaires de Chart.js
-ChartJS.register(
-  Title,
-  Tooltip,
-  Legend,
-  BarElement,
-  LineElement,
-  CategoryScale,
-  LinearScale,
-  PointElement
-)
+ChartJS.register(Title, Tooltip, Legend, BarElement, LineElement, CategoryScale, LinearScale, PointElement, Filler, ArcElement)
 
 interface WorkingTime {
-  id: number
-  start: string
-  end: string
+  id: number;
+  start: string;
+  end: string;
 }
 
 // Références pour les données des temps de travail et le graphique
@@ -43,6 +35,25 @@ const hourlyRate = ref<number>(20) // Salaire horaire par défaut
 
 const totalHours = computed(() => datasetData.value.reduce((a, b) => a + b, 0))
 const estimatedSalary = computed(() => totalHours.value * hourlyRate.value)
+
+// Objectif d'heures pour le mois (35 heures * 4 semaines)
+const targetHours = 140
+
+// Calculer le pourcentage atteint pour le graphique en camembert
+const doughnutData = computed(() => {
+  const hoursWorked = totalHours.value
+  const remainingHours = Math.max(targetHours - hoursWorked, 0)
+  return {
+    labels: ['Heures travaillées', 'Heures restantes'],
+    datasets: [
+      {
+        data: [hoursWorked, remainingHours],
+        backgroundColor: ['rgba(75, 192, 192, 0.6)', 'rgba(220, 53, 69, 0.2)'],
+        hoverBackgroundColor: ['rgba(75, 192, 192, 1)', 'rgba(220, 53, 69, 0.6)'],
+      }
+    ]
+  }
+})
 
 // Fonction pour récupérer les temps de travail depuis l'API
 const getWorkingTimes = async (userId: string) => {
@@ -67,7 +78,6 @@ const generateDaysOfMonth = (year: number, month: number) => {
   const daysInMonth = new Date(year, month, 0).getDate()
   const dates = []
   for (let day = 1; day <= daysInMonth; day++) {
-    // Format YYYY-MM-DD pour s'assurer que les dates sont correctes
     const date = new Date(year, month - 1, day).toLocaleDateString('en-CA')
     dates.push(date)
   }
@@ -86,7 +96,7 @@ const generateChartData = () => {
   })
 
   workingTimes.value.forEach((time) => {
-    const dateKey = new Date(time.start).toLocaleDateString('en-CA') // Format YYYY-MM-DD
+    const dateKey = new Date(time.start).toLocaleDateString('en-CA')
     if (groupedData[dateKey] !== undefined) {
       groupedData[dateKey] += calculateDuration(time.start, time.end)
     }
@@ -95,25 +105,23 @@ const generateChartData = () => {
   labels.value = Object.keys(groupedData)
   datasetData.value = Object.values(groupedData)
 
-  // Mettre à jour chartData
   chartData.value = {
     labels: labels.value,
     datasets: [
       {
         label: 'Hours Worked',
-        backgroundColor:
-          chartType.value === 'line' ? 'rgba(75, 192, 192, 0.2)' : 'rgba(220, 53, 69, 0.6)',
-        borderColor: chartType.value === 'line' ? 'rgba(75, 192, 192, 1)' : 'rgba(220, 53, 69, 1)',
+        backgroundColor: chartType.value === 'stacked' ? 'rgba(75, 192, 192, 0.2)' : 'rgba(220, 53, 69, 0.6)',
+        borderColor: chartType.value === 'stacked' ? 'rgba(75, 192, 192, 1)' : 'rgba(220, 53, 69, 1)',
         borderWidth: 2,
         data: datasetData.value,
-        fill: chartType.value === 'line' ? false : true,
+        fill: chartType.value === 'stacked', // Remplir la zone pour le graphique en aires empilées
         tension: chartType.value === 'line' ? 0.1 : 0
       }
     ]
   }
 }
 
-watch([selectedMonth, selectedYear], () => {
+watch([selectedMonth, selectedYear, chartType], () => {
   generateChartData()
 })
 
@@ -155,7 +163,7 @@ const chartOptions = {
       backgroundColor: '#333333',
       titleColor: '#ffffff',
       bodyColor: '#ffffff'
-    }
+    },
   },
   scales: {
     x: {
@@ -190,30 +198,11 @@ const chartOptions = {
 </script>
 
 <template>
-  <div class="bg-gray-800 p-6 rounded-lg">
-    <div class="flex justify-between mb-4">
-      <div class="bg-gray-700 text-white p-4 rounded-lg">
-        <h3 class="text-lg">Total hours work this month:</h3>
-        <p class="text-2xl font-bold">{{ totalHours }}</p>
-      </div>
-      <div class="bg-gray-700 text-white p-4 rounded-lg">
-        <h3 class="text-lg">Estimated salary for this month:</h3>
-        <p class="text-2xl font-bold">${{ estimatedSalary.toFixed(2) }}</p>
-      </div>
-      <div class="bg-gray-700 text-white p-4 rounded-lg">
-        <h3 class="text-lg">Hourly Rate:</h3>
-        <AppInput
-          type="number"
-          v-model="hourlyRate"
-          class="bg-gray-600 text-white rounded p-2"
-          min="0"
-        />
-      </div>
-    </div>
-    <div class="mb-4 flex space-x-4">
-      <div>
+  <div class="bg-gray-800 p-6 h-screen flex flex-col">
+    <div class="mb-4 flex flex-col">
+      <div class="mb-2">
         <label for="year-select" class="text-white">Select Year:</label>
-        <select id="year-select" v-model="selectedYear" class="bg-gray-700 text-white rounded p-2">
+        <select id="year-select" v-model="selectedYear" class="bg-gray-700 text-white rounded p-2 ml-2">
           <option value="2022">2022</option>
           <option value="2023">2023</option>
           <option value="2024">2024</option>
@@ -221,36 +210,23 @@ const chartOptions = {
         </select>
       </div>
       <div>
-        <label for="month-select" class="text-white">Select Month:</label>
-        <select
-          id="month-select"
-          v-model="selectedMonth"
-          class="bg-gray-700 text-white rounded p-2"
-        >
-          <option value="1">January</option>
-          <option value="2">February</option>
-          <option value="3">March</option>
-          <option value="4">April</option>
-          <option value="5">May</option>
-          <option value="6">June</option>
-          <option value="7">July</option>
-          <option value="8">August</option>
-          <option value="9">September</option>
-          <option value="10">October</option>
-          <option value="11">November</option>
-          <option value="12">December</option>
+        <label class="text-white">Select Chart Type:</label>
+        <select v-model="chartType" class="bg-gray-700 text-white rounded p-2 ml-2">
+          <option value="bar">Bar</option>
+          <option value="line">Line</option>
+          <option value="stacked">Stacked Area</option>
         </select>
       </div>
     </div>
-    <div class="mb-4">
-      <label class="text-white">Select Chart Type:</label>
-      <select v-model="chartType" class="bg-gray-700 text-white rounded p-2 ml-2">
-        <option value="bar">Bar</option>
-        <option value="line">Line</option>
-      </select>
-    </div>
-    <div class="h-96">
-      <component :is="chartType === 'bar' ? Bar : Line" :data="chartData" :options="chartOptions" />
+    <div class="flex-1 flex flex-row overflow-hidden">
+      <div class="flex-1 overflow-hidden pr-4">
+        <!-- Graphique principal (Bar, Line, Stacked Area) -->
+        <component :is="chartType === 'bar' ? Bar : Line" :data="chartData" :options="chartOptions" class="h-full" />
+      </div>
+      <div class="w-1/5 flex justify-center items-center h-full">
+        <!-- Graphique en camembert -->
+        <Doughnut :data="doughnutData" :options="{ responsive: true, maintainAspectRatio: false }" />
+      </div>
     </div>
   </div>
 </template>
