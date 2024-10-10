@@ -75,16 +75,20 @@ const manualClock = () => {
       </AppButton>
     </div>
     <div class="space-y-4">
-      <label for="date-input" class="text-2xl"><h3>Manual clock {{ clock ? 'out' : 'in' }}</h3></label>
+      <label for="date-input" class="text-2xl"
+        ><h3>Manual clock {{ clock ? 'out' : 'in' }}</h3></label
+      >
       <div class="flex gap-4">
-        <AppInput v-model="dateInput" type="datetime-local" name="date-input" id="date-input" class="border-2"/>
-        <button
-          type="submit"
-          class="bg-[#1343ad] text-white rounded m-4 w-2/12 text-center"
-          @click="manualClock()"
-        >
+        <AppInput
+          v-model="dateInput"
+          type="datetime-local"
+          name="date-input"
+          id="date-input"
+          class="border-2"
+        />
+        <AppButton type="submit" class="rounded m-4 w-2/12 text-center" @click="manualClock()">
           Submit
-        </button>
+        </AppButton>
       </div>
     </div>
   </div>

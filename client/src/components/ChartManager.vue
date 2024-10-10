@@ -14,14 +14,25 @@ import {
   ArcElement
 } from 'chart.js'
 import { ref, onMounted, watch, computed } from 'vue'
+import AppButton from './ui/AppButton.vue'
 
-// Enregistrer les composants nécessaires de Chart.js
-ChartJS.register(Title, Tooltip, Legend, BarElement, LineElement, CategoryScale, LinearScale, PointElement, Filler, ArcElement)
+ChartJS.register(
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  LineElement,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  Filler,
+  ArcElement
+)
 
 interface WorkingTime {
-  id: number;
-  start: string;
-  end: string;
+  id: number
+  start: string
+  end: string
 }
 
 // Références pour les données des temps de travail et le graphique
@@ -49,7 +60,7 @@ const doughnutData = computed(() => {
       {
         data: [hoursWorked, remainingHours],
         backgroundColor: ['rgba(75, 192, 192, 0.6)', 'rgba(220, 53, 69, 0.2)'],
-        hoverBackgroundColor: ['rgba(75, 192, 192, 1)', 'rgba(220, 53, 69, 0.6)'],
+        hoverBackgroundColor: ['rgba(75, 192, 192, 1)', 'rgba(220, 53, 69, 0.6)']
       }
     ]
   }
@@ -110,8 +121,10 @@ const generateChartData = () => {
     datasets: [
       {
         label: 'Worked hours',
-        backgroundColor: chartType.value === 'stacked' ? 'rgba(75, 192, 192, 0.2)' : 'rgba(220, 53, 69, 0.6)',
-        borderColor: chartType.value === 'stacked' ? 'rgba(75, 192, 192, 1)' : 'rgba(220, 53, 69, 1)',
+        backgroundColor:
+          chartType.value === 'stacked' ? 'rgba(75, 192, 192, 0.2)' : 'rgba(220, 53, 69, 0.6)',
+        borderColor:
+          chartType.value === 'stacked' ? 'rgba(75, 192, 192, 1)' : 'rgba(220, 53, 69, 1)',
         borderWidth: 2,
         data: datasetData.value,
         fill: chartType.value === 'stacked', // Remplir la zone pour le graphique en aires empilées
@@ -163,7 +176,7 @@ const chartOptions = {
       backgroundColor: '#333333',
       titleColor: '#ffffff',
       bodyColor: '#ffffff'
-    },
+    }
   },
   scales: {
     x: {
@@ -210,51 +223,66 @@ const chartOptions = {
             </div>
             <div>
               <label for="year-select" class="text-white">Select Year:</label>
-              <select id="year-select" v-model="selectedYear" class="bg-gray-700 text-white rounded p-2 m-3">
+              <select
+                id="year-select"
+                v-model="selectedYear"
+                class="bg-gray-700 text-white rounded p-2 m-3"
+              >
                 <option value="2022">2022</option>
                 <option value="2023">2023</option>
                 <option value="2024">2024</option>
                 <option value="2025">2025</option>
               </select>
-              </div>
-                <div>
-                  <label for="month-select" class="text-white">Select Month:</label>
-                  <select id="month-select" v-model="selectedMonth" class="bg-gray-700 text-white rounded p-2 m-3">
-                    <option value="1">January</option>
-                    <option value="2">February</option>
-                    <option value="3">March</option>
-                    <option value="4">April</option>
-                    <option value="5">May</option>
-                    <option value="6">June</option>
-                    <option value="7">July</option>
-                    <option value="8">August</option>
-                    <option value="9">September</option>
-                    <option value="10">October</option>
-                    <option value="11">November</option>
-                    <option value="12">December</option>
-                  </select>
-                  <label class="text-white">Select Chart Type:</label>
-                  <select v-model="chartType" class="bg-gray-700 text-white rounded p-2 m-3">
-                    <option value="bar">Bar</option>
-                    <option value="line">Line</option>
-                    <option value="stacked">Stacked Area</option>
-                  </select>
-                  <button class="rounded bg-white p-2 ml-4">Export Data</button>
-                </div>
             </div>
-            <div class="flex-1 flex flex-row overflow-hidden">
-              <div class="flex-1 overflow-hidden pr-4">
-                <!-- Graphique principal (Bar, Line, Stacked Area) -->
-                <component :is="chartType === 'bar' ? Bar : Line" :data="chartData" :options="chartOptions"
-                  class="h-full" />
-              </div>
-              <div class="w-1/5 flex justify-center items-center h-full">
-                <!-- Graphique en camembert -->
-                <Doughnut :data="doughnutData" :options="{ responsive: true, maintainAspectRatio: false }" />
-              </div>
+            <div>
+              <label for="month-select" class="text-white">Select Month:</label>
+              <select
+                id="month-select"
+                v-model="selectedMonth"
+                class="bg-gray-700 text-white rounded p-2 m-3"
+              >
+                <option value="1">January</option>
+                <option value="2">February</option>
+                <option value="3">March</option>
+                <option value="4">April</option>
+                <option value="5">May</option>
+                <option value="6">June</option>
+                <option value="7">July</option>
+                <option value="8">August</option>
+                <option value="9">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+              </select>
+              <label class="text-white">Select Chart Type:</label>
+              <select v-model="chartType" class="bg-gray-700 text-white rounded p-2 m-3">
+                <option value="bar">Bar</option>
+                <option value="line">Line</option>
+                <option value="stacked">Stacked Area</option>
+              </select>
+              <AppButton class="rounded bg-white p-2 ml-4">Export Data</AppButton>
+            </div>
+          </div>
+          <div class="flex-1 flex flex-row overflow-hidden">
+            <div class="flex-1 overflow-hidden pr-4">
+              <!-- Graphique principal (Bar, Line, Stacked Area) -->
+              <component
+                :is="chartType === 'bar' ? Bar : Line"
+                :data="chartData"
+                :options="chartOptions"
+                class="h-full"
+              />
+            </div>
+            <div class="w-1/5 flex justify-center items-center h-full">
+              <!-- Graphique en camembert -->
+              <Doughnut
+                :data="doughnutData"
+                :options="{ responsive: true, maintainAspectRatio: false }"
+              />
             </div>
           </div>
         </div>
+      </div>
     </div>
   </div>
 </template>

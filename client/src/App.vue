@@ -9,12 +9,12 @@ const { user } = useUserStore()
     <RouterLink to="/">
       <img alt="CGT-U logo" class="ml-10" src="./assets/img/Logo_nobg.png" width="100" />
     </RouterLink>
-    <nav class="space-x-2 mr-10">
+    <nav class="space-x-6 mr-10">
       <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/workingtime">Working Time</RouterLink>
+      <RouterLink :to="`/workingtime/${user.id}`">Working Time</RouterLink>
       <RouterLink to="/chart-manager/1">Dashboard</RouterLink>
-      <RouterLink to="/users" v-if="user?.role !== 'employee'" class="p-4">Employees</RouterLink>
-      <RouterLink to="/user/1" class="p-4"><i class="pi pi-user"></i></RouterLink>
+      <RouterLink to="/users" v-if="user?.role === 'general_manager'">Employees</RouterLink>
+      <RouterLink to="/user/1"><i class="pi pi-user"></i></RouterLink>
     </nav>
   </header>
   <main class="p-4">

@@ -11,9 +11,9 @@ import UserList from './components/UserList.vue'
 
 const routes = [
   { path: '/', component: HomeComponent },
-  { path: '/workingtimecreated', component: WorkingTimesCreated },
-  { path: '/workingtime', component: WorkingTimes },
-  { path: '/workingtimeupdate/:id/:start/:end', component: WorkingTimesUpdate },
+  { path: '/workingtime/new', component: WorkingTimesCreated },
+  { path: '/workingtime/:userId', component: WorkingTimes },
+  { path: '/workingtime/update/:id/:start/:end', component: WorkingTimesUpdate },
   { path: '/user/:id', component: UserComponent },
   { path: '/user/new', component: NewUser },
   { path: '/users', component: UserList },

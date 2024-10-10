@@ -67,9 +67,9 @@ const today = readableDate(new Date())
         </p>
       </span>
       <span class="">
-        <button class="bg-[#1343ad] text-white rounded p-1 m-4 w-3/12 text-center">
+        <AppButton class="rounded p-1 m-4 w-3/12 text-center">
           <RouterLink to="/chart-manager/1"><a>Consult dashboard</a></RouterLink>
-        </button>
+        </AppButton>
       </span>
     </div>
   </div>
