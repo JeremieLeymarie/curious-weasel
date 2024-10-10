@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useRouter } from 'vue-router'
 import AppInput from './ui/AppInput.vue'
+import AppButton from './ui/AppButton.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -32,7 +33,7 @@ async function updateWorkingTime(id: any) {
 }
 </script>
 
-<template lang="">
+<template>
   <div class="h-full max-h-80">
     <p>Update a workingtime</p>
     <hr />
@@ -42,6 +43,6 @@ async function updateWorkingTime(id: any) {
     <p>End</p>
     <AppInput v-model="end" type="datetime-local" name="" id="" />
     <br />
-    <button @click="updateWorkingTime(1)">submit</button>
+    <AppButton @click="updateWorkingTime(1)">submit</AppButton>
   </div>
 </template>

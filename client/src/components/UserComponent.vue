@@ -4,6 +4,7 @@ import type { User } from '@/types'
 import { ref, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import AppInput from './ui/AppInput.vue'
+import AppButton from './ui/AppButton.vue'
 
 const user = ref<User>()
 
@@ -53,12 +54,7 @@ const handleDelete = () => {
   <div v-if="user">
     <div class="mb-2 flex gap-2 items-center">
       <p class="text-3xl">Account</p>
-      <button
-        class="text-sm text-red-800 block rounded-lg px-3 py-1 hover:underline"
-        @click="handleDelete"
-      >
-        Delete
-      </button>
+      <AppButton variant="danger" @click="handleDelete"> Delete </AppButton>
     </div>
     <hr />
 
@@ -68,7 +64,6 @@ const handleDelete = () => {
         <div class="space-x-4 mt-2">
           <label for="username" class="w-[150px] inline-block">Username</label>
           <AppInput
-            class="text-red-200"
             id="username"
             name="username"
             placeholder="bob_bidou"
@@ -79,12 +74,7 @@ const handleDelete = () => {
           <label for="email" class="w-[150px] inline-block">Email address</label>
           <AppInput id="email" name="email" placeholder="bob@mail.com" v-model="formValues.email" />
         </div>
-        <button
-          type="submit"
-          class="bg-blue-900 text-white rounded-lg px-3 py-1 shadow-md hover:shadow-xl"
-        >
-          Update
-        </button>
+        <AppButton type="submit"> Update </AppButton>
       </form>
     </div>
   </div>

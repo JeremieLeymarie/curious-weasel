@@ -2,6 +2,7 @@
 import type { User, UserWithoutId } from '@/types'
 import { ref } from 'vue'
 import AppInput from './ui/AppInput.vue'
+import AppButton from './ui/AppButton.vue'
 
 const formValues = ref<Partial<UserWithoutId>>({})
 const BASE_URL = 'http://localhost:4000/api/users'
@@ -46,12 +47,7 @@ const handleCreate = (e: Event) => {
         <label for="email" class="w-[150px] inline-block">Email address</label>
         <AppInput id="email" name="email" placeholder="bob@mail.com" v-model="formValues.email" />
       </div>
-      <button
-        type="submit"
-        class="bg-blue-900 text-white rounded-lg px-3 py-1 shadow-md hover:shadow-xl"
-      >
-        Create
-      </button>
+      <AppButton type="submit"> Create </AppButton>
     </form>
   </div>
 </template>
