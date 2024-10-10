@@ -2,6 +2,7 @@
 import type { Clock } from '@/types'
 import { ref } from 'vue'
 import AppInput from './ui/AppInput.vue'
+import AppButton from './ui/AppButton.vue'
 
 const { userId, clock, refetch } = defineProps<{
   userId: string
@@ -69,17 +70,12 @@ const manualClock = () => {
 <template>
   <div>
     <div class="flex items-center justify-left my-6">
-      <button
-        class="bg-blue-900 text-white rounded-lg px-3 py-1 shadow-md hover:shadow-xl text-xl"
-        @click="clock ? clockOut() : clockIn()"
-      >
-        <a>Clock {{ clock ? 'out' : 'in' }}</a>
-      </button>
+      <AppButton class="text-xl" @click="clock ? clockOut() : clockIn()">
+        Clock {{ clock ? 'out' : 'in' }}
+      </AppButton>
     </div>
     <div class="space-y-4">
-      <label for="date-input" class="text-2xl"
-        >Manual clock {{ clock ? 'out' : 'in' }}</label
-      >
+      <label for="date-input" class="text-2xl">Manual clock {{ clock ? 'out' : 'in' }}</label>
       <div class="flex gap-4">
         <AppInput v-model="dateInput" type="datetime-local" name="date-input" id="date-input" />
         <button

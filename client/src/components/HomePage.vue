@@ -5,6 +5,7 @@ import type { Clock, User } from '@/types'
 import { adapter } from '@/adapters'
 import { getUser } from '@/requests/user'
 import { readableDate, readableDateTime, getReadableInterval } from '@/utils/date'
+import AppButton from './ui/AppButton.vue'
 
 const clocks = ref<Clock[]>()
 const user = ref<User>()
@@ -68,7 +69,7 @@ const today = readableDate(new Date())
       <span class="">
         <button class="bg-[#1343ad] text-white rounded p-1 m-4 w-3/12 text-center">
           <RouterLink to="/chart-manager/1"><a>Consult dashboard</a></RouterLink>
-        </button>
+        </AppButton>
       </span>
     </div>
   </div>

@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useRouter } from 'vue-router'
 import AppInput from './ui/AppInput.vue'
+import AppButton from './ui/AppButton.vue'
 
 const router = useRouter()
 const route = useRoute()
