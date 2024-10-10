@@ -7,6 +7,7 @@ import { computed, onMounted, ref } from 'vue'
 import type { WorkingTime } from '@/types'
 import { getReadableInterval } from '@/utils/date'
 import { differenceInSeconds, formatDuration, intervalToDuration } from 'date-fns'
+import AppButton from './ui/AppButton.vue'
 const router = useRouter()
 
 const data = ref<{ workingTimes: WorkingTime[]; loading: boolean; expandedDate: Date | null }>({
@@ -118,9 +119,9 @@ onMounted(() => {
 <template>
   <div class="p-6 shadow-lg rounded-lg w-full">
     <h2 class="text-2xl">Working Times for User {{ userId }}</h2>
-    <button @click="NewWorkingTime" class="bg-[#1343ad] text-white rounded-full p-3 my-6 w-2/12 text-center">
+    <AppButton @click="NewWorkingTime" class="my-6 w-2/12 text-center">
       New Working Time
-    </button>
+    </AppButton>
     <div v-if="data.loading" class="text-center text-gray-300">Loading...</div>
     <div v-else>
       <ul>
@@ -141,19 +142,19 @@ onMounted(() => {
                 {{ formatTime(time.end) }}
               </p>
               <p>Duration: {{ calculateDuration(time.start, time.end) }}</p>
-              <button
+              <AppButton
                 @click="deleteWorkingTime(time.id)"
                 class="m-1 p-1 bg-gray-800 text-white rounded"
               >
-                Delete
-              </button>
-              <button
+                AppButton
+              </AppButton>
+              <AppButton
                 @click="updateWorkingTime(time.id, time.start, time.end)"
                 class="mt-1 p-1 bg-gray-800 text-white rounded"
               >
                 Update
-              </button>
-              <hr class="my-4">
+              </AppButton>
+              <hr class="my-4" />
             </div>
           </div>
         </li>

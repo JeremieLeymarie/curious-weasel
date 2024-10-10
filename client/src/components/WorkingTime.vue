@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import AppInput from './ui/AppInput.vue'
+import AppButton from './ui/AppButton.vue'
 
 const router = useRouter()
 
@@ -33,18 +34,18 @@ async function createWorkingTime(id: any) {
 <template>
   <div class="ml-8">
     <p class="text-2xl my-4">Create a Working Time</p>
-    <hr class="h-1 mb-4 ml-1 mr-16 bg-[#1343ad] border-0">
+    <hr class="h-1 mb-4 ml-1 mr-16 bg-[#1343ad] border-0" />
     <div class="flex space-x-10">
       <div class="p-2">
         <p>Start</p>
-        <AppInput v-model="start" type="datetime-local" class="border-2"/>
+        <AppInput v-model="start" type="datetime-local" class="border-2" />
       </div>
       <div class="p-2">
         <p>End</p>
-        <hr>
-        <AppInput v-model="end" type="datetime-local" class="border-2"/>
-      </div>  
+        <hr />
+        <AppInput v-model="end" type="datetime-local" class="border-2" />
+      </div>
     </div>
-    <button @click="createWorkingTime(1)" class="bg-[#1343ad] text-white rounded-full p-2 my-6 w-1/12 text-center">Submit</button>
+    <AppButton @click="createWorkingTime(1)" class="my-6 w-1/12 text-center">Submit</AppButton>
   </div>
 </template>

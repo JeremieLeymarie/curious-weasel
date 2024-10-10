@@ -49,12 +49,3 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-@media (hover: hover) {
-  a:hover, button:hover {
-    background-color: #0b328a;
-  }
-}
-
-@media (min-width: 1024px) {
- 
-}
