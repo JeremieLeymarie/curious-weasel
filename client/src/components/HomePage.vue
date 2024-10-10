@@ -43,7 +43,7 @@ const today = readableDate(new Date())
 
   <div v-if="user" class="flex ml-8">
     <div class="m-4 w-6/12">
-      <p class="text-2xl my-4">Fast Clocking</p>
+      <h3 class="text-2xl my-4">Fast Clocking</h3>
       <p v-if="currentClock">
         You have been working for
         <strong>{{ getReadableInterval({ start: currentClock.time, end: new Date() }) }}</strong>
@@ -67,9 +67,9 @@ const today = readableDate(new Date())
         </p>
       </span>
       <span class="">
-        <AppButton class="m-4 w-4/12 text-center">
+        <button class="bg-[#1343ad] text-white rounded p-1 m-4 w-3/12 text-center">
           <RouterLink to="/chart-manager/1"><a>Consult dashboard</a></RouterLink>
-        </AppButton>
+        </button>
       </span>
     </div>
   </div>

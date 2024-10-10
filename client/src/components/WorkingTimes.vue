@@ -118,7 +118,7 @@ onMounted(() => {
 
 <template>
   <div class="p-6 shadow-lg rounded-lg w-full">
-    <h2 class="text-2xl">Working Times for User {{ userId }}</h2>
+    <h3 class="text-2xl">Working Times for User {{ userId }}</h3>
     <AppButton @click="NewWorkingTime" class="my-6 w-2/12 text-center">
       New Working Time
     </AppButton>
