@@ -18,6 +18,7 @@ const deleteWorkingTime = async (id: string) => {
     let res = await fetch('http://localhost:4000/api/workingtimes/' + id, {
       method: 'DELETE'
     })
+    getWorkingTimes()
     if (res.status == 204) {
       console.log('ok')
     } else {
@@ -116,7 +117,9 @@ onMounted(() => {
 <template>
   <div class="p-6 bg-gray-800 shadow-lg rounded-lg w-full">
     <h2 class="text-2xl font-bold mb-6 text-white">Working Times for User {{ userId }}</h2>
-    <button @click="NewWorkingTime" class="mt-1 p-1 bg-gray-600 text-white rounded">New</button>
+    <button @click="NewWorkingTime" class="mb-2 p-1 bg-gray-600 text-white rounded">
+      New Working Time
+    </button>
     <div v-if="data.loading" class="text-center text-gray-300">Loading...</div>
     <div v-else>
       <ul>
