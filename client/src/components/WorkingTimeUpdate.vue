@@ -4,7 +4,7 @@
     <hr />
     <p>Start</p>
     <input v-model="start" type="datetime-local" name="" id="" />
-    <br />
+    <br>
     <p>End</p>
     <input v-model="end" type="datetime-local" name="" id="" />
     <br />

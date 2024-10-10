@@ -67,7 +67,7 @@ const today = readableDate(new Date())
       </span>
       <span class="">
         <button class="bg-[#1343ad] text-white rounded-full p-3 m-4 w-4/12 text-center">
-          <a>Consult dashboard</a>
+          <RouterLink to="/chart-manager/1"><a>Consult dashboard</a></RouterLink>
         </button>
       </span>
     </div>

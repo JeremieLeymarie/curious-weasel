@@ -67,7 +67,7 @@ const manualClock = () => {
 
 <template>
   <div>
-    <div class="flex items-center justify-center my-4">
+    <div class="flex items-center justify-left my-6">
       <button
         class="bg-blue-900 text-white rounded-lg px-3 py-1 shadow-md hover:shadow-xl text-xl"
         @click="clock ? clockOut() : clockIn()"
@@ -76,14 +76,14 @@ const manualClock = () => {
       </button>
     </div>
     <div class="space-y-4">
-      <label for="date-input" class="w-[150px] block text-lg"
+      <label for="date-input" class="text-2xl"
         >Manual clock {{ clock ? 'out' : 'in' }}</label
       >
       <div class="flex gap-4">
         <input v-model="dateInput" type="datetime-local" name="date-input" id="date-input" />
         <button
           type="submit"
-          class="bg-blue-900 text-white rounded-lg px-3 py-1 shadow-md hover:shadow-xl"
+          class="bg-blue-900 text-white rounded-lg px-3 py-1 shadow-md hover:shadow-xl text-xl"
           @click="manualClock()"
         >
           Submit
