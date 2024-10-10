@@ -199,8 +199,12 @@ const chartOptions = {
 
 <template>
   <div class="bg-gray-800 p-6 h-screen flex flex-col">
-    <div class="mb-4 flex flex-col">
-      <div class="mb-2">
+    <div class="mb-4 flex flex-wrap space-x-4 items-center">
+      <div class="bg-gray-700 text-white p-2 rounded w-40">
+        <h3 class="text-sm">Total Hours Worked:</h3>
+        <p class="text-xl font-bold">{{ totalHours }}</p>
+      </div>
+      <div>
         <label for="year-select" class="text-white">Select Year:</label>
         <select id="year-select" v-model="selectedYear" class="bg-gray-700 text-white rounded p-2 ml-2">
           <option value="2022">2022</option>
@@ -209,7 +213,7 @@ const chartOptions = {
           <option value="2025">2025</option>
         </select>
       </div>
-      <div class="mb-2">
+      <div>
         <label for="month-select" class="text-white">Select Month:</label>
         <select id="month-select" v-model="selectedMonth" class="bg-gray-700 text-white rounded p-2 ml-2">
           <option value="1">January</option>
