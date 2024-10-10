@@ -209,6 +209,23 @@ const chartOptions = {
           <option value="2025">2025</option>
         </select>
       </div>
+      <div class="mb-2">
+        <label for="month-select" class="text-white">Select Month:</label>
+        <select id="month-select" v-model="selectedMonth" class="bg-gray-700 text-white rounded p-2 ml-2">
+          <option value="1">January</option>
+          <option value="2">February</option>
+          <option value="3">March</option>
+          <option value="4">April</option>
+          <option value="5">May</option>
+          <option value="6">June</option>
+          <option value="7">July</option>
+          <option value="8">August</option>
+          <option value="9">September</option>
+          <option value="10">October</option>
+          <option value="11">November</option>
+          <option value="12">December</option>
+        </select>
+      </div>
       <div>
         <label class="text-white">Select Chart Type:</label>
         <select v-model="chartType" class="bg-gray-700 text-white rounded p-2 ml-2">
