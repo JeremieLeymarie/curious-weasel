@@ -10,6 +10,14 @@ export const getUser = async (userId: string) => {
   return response.data
 }
 
+export const getUsers = async () => {
+  const response: { data: User[] } = await fetch(`${USER_BASE_URL}`)
+    .then((res) => res.json())
+    .catch((err) => console.error(err))
+
+  return response.data
+}
+
 export const updateUser = async (user: User) => {
   const response: { data: User } = await fetch(`${USER_BASE_URL}/${user.id}`, {
     method: 'PUT',
