@@ -1,4 +1,4 @@
-FROM elixir:latest
+FROM elixir:alpine
 
 WORKDIR /app
 COPY . /app

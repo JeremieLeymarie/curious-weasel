@@ -72,8 +72,10 @@ defmodule TimeTracker.UserContext do
 
   """
   def create_user(attrs \\ %{}) do
+    payload = Map.put(attrs, "role", "employee")
+
     %User{}
-    |> User.changeset(attrs)
+    |> User.changeset(payload)
     |> Repo.insert()
   end
 
@@ -90,8 +92,10 @@ defmodule TimeTracker.UserContext do
 
   """
   def update_user(%User{} = user, attrs) do
+    payload = Map.put(attrs, "role", "employee")
+
     user
-    |> User.changeset(attrs)
+    |> User.changeset(payload)
     |> Repo.update()
   end
 
