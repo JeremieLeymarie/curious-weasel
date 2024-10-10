@@ -4,7 +4,8 @@ content-type: application/json
 
 {"user" : {
     "username": "some username",
-    "email": "some@email.fr"
+    "email": "some@email.fr",
+    "role" : "general_manager"
 }}
 
 ### List all users
