@@ -12,7 +12,7 @@ onMounted(() => {
   })
 })
 
-const headers = ['id', 'username', 'email']
+const headers = ['id', 'username', 'email', 'role']
 
 const tdClass = 'border border-blue-900 p-2'
 </script>
@@ -40,6 +40,7 @@ const tdClass = 'border border-blue-900 p-2'
             <th :class="tdClass" scope="row">{{ user.id }}</th>
             <td :class="tdClass">{{ user.username }}</td>
             <td :class="tdClass">{{ user.email }}</td>
+            <td :class="tdClass">{{ user.role }}</td>
           </tr>
         </tbody>
       </table>

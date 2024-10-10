@@ -1,4 +1,8 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useUserStore } from './stores/user'
+
+const { user } = useUserStore()
+</script>
 
 <template>
   <header class="flex items-center justify-between bg-[#1343ad] text-white">
@@ -9,8 +13,8 @@
       <RouterLink to="/">Home</RouterLink>
       <RouterLink to="/workingtime">Working Time</RouterLink>
       <RouterLink to="/chart-manager/1">Dashboard</RouterLink>
-      <RouterLink to="/users" class="p-4">Employees</RouterLink>
-      <RouterLink to="/user/1" class="p-4"><i class="pi pi-user" /></RouterLink>
+      <RouterLink to="/users" v-if="user?.role !== 'employee'" class="p-4">Employees</RouterLink>
+      <RouterLink to="/user/1" class="p-4"><i class="pi pi-user"></i></RouterLink>
     </nav>
   </header>
   <main class="p-4">
