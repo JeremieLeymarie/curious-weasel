@@ -9,7 +9,8 @@
       <RouterLink to="/">Home</RouterLink>
       <RouterLink to="/workingtime">Working Time</RouterLink>
       <RouterLink to="/chart-manager/1">Dashboard</RouterLink>
-      <RouterLink to="/user/1" class="p-4"><i class="pi pi-user"></i></RouterLink>
+      <RouterLink to="/users" class="p-4">Employees</RouterLink>
+      <RouterLink to="/user/1" class="p-4"><i class="pi pi-user" /></RouterLink>
     </nav>
   </header>
   <main class="p-4">
