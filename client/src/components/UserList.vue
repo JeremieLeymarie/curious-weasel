@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { getUsers } from '@/requests/user'
-import type { User } from '@/types'
+import { getUsers } from '../requests/user'
+import type { User } from '../types'
 import { onMounted, ref } from 'vue'
 import { capFL } from '../utils/string'
 

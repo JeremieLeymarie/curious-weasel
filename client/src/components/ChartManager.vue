@@ -226,7 +226,7 @@ const chartOptions = {
               <select
                 id="year-select"
                 v-model="selectedYear"
-                class="bg-gray-700 text-white rounded p-2 m-3"
+                class="bg-gray-600 text-white rounded p-2 m-3"
               >
                 <option value="2022">2022</option>
                 <option value="2023">2023</option>
@@ -239,7 +239,7 @@ const chartOptions = {
               <select
                 id="month-select"
                 v-model="selectedMonth"
-                class="bg-gray-700 text-white rounded p-2 m-3"
+                class="bg-gray-600 text-white rounded p-2 m-3"
               >
                 <option value="1">January</option>
                 <option value="2">February</option>
@@ -255,12 +255,12 @@ const chartOptions = {
                 <option value="12">December</option>
               </select>
               <label class="text-white">Select Chart Type:</label>
-              <select v-model="chartType" class="bg-[#1D0455] text-white rounded p-2 m-3">
+              <select v-model="chartType" class="bg-gray-600 text-white rounded p-2 m-3">
                 <option value="bar">Bar</option>
                 <option value="line">Line</option>
                 <option value="stacked">Stacked Area</option>
               </select>
-              <AppButton class="rounded bg-white p-2 ml-4 text-gray-700">Export Data</AppButton>
+              <button class="rounded bg-gray-600 p-2 ml-4 text-white">Export Data</button>
             </div>
           </div>
           <div class="flex-1 flex flex-row overflow-hidden">
