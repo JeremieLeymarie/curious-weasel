@@ -34,7 +34,7 @@ async function createWorkingTime(id: any) {
 <template>
   <div class="ml-8">
     <p class="text-2xl my-4">Create a working time</p>
-    <hr class="h-1 mb-4 ml-1 mr-16 bg-[#1343ad] border-0">
+    <hr class="h-1 mb-4 ml-1 mr-16 bg-[#1D0455] border-0">
     <div class="flex space-x-10">
       <div class="p-2">
         <p>Start</p>
