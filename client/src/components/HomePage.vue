@@ -75,3 +75,11 @@ const today = readableDate(new Date())
   </div>
   <div v-else>User not found...</div>
 </template>
+
+<style lang="css">
+@media screen and (width <= 1250px) {
+ h1 {
+  font-size: 16px;
+ } 
+}
+</style>
