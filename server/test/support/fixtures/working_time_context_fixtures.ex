@@ -10,7 +10,8 @@ defmodule TimeTracker.WorkingTimeContextFixtures do
   def working_time_fixture(attrs \\ %{}) do
     default_attrs = %{
       "end" => ~U[2024-10-06 13:02:00Z],
-      "start" => ~U[2024-10-06 13:02:00Z]
+      "start" => ~U[2024-10-06 13:02:00Z],
+      "user_id" => 1
     }
 
     merged_attrs = Enum.into(attrs, default_attrs)
