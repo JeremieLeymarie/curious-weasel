@@ -260,7 +260,7 @@ const chartOptions = {
                 <option value="line">Line</option>
                 <option value="stacked">Stacked Area</option>
               </select>
-              <AppButton class="rounded bg-white p-2 ml-4">Export Data</AppButton>
+              <AppButton class="rounded bg-white p-2 ml-4 text-gray-700">Export Data</AppButton>
             </div>
           </div>
           <div class="flex-1 flex flex-row overflow-hidden">
