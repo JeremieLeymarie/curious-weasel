@@ -1,0 +1,45 @@
+name: CI
+
+on: [push]
+
+jobs:
+  client:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./client
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: npm ci
+      - name: Build app
+        run: npm run build
+      - name: Check types
+        run: npm run type-check
+      - name: Run unit tests
+        run: npm run test:unit
+
+  server:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./server
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-elixir@v1
+        with:
+          otp-version: "22.2"
+          elixir-version: "1.17.3"
+      - name: Install dependencies
+        run: mix deps.get
+      - name: Compile app
+        run: mix compile
+      - name: Run unit tests
+        run: mix test
