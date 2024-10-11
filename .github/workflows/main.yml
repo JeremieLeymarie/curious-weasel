@@ -35,7 +35,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: erlef/setup-beam@v1
         with:
-          otp-version: '24'
+          otp-version: '27'
           elixir-version: "1.17.3"
       - name: Install dependencies
         run: mix deps.get
