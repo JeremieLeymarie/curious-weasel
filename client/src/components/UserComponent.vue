@@ -91,8 +91,10 @@ const handleDelete = () => {
           <span class="bg-[#1D0455] rounded text-white p-1 text-center w-[250px]">Mayor Hilton Hill</span>
         </div>
       <div class="flex mt-4">
-          <h4 class="w-[165px] inline-block">Team</h4>
-          <span class="bg-[#1D0455] rounded text-white p-1 text-center w-[250px]">Police Dpt</span>
+          <h4 class="w-[165px] inline-block">Team(s)</h4>
+          <span class="bg-[#1D0455] rounded text-white p-1 text-center w-[250px] mr-2">Police Dpt</span>
+          <span class="bg-[#1D0455] rounded text-white p-1 text-center w-[250px] mr-2">Crime Unit</span>
+          <span class="bg-[#1D0455] rounded text-white p-1 text-center w-[250px] mr-2">Batman Lover</span>
       </div>
     </div>
   </div>
