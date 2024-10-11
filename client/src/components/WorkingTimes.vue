@@ -7,11 +7,12 @@ import { differenceInSeconds, formatDuration, intervalToDuration } from 'date-fn
 import AppButton from './ui/AppButton.vue'
 import ProtectedView from './ProtectedView.vue'
 import { getReadableInterval } from '@/utils/date'
+import { adapter } from '@/adapters'
 
 const router = useRouter()
 const route = useRoute()
 
-const data = ref<{ workingTimes: WorkingTime[]; loading: boolean; expandedDate: Date | null }>({
+const data = ref<{ workingTimes: WorkingTime[]; loading: boolean; expandedDate: string | null }>({
   workingTimes: [],
   loading: true,
   expandedDate: null
@@ -46,12 +47,11 @@ const updateWorkingTime = async (id: string, start: Date, end: Date) => {
 }
 
 const getWorkingTimes = async () => {
-  console.log('yello')
   try {
     const response = await axios.get(
       `http://localhost:4000/api/workingtimes/${route.params.userId}`
     )
-    data.value.workingTimes = response.data.data
+    data.value.workingTimes = response.data.data.map(adapter.from.api.workingTime)
     data.value.loading = false
   } catch (error) {
     console.error('Error fetching working times:', error)
@@ -83,12 +83,13 @@ const calculateTotalDuration = (times: any[]) => {
   return formatted
 }
 const getPeriod = (start: Date) => {
+  console.log(start)
   const hour = start.getHours()
   return hour < 12 ? 'Morning' : 'Afternoon'
 }
 
-const toggleDetails = (date: Date) => {
-  data.value.expandedDate = data.value.expandedDate === date ? null : date
+const toggleDetails = (dateString: string) => {
+  data.value.expandedDate = data.value.expandedDate === dateString ? null : dateString
 }
 
 onMounted(getWorkingTimes)
@@ -133,7 +134,7 @@ onMounted(() => {
         <ul>
           <li v-for="(times, date) in groupedWorkingTimes" :key="date" class="mb-4">
             <div
-              @click="toggleDetails(new Date(date))"
+              @click="toggleDetails(date)"
               class="cursor-pointer p-4 bg-[#1D0455] text-white rounded hover:bg-[#0b328a] transition-colors duration-200"
             >
               <div class="flex justify-between">
@@ -141,10 +142,7 @@ onMounted(() => {
                 <span>{{ calculateTotalDuration(times) }}</span>
               </div>
             </div>
-            <div
-              v-if="data.expandedDate === new Date(date)"
-              class="mt-2 p-4 bg-[#1D0455] text-white rounded"
-            >
+            <div v-if="data.expandedDate === date" class="mt-2 p-4 bg-[#1D0455] text-white rounded">
               <div v-for="(time, index) in times" :key="index" class="mb-2">
                 <p>
                   <strong>{{ getPeriod(time.start) }}:</strong> {{ formatTime(time.start) }} -
