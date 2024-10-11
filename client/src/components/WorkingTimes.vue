@@ -123,7 +123,7 @@ onMounted(() => {
   <ProtectedView :resource-id="route.params.userId">
     <div class="p-6 shadow-lg rounded-lg w-full">
       <h3 class="text-2xl">Working Times for User {{ route.params.userId }}</h3>
-      <AppButton @click="goToNewWTpage" class="my-6 w-2/12 text-center">
+      <AppButton @click="goToNewWTpage" class="my-6 w-2/12 text-center bg-[#1D0455]">
         New Working Time
       </AppButton>
       <div v-if="data.loading" class="text-center text-gray-300">Loading...</div>
@@ -132,14 +132,14 @@ onMounted(() => {
           <li v-for="(times, date) in groupedWorkingTimes" :key="date" class="mb-4">
             <div
               @click="toggleDetails(date)"
-              class="cursor-pointer p-4 bg-[#1343ad] text-white rounded hover:bg-[#0b328a] transition-colors duration-200"
+              class="cursor-pointer p-4 bg-[#1D0455] text-white rounded hover:bg-[#0b328a] transition-colors duration-200"
             >
               <div class="flex justify-between">
                 <span>{{ date }}</span>
                 <span>{{ calculateTotalDuration(times) }}</span>
               </div>
             </div>
-            <div v-if="data.expandedDate === date" class="mt-2 p-4 bg-[#1343ad] text-white rounded">
+            <div v-if="data.expandedDate === date" class="mt-2 p-4 bg-[#1D0455] text-white rounded">
               <div v-for="(time, index) in times" :key="index" class="mb-2">
                 <p>
                   <strong>{{ getPeriod(time.start) }}:</strong> {{ formatTime(time.start) }} -
@@ -148,13 +148,13 @@ onMounted(() => {
                 <p>Duration: {{ calculateDuration(time.start, time.end) }}</p>
                 <AppButton
                   @click="updateWorkingTime(time.id, time.start, time.end)"
-                  class="mt-1 p-1 bg-gray-800 text-white rounded"
+                  class="mt-1 p-1 bg-[#0b328a] text-white rounded"
                 >
                   Update
                 </AppButton>
                 <AppButton
                   @click="deleteWorkingTime(time.id)"
-                  class="m-1 p-1 bg-gray-800 text-white rounded"
+                  class="m-1 p-1 bg-[#0b328a] text-white rounded"
                 >
                   Delete
                 </AppButton>
