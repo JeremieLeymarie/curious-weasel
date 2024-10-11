@@ -32,22 +32,32 @@ const handleCreate = (e: Event) => {
 </script>
 
 <template>
+  <h3 class="text-2xl text-center mt-8">Create a new account</h3>
   <div>
-    <form class="space-y-2" @submit="handleCreate">
-      <div class="space-x-4 mt-2">
-        <label for="username" class="w-[150px] inline-block">Username</label>
-        <AppInput
-          id="username"
-          name="username"
-          placeholder="bob_bidou"
-          v-model="formValues.username"
-        />
+    <form class="text-center mt-6" @submit="handleCreate">
+      <div class="flex flex-col items-center m-2">
+        <label for="name">Name</label>
+        <AppInput id="username" name="username" placeholder="bob_bidou" v-model="formValues.username"
+          class="border-2 w-2/12" />
       </div>
-      <div class="space-x-4">
-        <label for="email" class="w-[150px] inline-block">Email address</label>
-        <AppInput id="email" name="email" placeholder="bob@mail.com" v-model="formValues.email" />
+      <div class="flex flex-col items-center m-2">
+        <label for="email">Email address</label>
+        <AppInput id="email" name="email" placeholder="bob@mail.com" class="border-2 w-2/12"
+          v-model="formValues.email" />
       </div>
-      <AppButton type="submit"> Create </AppButton>
+      <div class="flex flex-col items-center m-2">
+        <label for="password">Password</label>
+        <AppInput id="password" name="password" placeholder="Create a password" class="border-2 w-2/12"
+          v-model="formValues.password" />
+      </div>
+      <div class="flex flex-col items-center m-2">
+        <label for="role">Role</label>
+        <select id="role-select" v-model="selectedRole" class="border-2 w-2/12">
+          <option value="Employee">Employee</option>
+          <option value="Manager">Manager</option>
+        </select>
+      </div>
+      <AppButton type="submit" class="w-20 mt-4"> Create </AppButton>
     </form>
   </div>
 </template>

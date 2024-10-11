@@ -25,7 +25,7 @@ const getUser = async (user: User) => {
     <p class="text-center text-xs m-2">Login to continue</p>
     <form class="text-center mt-6">
         <div class="flex flex-col items-center m-2">
-            <label for="username" class="w-[150px] inline-block">Email</label>
+            <label for="username">Email address</label>
             <AppInput class="border-2 w-2/12" placeholder="example@gotham-city.com" />
         </div>
         <div class="flex flex-col items-center m-2">
