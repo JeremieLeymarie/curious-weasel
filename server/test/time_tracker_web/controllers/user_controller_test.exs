@@ -75,9 +75,9 @@ defmodule TimeTrackerWeb.UserControllerTest do
       conn = delete(conn, ~p"/api/users/#{user}")
       assert response(conn, 204)
 
-      assert_error_sent 404, fn ->
-        get(conn, ~p"/api/users/#{user}")
-      end
+      # Refaire la connexion car Phoenix.ConnTest ne garde pas l'état des connexions
+      conn = get(conn, ~p"/api/users/#{user.id}")
+      assert response(conn, 404)
     end
   end
 
