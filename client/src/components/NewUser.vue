@@ -37,12 +37,12 @@ const handleCreate = (e: Event) => {
     <form class="text-center mt-6" @submit="handleCreate">
       <div class="flex flex-col items-center m-2">
         <label for="name">Name</label>
-        <AppInput id="username" name="username" placeholder="bob_bidou" v-model="formValues.username"
+        <AppInput id="username" name="username" placeholder="Enter your name" v-model="formValues.username"
           class="border-2 w-2/12" />
       </div>
       <div class="flex flex-col items-center m-2">
         <label for="email">Email address</label>
-        <AppInput id="email" name="email" placeholder="bob@mail.com" class="border-2 w-2/12"
+        <AppInput id="email" name="email" placeholder="example@gotham-city.com" class="border-2 w-2/12"
           v-model="formValues.email" />
       </div>
       <div class="flex flex-col items-center m-2">
