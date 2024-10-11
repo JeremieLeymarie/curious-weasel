@@ -47,11 +47,11 @@ async function updateWorkingTime(id: any) {
         <AppInput v-model="end" type="datetime-local" name="" id="" class="border-2" />
       </div>
     </div>
-    <button
+    <AppButton
       @click="updateWorkingTime(1)"
       class="bg-[#1D0455] text-white rounded-full p-2 my-6 w-1/12 text-center"
     >
       Submit
-    </button>
+    </AppButton>
   </div>
 </template>
