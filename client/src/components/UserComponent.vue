@@ -56,7 +56,7 @@ const handleDelete = () => {
       <h2 class="text-2xl">Account</h2>
       <AppButton variant="danger" @click="handleDelete"> Delete </AppButton>
     </div>
-    <hr class="h-1 mr-16 bg-[#1343ad] border-0"/>
+    <hr class="h-1 mr-16 bg-[#1D0455] border-0"/>
     <div class="mt-4">
       <div class="flex">
         <h3 class="text-xl mr-4 mb-2">My information</h3>
@@ -66,12 +66,12 @@ const handleDelete = () => {
         <div class="space-x-4 mt-4">
           <label for="username" class="w-[150px] inline-block">Username</label>
           <AppInput id="username" name="username" placeholder="bob_bidou" v-model="formValues.username"
-            class="bg-[#1343ad] rounded text-white p-1 text-center" />
+            class="bg-[#1D0455] rounded text-white p-1 text-center" />
         </div>
         <div class="space-x-4">
           <label for="email" class="w-[150px] inline-block">Email address</label>
           <AppInput id="email" name="email" placeholder="bob@mail.com" v-model="formValues.email"
-            class="bg-[#1343ad] rounded text-white p-1 text-center" />
+            class="bg-[#1D0455] rounded text-white p-1 text-center" />
         </div>
       </form>
     </div>
