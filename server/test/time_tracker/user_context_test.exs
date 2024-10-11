@@ -8,7 +8,7 @@ defmodule TimeTracker.UserContextTest do
 
     import TimeTracker.UserContextFixtures
 
-    @invalid_attrs %{username: nil, email: nil, role: "employee"}
+    @invalid_attrs %{username: nil, email: nil, role: nil}
 
     test "get_user!/1 returns the user with given id" do
       user = user_fixture()
