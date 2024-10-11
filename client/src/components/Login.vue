@@ -18,23 +18,35 @@ const getUser = async (user: User) => {
 
   return response.data
 }
+const test = async () => {
+  console.log(formValues)
+}
 </script>
 
 <template>
-    <h3 class="text-2xl text-center mt-8">Login</h3>
-    <p class="text-center text-xs m-2">Login to continue</p>
-    <form class="text-center mt-6">
-        <div class="flex flex-col items-center m-2">
-            <label for="username">Email address</label>
-            <AppInput class="border-2 w-2/12" placeholder="example@gotham-city.com" />
-        </div>
-        <div class="flex flex-col items-center m-2">
-            <label for="password" class="">Password</label>
-            <AppInput class="border-2 w-2/12" placeholder="Enter your password" />
-            <a class="text-xs mt-1 hover:text-[#1D0455] hover:font-bold" href="#">Forgot password?</a>
-        </div>
-        <div class="mt-3">
-            <AppButton type="submit" class="w-20 mt-4"> Login </AppButton>
-        </div>
-    </form>
+  <h3 class="text-2xl text-center mt-8">Login</h3>
+  <p class="text-center text-xs m-2">Login to continue</p>
+  <form class="text-center mt-6">
+    <div class="flex flex-col items-center m-2">
+      <label for="username">Email address</label>
+      <AppInput
+        v-model="formValues.email"
+        class="border-2 w-2/12"
+        placeholder="example@gotham-city.com"
+      />
+    </div>
+    <div class="flex flex-col items-center m-2">
+      <label for="password" class="">Password</label>
+      <AppInput
+        v-model="formValues.password"
+        type="password"
+        class="border-2 w-2/12"
+        placeholder="Enter your password"
+      />
+      <a class="text-xs mt-1 hover:text-[#1D0455] hover:font-bold" href="#">Forgot password?</a>
+    </div>
+    <div class="mt-3">
+      <AppButton @click="test" type="submit" class="w-20 mt-4"> Login </AppButton>
+    </div>
+  </form>
 </template>

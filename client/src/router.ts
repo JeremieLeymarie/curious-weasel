@@ -19,10 +19,19 @@ const routes = [
   { path: '/user/new', component: NewUser },
   { path: '/users', component: UserList },
   { path: '/chart-manager/:userId', component: ChartManager },
-  { path: '/login', component: Login}
+  { path: '/login', component: Login }
 ]
 
 export const router = createRouter({
   history: createWebHistory(),
   routes
+})
+
+router.beforeEach(async (to) => {
+  // const publicPages = ['/login']
+  // const authRequired = !publicPages.includes(to.path)
+  // const auth = null
+  // if (authRequired && !auth) {
+  //   return '/login'
+  // }
 })
