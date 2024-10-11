@@ -126,7 +126,7 @@ onMounted(() => {
   <ProtectedView :resource-id="route.params.userId.toString()">
     <div class="p-6 shadow-lg rounded-lg w-full">
       <h3 class="text-2xl">Working Times for User {{ route.params.userId }}</h3>
-      <AppButton @click="goToNewWTpage" class="my-6 w-2/12 text-center bg-[#1D0455]">
+      <AppButton @click="goToNewWTpage" class="my-6 w-[150px] text-center bg-[#1D0455]">
         New Working Time
       </AppButton>
       <div v-if="data.loading" class="text-center text-gray-300">Loading...</div>
