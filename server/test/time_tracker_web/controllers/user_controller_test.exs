@@ -13,7 +13,7 @@ defmodule TimeTrackerWeb.UserControllerTest do
     username: "some updated username",
     email: "someupdatedemail@email.com"
   }
-  @invalid_attrs %{username: nil, email: nil}
+  @invalid_attrs %{username: nil, email: nil, role: "employee"}
 
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
