@@ -8,14 +8,15 @@ defmodule TimeTracker.UserContextFixtures do
   Generate a user.
   """
   def user_fixture(attrs \\ %{}) do
-    {:ok, user} =
-      attrs
-      |> Enum.into(%{
-        email: "some email",
-        username: "some username"
-      })
-      |> TimeTracker.UserContext.create_user()
+    default_attrs = %{
+      "email" => "some email",
+      "username" => "some username"
+    }
 
+    merged_attrs = Enum.into(attrs, default_attrs)
+
+    {:ok, user} = TimeTracker.UserContext.create_user(merged_attrs)
     user
   end
+
 end

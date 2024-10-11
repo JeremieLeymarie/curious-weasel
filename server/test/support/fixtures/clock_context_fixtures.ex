@@ -8,14 +8,15 @@ defmodule TimeTracker.ClockContextFixtures do
   Generate a clock.
   """
   def clock_fixture(attrs \\ %{}) do
-    {:ok, clock} =
-      attrs
-      |> Enum.into(%{
-        status: true,
-        time: ~U[2024-10-06 14:18:00Z]
-      })
-      |> TimeTracker.ClockContext.create_clock()
+    default_attrs = %{
+      "status" => true,
+      "time" => ~U[2024-10-06 14:18:00Z]
+    }
 
+    merged_attrs = Enum.into(attrs, default_attrs)
+
+    {:ok, clock} = TimeTracker.ClockContext.create_clock(merged_attrs)
     clock
   end
+
 end
