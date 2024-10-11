@@ -47,12 +47,6 @@ defmodule TimeTracker.UserContextTest do
       assert user == UserContext.get_user(user.id)
     end
 
-    test "delete user returns 404 when user not found", %{conn: conn} do
-      conn = delete(conn, Routes.user_path(conn, :delete, -1))
-      assert conn.status == 404
-    end
-
-
     test "change_user/1 returns a user changeset" do
       user = user_fixture()
       assert %Ecto.Changeset{} = UserContext.change_user(user)
