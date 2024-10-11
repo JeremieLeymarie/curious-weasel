@@ -47,7 +47,7 @@ module.exports = {
   test_settings: {
     default: {
       disable_error_log: false,
-      launch_url: `http://localhost:${process.env.CI ? '4173' : '5173'}`,
+      launch_url: `${process.env.HOST}:${process.env.CI ? '4173' : '5173'}`,
 
       screenshots: {
         enabled: false,

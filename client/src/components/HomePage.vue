@@ -18,7 +18,7 @@ onMounted(() => {
 })
 
 const getClocks = async (userId: string) => {
-  const response = await fetch(`http://localhost:4000/api/clocks/${userId}`)
+  const response = await fetch(`${process.env.HOST}:4000/api/clocks/${userId}`)
     .then((res) => res.json())
     .catch((err) => console.error(err))
 
@@ -78,8 +78,8 @@ const today = readableDate(new Date())
 
 <style lang="css">
 @media screen and (width <= 1250px) {
- h1 {
-  font-size: 16px;
- } 
+  h1 {
+    font-size: 16px;
+  }
 }
 </style>
