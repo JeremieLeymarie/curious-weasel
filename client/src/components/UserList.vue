@@ -20,13 +20,13 @@ const tdClass = 'border border-blue-900 p-2'
 <template>
   <div class="mx-8 mt-4">
     <h3 class="text-2xl">Employees</h3>
-    <hr class="h-1 mt-2 mb-6 bg-[#1343ad] border-0" />
+    <hr class="h-1 mt-2 mb-6 bg-[#1D0455] border-0" />
     <div v-if="users">
       <table>
         <thead>
           <tr>
             <th
-              :class="`${tdClass} font-bold text-blue-900`"
+              :class="`${tdClass} font-bold text-[#1D0455]`"
               scope="col"
               v-for="header in headers"
               :key="header"
