@@ -82,4 +82,4 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd time-tracker; git pull; docker compose build; docker compose up
+            rm -rf time-tracker; git clone https://github.com/JeremieLeymarie/curious-weasel.git time-tracker; cd time-tracker; docker compose build; docker compose --profile all up -d

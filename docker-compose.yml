@@ -10,6 +10,7 @@ services:
       HOST: api
     networks:
       - net
+    profiles: [all]
 
   api:
     build:
@@ -27,7 +28,7 @@ services:
         condition: service_healthy
     networks:
       - net
-    profiles: [api]
+    profiles: [all, api]
 
   postgres:
     image: postgres:16-alpine
@@ -45,7 +46,7 @@ services:
       retries: 120
     networks:
       - net
-    profiles: [api]
+    profiles: [all, api]
 
 networks:
   net:
