@@ -9,7 +9,7 @@ defmodule TimeTracker.UserContextFixtures do
   """
   def user_fixture(attrs \\ %{}) do
     default_attrs = %{
-      "email" => "some email",
+      "email" => "someemail@lgbtq.com",
       "username" => "some username"
     }
 
