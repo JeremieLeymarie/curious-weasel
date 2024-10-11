@@ -9,7 +9,6 @@ const { authorizedRoles = ['manager', 'general_manager'], resourceId } = defineP
 const { user } = useUserStore()
 
 const isAuthorized = authorizedRoles.includes(user.role) || user.id === resourceId
-console.log({ userId: user.id, resourceId })
 </script>
 
 <template>

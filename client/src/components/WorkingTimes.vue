@@ -3,10 +3,11 @@ import axios from 'axios'
 import { useRoute, useRouter } from 'vue-router'
 import { computed, onMounted, ref, watch } from 'vue'
 import type { WorkingTime } from '@/types'
-import { getReadableInterval } from '@/utils/date'
 import { differenceInSeconds, formatDuration, intervalToDuration } from 'date-fns'
 import AppButton from './ui/AppButton.vue'
 import ProtectedView from './ProtectedView.vue'
+import { getReadableInterval } from '@/utils/date'
+
 const router = useRouter()
 const route = useRoute()
 
@@ -58,8 +59,7 @@ const getWorkingTimes = async () => {
 }
 
 // TODO: use date-fns here
-const formatTime = (dateString: string) => {
-  const date = new Date(dateString)
+const formatTime = (date: Date) => {
   return (
     date.getUTCHours().toString().padStart(2, '0') +
     ':' +
@@ -82,8 +82,8 @@ const calculateTotalDuration = (times: any[]) => {
 
   return formatted
 }
-const getPeriod = (start: string) => {
-  const hour = new Date(start).getHours()
+const getPeriod = (start: Date) => {
+  const hour = start.getHours()
   return hour < 12 ? 'Morning' : 'Afternoon'
 }
 
@@ -96,20 +96,22 @@ onMounted(getWorkingTimes)
 watch(() => route.params.userId, getWorkingTimes)
 
 const groupedWorkingTimes = computed(() => {
-  const grouped = {}
-  data.value.workingTimes.forEach((time) => {
-    const dateKey = new Date(time.start).toLocaleDateString()
-    if (!grouped[dateKey]) {
-      grouped[dateKey] = []
+  const workingTimeByDate: Record<string, WorkingTime[]> = {}
+  data.value.workingTimes.forEach((workingTime) => {
+    const dateKey = new Date(workingTime.start).toLocaleDateString()
+    if (!workingTimeByDate[dateKey]) {
+      workingTimeByDate[dateKey] = []
     }
-    grouped[dateKey].push(time)
+    workingTimeByDate[dateKey].push(workingTime)
   })
 
-  const sortedKeys = Object.keys(grouped).sort((a, b) => new Date(a) - new Date(b))
+  const sortedKeys = Object.keys(workingTimeByDate).sort(
+    (a, b) => new Date(a).getTime() - new Date(b).getTime()
+  )
 
-  const sortedGrouped = {}
+  const sortedGrouped: Record<string, WorkingTime[]> = {}
   sortedKeys.forEach((key) => {
-    sortedGrouped[key] = grouped[key]
+    sortedGrouped[key] = workingTimeByDate[key]
   })
   return sortedGrouped
 })
@@ -120,7 +122,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <ProtectedView :resource-id="route.params.userId">
+  <ProtectedView :resource-id="route.params.userId.toString()">
     <div class="p-6 shadow-lg rounded-lg w-full">
       <h3 class="text-2xl">Working Times for User {{ route.params.userId }}</h3>
       <AppButton @click="goToNewWTpage" class="my-6 w-2/12 text-center bg-[#1D0455]">
@@ -131,7 +133,7 @@ onMounted(() => {
         <ul>
           <li v-for="(times, date) in groupedWorkingTimes" :key="date" class="mb-4">
             <div
-              @click="toggleDetails(date)"
+              @click="toggleDetails(new Date(date))"
               class="cursor-pointer p-4 bg-[#1D0455] text-white rounded hover:bg-[#0b328a] transition-colors duration-200"
             >
               <div class="flex justify-between">
@@ -139,7 +141,10 @@ onMounted(() => {
                 <span>{{ calculateTotalDuration(times) }}</span>
               </div>
             </div>
-            <div v-if="data.expandedDate === date" class="mt-2 p-4 bg-[#1D0455] text-white rounded">
+            <div
+              v-if="data.expandedDate === new Date(date)"
+              class="mt-2 p-4 bg-[#1D0455] text-white rounded"
+            >
               <div v-for="(time, index) in times" :key="index" class="mb-2">
                 <p>
                   <strong>{{ getPeriod(time.start) }}:</strong> {{ formatTime(time.start) }} -
