@@ -9,7 +9,7 @@ defmodule TimeTracker.ClockContextFixtures do
   """
   def clock_fixture(attrs \\ %{}) do
     default_attrs = %{
-      status => true,
+      "status" => true,
       "time" => ~U[2024-10-06 14:18:00Z]
     }
 

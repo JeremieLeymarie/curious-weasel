@@ -9,8 +9,8 @@ defmodule TimeTracker.UserContextFixtures do
   """
   def user_fixture(attrs \\ %{}) do
     default_attrs = %{
-      email => "someemail@lgbtq.com",
-      username => "some username"
+      "email" => "someemail@lgbtq.com",
+      "username" => "some username"
     }
 
     merged_attrs = Enum.into(attrs, default_attrs)
