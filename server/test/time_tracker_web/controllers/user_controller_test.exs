@@ -7,11 +7,11 @@ defmodule TimeTrackerWeb.UserControllerTest do
 
   @create_attrs %{
     username: "some username",
-    email: "some email"
+    email: "someemail@email.com"
   }
   @update_attrs %{
     username: "some updated username",
-    email: "some updated email"
+    email: "someupdatedemail@email.com"
   }
   @invalid_attrs %{username: nil, email: nil}
 
@@ -35,7 +35,7 @@ defmodule TimeTrackerWeb.UserControllerTest do
 
       assert %{
                "id" => ^id,
-               "email" => "some email",
+               "email" => "someemail@email.com",
                "username" => "some username"
              } = json_response(conn, 200)["data"]
     end
@@ -57,7 +57,7 @@ defmodule TimeTrackerWeb.UserControllerTest do
 
       assert %{
                "id" => ^id,
-               "email" => "some updated email",
+               "email" => "someupdatedemail@email.com",
                "username" => "some updated username"
              } = json_response(conn, 200)["data"]
     end
