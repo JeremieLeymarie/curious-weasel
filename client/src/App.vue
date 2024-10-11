@@ -5,7 +5,7 @@ const { user } = useUserStore()
 </script>
 
 <template>
-  <header class="flex items-center justify-between bg-[#1343ad] text-white">
+  <header class="flex items-center justify-between bg-[#1D0455] text-white">
     <RouterLink to="/">
       <img alt="CGT-U logo" class="ml-10" src="./assets/img/Logo_nobg.png" width="100" />
     </RouterLink>
@@ -21,7 +21,7 @@ const { user } = useUserStore()
     <RouterView :key="$route.path" />
   </main>
   <footer
-    class="flex items-center justify-center bg-[#1343ad] text-white h-12 text-center fixed mt-4 bottom-0 w-full"
+    class="flex items-center justify-center bg-[#1D0455] text-white h-12 text-center fixed mt-4 bottom-0 w-full"
   >
     <p class="">
       Need help? Contact the IT service at the following number : +1 252 258 4736 <b>or</b> download

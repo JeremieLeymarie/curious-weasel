@@ -212,12 +212,12 @@ const chartOptions = {
 
 <template>
   <h3 class="text-2xl m-4">Dashboard</h3>
-  <div class="bg-gray-800 p-6 flex flex-col mb-8">
+  <div class="bg-[#1D0455] p-6 flex flex-col mb-8">
     <div class="flex flex-col">
       <div class="m-2 p-2">
-        <div class="bg-gray-800 p-6 h-screen flex flex-col">
+        <div class="bg-[#1D0455] p-6 h-screen flex flex-col">
           <div class="mb-4 flex flex-wrap space-x-4 items-center">
-            <div class="bg-gray-700 text-white p-2 rounded">
+            <div class="bg-[#1D0455] text-white p-2 rounded">
               <h3 class="text-sm">Total worked hours:</h3>
               <p class="text-xl font-bold">{{ totalHours }}</p>
             </div>
@@ -255,7 +255,7 @@ const chartOptions = {
                 <option value="12">December</option>
               </select>
               <label class="text-white">Select Chart Type:</label>
-              <select v-model="chartType" class="bg-gray-700 text-white rounded p-2 m-3">
+              <select v-model="chartType" class="bg-[#1D0455] text-white rounded p-2 m-3">
                 <option value="bar">Bar</option>
                 <option value="line">Line</option>
                 <option value="stacked">Stacked Area</option>
