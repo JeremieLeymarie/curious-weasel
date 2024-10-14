@@ -13,6 +13,9 @@ defmodule TimeTrackerWeb.TeamController do
 
   def create(conn, %{"team" => team_params}) do
     with {:ok, %Team{} = team} <- TeamContext.create_team(team_params) do
+      for user_id <- team_params["user_ids"],
+          do: TeamContext.create_team_user(%{"user_id" => user_id, "team_id" => team.id})
+
       conn
       |> put_status(:created)
       |> put_resp_header("location", ~p"/api/teams/#{team}")

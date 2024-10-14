@@ -19,7 +19,7 @@ defmodule TimeTracker.TeamContext do
       [%Team{}, ...]
 
   """
-  def list_teams(params) do
+  def list_teams(_params) do
     query =
       from(t in Team,
         preload: [:users]
@@ -58,7 +58,7 @@ defmodule TimeTracker.TeamContext do
   """
   def create_team(attrs \\ %{}) do
     %Team{}
-    |> Team.changeset(attrs)
+    |> Team.changeset(%{name: attrs["name"]})
     |> Repo.insert()
   end
 

@@ -77,5 +77,6 @@ content-type: application/json
 POST http://localhost:4000/api/teams HTTP/1.1
 content-type: application/json
 {"team" : {
-    "name" : "la team"
+    "name" : "la team",
+    "user_ids" : [1, 2, 3]
 }}
