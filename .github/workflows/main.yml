@@ -82,4 +82,4 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            rm -rf time-tracker; git clone https://github.com/JeremieLeymarie/curious-weasel.git time-tracker; cd time-tracker; docker compose up down; docker compose build; docker compose up -d
+            rm -rf time-tracker; git clone https://github.com/JeremieLeymarie/curious-weasel.git time-tracker; cd time-tracker; docker compose up down; docker compose build; docker compose up -d; mix run priv/repo/seeds.exs
