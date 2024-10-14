@@ -43,6 +43,28 @@ const { user } = useUserStore()
 </template>
 
 <!-- <style>
+ /* Nav menu */
+.nav{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background-color: var(--black);
+    overflow: hidden;
+
+}
+.menu a{
+    display: block;
+    padding: 30px;
+    color: var(--white);
+}
+.menu a:hover{
+    background-color: var(--gray);
+}
+.nav{
+    max-height: 0;
+    transition: max-height .5s ease-out;
+}
+    
 /* Menu Icon */
 .hamb{
     cursor: pointer;
@@ -115,8 +137,6 @@ body:has(.side-menu:checked) {
     }
     .menu a:hover{
         background-color: transparent;
-        color: var(--gray);
-
     }
 
     .hamb{
