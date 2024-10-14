@@ -10,8 +10,10 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 
-TimeTracker.Repo.insert!(%TimeTracker.User{
-  username: "admin",
-  email: "admin@admin.com",
-  role: :general_manager
-})
+if TimeTracker.Repo.aggregate(TimeTracker.User, :count, :id) == 0 do
+  TimeTracker.Repo.insert!(%TimeTracker.User{
+    username: "admin",
+    email: "admin@admin.com",
+    role: :general_manager
+  })
+end
