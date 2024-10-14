@@ -12,9 +12,9 @@ const { user } = useUserStore()
       <img alt="CGT-U logo" class="ml-10" src="./assets/img/Logo_nobg.png" width="100" />
     </RouterLink>
     <Menu as="div" class="flex space-x-6 mr-10 text-white">
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink :to="`/workingtime/${user.id}`">Working Time</RouterLink>
-      <RouterLink to="/chart-manager/1">Dashboard</RouterLink>
+      <RouterLink to="/" class="hover:bg-[#0b328a]">Home</RouterLink>
+      <RouterLink :to="`/workingtime/${user.id}`" class="hover:bg-[#0b328a]">Working Time</RouterLink>
+      <RouterLink to="/chart-manager/1" class="hover:bg-[#0b328a]">Dashboard</RouterLink>
       <div>
         <MenuButton
           class="inline-flex w-full justify-center gap-x-1.5 rounded-md hover:bg-[#0b328a]">
@@ -34,7 +34,7 @@ const { user } = useUserStore()
         </div>
         </MenuItems>
       </transition>
-      <RouterLink to="/user/1"><i class="pi pi-user"></i></RouterLink>
+      <RouterLink to="/user/1" class="hover:bg-[#0b328a]"><i class="pi pi-user"></i></RouterLink>
       <!-- Test de burger menu ><
       <input class="side-menu" type="checkbox" id="side-menu"/>
       <label class="hamb" for="side-menu"><span class="hamb-line"></span></label>
