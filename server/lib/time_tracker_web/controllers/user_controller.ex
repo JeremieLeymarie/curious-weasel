@@ -3,6 +3,7 @@ defmodule TimeTrackerWeb.UserController do
 
   alias TimeTracker.UserContext
   alias TimeTracker.UserContext.User
+  alias TimeTrackerWeb.AccountJSON
 
   action_fallback TimeTrackerWeb.FallbackController
 
@@ -17,6 +18,19 @@ defmodule TimeTrackerWeb.UserController do
       |> put_status(:created)
       |> put_resp_header("location", ~p"/api/users/#{user}")
       |> render(:show, user: user)
+    end
+  end
+
+  def create_bitch(conn, %{"user" => user_params}) do
+    with {:ok, %User{} = user} <- UserContext.create_user(user_params),
+         {:ok, token, _full_claims} <- TimeTracker.Guardian.encode_and_sign(user) do
+      conn
+      |> put_status(:created)
+      |> json(%{
+        id: user.id,
+        email: user.email,
+        token: token
+      })
     end
   end
 
