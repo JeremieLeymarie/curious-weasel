@@ -15,8 +15,7 @@
   },
   "dependencies": {
     "@devexpress/analytics-core": "^24.1.6",
-    "@headlessui/vue": "^1.7.23",
-    "@heroicons/vue": "^2.1.5",
+    "@primevue/themes": "^4.1.0",
     "@types/vue-router": "^2.0.0",
     "axios": "^1.7.7",
     "chart.js": "^4.4.4",
@@ -30,6 +29,7 @@
     "primeicons": "^7.0.0",
     "primevue": "^4.1.0",
     "tailwind": "^4.0.0",
+    "tailwindcss-primeui": "^0.3.4",
     "vue": "^3.4.29",
     "vue-chartjs": "^5.3.1",
     "vue-mq": "^1.0.1",

@@ -8,7 +8,7 @@ defmodule TimeTracker.UserContext.User do
     field(:role, Ecto.Enum, values: [:general_manager, :manager, :employee])
 
     many_to_many(:teams, TimeTracker.TeamContext.Team,
-      join_through: TimeTracker.TeamContext.TeamUsers
+      join_through: TimeTracker.TeamContext.TeamUser
     )
 
     has_many(:clocks, TimeTracker.ClockContext.Clock)

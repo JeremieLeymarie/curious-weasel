@@ -8,7 +8,7 @@ defmodule TimeTracker.TeamContext.Team do
     belongs_to(:manager, TimeTracker.UserContext.User)
 
     many_to_many(:users, TimeTracker.UserContext.User,
-      join_through: TimeTracker.TeamContext.TeamUsers
+      join_through: TimeTracker.TeamContext.TeamUser
     )
 
     timestamps(type: :utc_datetime)
