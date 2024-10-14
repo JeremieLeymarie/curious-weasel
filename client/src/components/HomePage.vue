@@ -48,7 +48,8 @@ const today = readableDate(new Date())
         You have been working for
         <strong>{{ getReadableInterval({ start: currentClock.time, end: new Date() }) }}</strong>
         <span class="text-xs">
-          (working time started on {{ readableDateTime(currentClock.time) }})</span>
+          (working time started on {{ readableDateTime(currentClock.time) }})</span
+        >
       </p>
       <p v-else>You have not started working today.</p>
       <ClockManager :clock="currentClock" :userId="user.id.toString()" :refetch="fetchClocks" />
@@ -79,10 +80,6 @@ const today = readableDate(new Date())
 @media screen and (max-width: 920px) {
   h1 {
     font-size: 2em;
-  }
-
-  div {
-    width: 450px;
   }
 
   .ml-8 {
