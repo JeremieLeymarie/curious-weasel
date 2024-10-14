@@ -9,6 +9,7 @@ import WorkingTimes from './components/WorkingTimes.vue'
 import ChartManager from './components/ChartManager.vue'
 import UserList from './components/UserList.vue'
 import Login from './components/Login.vue'
+import { useUserStore } from '@/stores/user'
 
 const routes = [
   { path: '/', component: HomeComponent },
@@ -28,10 +29,10 @@ export const router = createRouter({
 })
 
 router.beforeEach(async (to) => {
-  // const publicPages = ['/login']
-  // const authRequired = !publicPages.includes(to.path)
-  // const auth = null
-  // if (authRequired && !auth) {
-  //   return '/login'
-  // }
+  const { user } = useUserStore()
+  const publicPages = ['/login']
+  const authRequired = !publicPages.includes(to.path)
+  if (authRequired && !user) {
+    return '/login'
+  }
 })

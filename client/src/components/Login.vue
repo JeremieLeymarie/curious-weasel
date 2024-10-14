@@ -26,7 +26,7 @@ const test = async () => {
 <template>
   <h3 class="text-2xl text-center mt-8">Login</h3>
   <p class="text-center text-xs m-2">Login to continue</p>
-  <form class="text-center mt-6">
+  <div class="text-center mt-6">
     <div class="flex flex-col items-center m-2">
       <label for="username">Email address</label>
       <AppInput
@@ -46,7 +46,7 @@ const test = async () => {
       <a class="text-xs mt-1 hover:text-[#1D0455] hover:font-bold" href="#">Forgot password?</a>
     </div>
     <div class="mt-3">
-      <AppButton @click="test" type="submit" class="w-20 mt-4"> Login </AppButton>
+      <AppButton @click="test" class="w-20 mt-4"> Login </AppButton>
     </div>
-  </form>
+  </div>
 </template>
