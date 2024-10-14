@@ -18,7 +18,7 @@ onMounted(() => {
 })
 
 const getClocks = async (userId: string) => {
-  const response = await fetch(`${process.env.HOST}:4000/api/clocks/${userId}`)
+  const response = await fetch(`${import.meta.env.VITE_HOST}:4000/api/clocks/${userId}`)
     .then((res) => res.json())
     .catch((err) => console.error(err))
 

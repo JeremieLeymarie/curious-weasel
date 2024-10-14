@@ -69,7 +69,7 @@ const doughnutData = computed(() => {
 // Fonction pour récupérer les temps de travail depuis l'API
 const getWorkingTimes = async (userId: string) => {
   try {
-    const response = await fetch(`${process.env.HOST}:4000/api/workingtimes/${userId}`)
+    const response = await fetch(`${import.meta.env.VITE_HOST}:4000/api/workingtimes/${userId}`)
     const data = await response.json()
     return data.data as WorkingTime[]
   } catch (error) {

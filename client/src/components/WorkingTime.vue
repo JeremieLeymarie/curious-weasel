@@ -17,7 +17,7 @@ async function createWorkingTime(id: any) {
     }
   })
   if (start.value != null && end.value != null) {
-    let res = await fetch(`${process.env.HOST}:4000/api/workingtimes/${id}`, {
+    let res = await fetch(`${import.meta.env.VITE_HOST}:4000/api/workingtimes/${id}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: data

@@ -5,7 +5,7 @@ import AppInput from './ui/AppInput.vue'
 import AppButton from './ui/AppButton.vue'
 
 const formValues = ref<Partial<UserWithoutId>>({})
-const BASE_URL = `${process.env.HOST}:4000/api/users`
+const BASE_URL = `${import.meta.env.VITE_HOST}:4000/api/users`
 
 const createUser = async (user: UserWithoutId) => {
   const response: { data: UserWithoutId } = await fetch(`${BASE_URL}`, {

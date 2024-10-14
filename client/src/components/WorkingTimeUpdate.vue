@@ -19,7 +19,7 @@ async function updateWorkingTime(id: any) {
     }
   })
   if (start.value != null && end.value != null) {
-    let res = await fetch(`${process.env.HOST}:4000/api/workingtimes/` + route.params.id, {
+    let res = await fetch(`${import.meta.env.VITE_HOST}:4000/api/workingtimes/` + route.params.id, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: data
