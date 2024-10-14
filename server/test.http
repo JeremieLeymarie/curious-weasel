@@ -84,6 +84,6 @@ content-type: application/json
 
 {"user" : {
     "username": "some username",
-    "email": "somdedfffedee@email.fr",
+    "email": "somdererereredfffedee@email.fr",
     "hash_password": "123dzd56"
 }}
