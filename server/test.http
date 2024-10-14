@@ -72,3 +72,10 @@ content-type: application/json
 {"clock" : {
     "status": true
 }}
+
+### Create team 
+POST http://localhost:4000/api/teams HTTP/1.1
+content-type: application/json
+{"team" : {
+    "name" : "la team"
+}}

@@ -5,9 +5,11 @@ defmodule TimeTracker.TeamContext.Team do
   schema "teams" do
     field(:name, :string)
 
-    belongs_to(:manager_id, TimeTracker.UserContext.User)
+    belongs_to(:manager, TimeTracker.UserContext.User)
 
-    many_to_many(:users, TimeTracker.User, join_through: :team_users)
+    many_to_many(:users, TimeTracker.UserContext.User,
+      join_through: TimeTracker.TeamContext.TeamUsers
+    )
 
     timestamps(type: :utc_datetime)
   end

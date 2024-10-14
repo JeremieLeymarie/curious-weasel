@@ -8,6 +8,7 @@ defmodule TimeTracker.TeamContext do
   alias TimeTracker.Repo
 
   alias TimeTracker.TeamContext.Team
+  alias TimeTracker.TeamContext.TeamUser
 
   @doc """
   Returns the list of teams.
@@ -58,6 +59,11 @@ defmodule TimeTracker.TeamContext do
   def create_team(attrs \\ %{}) do
     %Team{}
     |> Team.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def create_team_user(attrs \\ %{}) do
+    %TeamUser{user_id: attrs["user_id"], team_id: attrs["team_id"]}
     |> Repo.insert()
   end
 
