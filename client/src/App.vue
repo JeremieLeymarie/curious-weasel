@@ -9,7 +9,7 @@ const { user } = useUserStore()
 <template>
   <header class="flex items-center justify-between bg-[#1D0455] text-white">
     <RouterLink to="/">
-      <img alt="CGT-U logo" class="ml-10" src="./assets/img/Logo_nobg.png" width="100" />
+      <img alt="CGT-U logo" class="ml-10" src="./assets/img/Logo_white.png" width="100" />
     </RouterLink>
     <Menu as="div" class="flex space-x-6 mr-10 text-white">
       <RouterLink to="/" class="hover:bg-[#0b328a]">Home</RouterLink>
