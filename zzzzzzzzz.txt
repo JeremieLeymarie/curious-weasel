@@ -1,0 +1,7 @@
+Voir qui est sur le port 5432 : sudo lsof -nP -iTCP:5432
+Tuer : sudo kill -9 <PID>
+
+
+TimeTracker.Accounts.create_account(%{email: "test3@gmail.com" , hash_password: "123456"})
+[debug] QUERY OK source="accounts" db=43.6ms queue=3.1ms idle=278.7ms
+INSERT INTO "accounts" ("email","hash_password","inserted_at","updated_at") VALUES ($1,$2,$3,$4) RETURNING "id" ["test3@gmail.com", "$2b$12$RJaGpf8Ka5wFA1kJbbogWuvcociL0lJXqsz1DVhGNZqsE1H7W85cO", ~N[2024-01-08 16:10:26], ~N[2024-01-08 16:10:26]]

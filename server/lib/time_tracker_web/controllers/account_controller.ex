@@ -3,6 +3,7 @@ defmodule TimeTrackerWeb.AccountController do
 
   alias TimeTracker.Accounts
   alias TimeTracker.Accounts.Account
+  alias TimeTrackerWeb.AccountJSON
 
   action_fallback TimeTrackerWeb.FallbackController
 
@@ -12,11 +13,15 @@ defmodule TimeTrackerWeb.AccountController do
   end
 
   def create(conn, %{"account" => account_params}) do
-    with {:ok, %Account{} = account} <- Accounts.create_account(account_params) do
+    with {:ok, %Account{} = account} <- Accounts.create_account(account_params),
+         {:ok, token, _full_claims} <- TimeTracker.Guardian.encode_and_sign(account) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", ~p"/api/accounts/#{account}")
-      |> render(:show, account: account)
+      |> json(%{
+        id: account.id,
+        email: account.email,
+        token: token
+      })
     end
   end
 
