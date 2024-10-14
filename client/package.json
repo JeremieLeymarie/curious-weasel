@@ -32,6 +32,7 @@
     "tailwind": "^4.0.0",
     "vue": "^3.4.29",
     "vue-chartjs": "^5.3.1",
+    "vue-mq": "^1.0.1",
     "vue-router": "^4.4.5"
   },
   "devDependencies": {

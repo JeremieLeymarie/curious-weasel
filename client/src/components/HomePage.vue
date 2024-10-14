@@ -48,38 +48,45 @@ const today = readableDate(new Date())
         You have been working for
         <strong>{{ getReadableInterval({ start: currentClock.time, end: new Date() }) }}</strong>
         <span class="text-xs">
-          (working time started on {{ readableDateTime(currentClock.time) }})</span
-        >
+          (working time started on {{ readableDateTime(currentClock.time) }})</span>
       </p>
       <p v-else>You have not started working today.</p>
       <ClockManager :clock="currentClock" :userId="user.id.toString()" :refetch="fetchClocks" />
     </div>
     <div class="m-4 w-6/12">
       <h3 class="text-2xl m-4">Overview</h3>
-      <span>
+      <div>
         <p class="bg-[#1D0455] text-white squared-full p-3 m-4 w-8/12 text-center">
           You have worked {{}} this week.
         </p>
-      </span>
-      <span>
+      </div>
+      <div>
         <p class="bg-[#1D0455] text-white squared-full p-3 m-4 w-8/12 text-center">
           You have {{}} days off left.
         </p>
-      </span>
-      <span class="">
+      </div>
+      <div class="">
         <AppButton class="rounded p-1 m-4 w-3/12 text-center">
           <RouterLink to="/chart-manager/1"><a>Consult dashboard</a></RouterLink>
         </AppButton>
-      </span>
+      </div>
     </div>
   </div>
   <div v-else>User not found...</div>
 </template>
 
 <style lang="css">
-@media screen and (width <= 1250px) {
+@media screen and (max-width: 920px) {
   h1 {
-    font-size: 16px;
+    font-size: 2em;
+  }
+
+  div {
+    width: 450px;
+  }
+
+  .ml-8 {
+    flex-direction: column;
   }
 }
 </style>

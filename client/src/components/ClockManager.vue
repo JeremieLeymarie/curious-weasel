@@ -70,7 +70,7 @@ const manualClock = () => {
 <template>
   <div>
     <div class="flex items-center justify-left my-6">
-      <AppButton class="text-xl" @click="clock ? clockOut() : clockIn()">
+      <AppButton class="text-xl w-[120px]" @click="clock ? clockOut() : clockIn()">
         Clock {{ clock ? 'out' : 'in' }}
       </AppButton>
     </div>
@@ -86,7 +86,7 @@ const manualClock = () => {
           id="date-input"
           class="border-2"
         />
-        <AppButton type="submit" class="rounded m-4 w-2/12 text-center" @click="manualClock()">
+        <AppButton type="submit" class="rounded m-4 w-[80px] text-center" @click="manualClock()">
           Submit
         </AppButton>
       </div>
