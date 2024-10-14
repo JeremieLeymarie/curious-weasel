@@ -20,7 +20,7 @@ const data = ref<{ workingTimes: WorkingTime[]; loading: boolean; expandedDate: 
 
 const deleteWorkingTime = async (id: string) => {
   try {
-    let res = await fetch('http://localhost:4000/api/workingtimes/' + id, {
+    let res = await fetch(`${import.meta.env.VITE_HOST}:4000/api/workingtimes/` + id, {
       method: 'DELETE'
     })
     getWorkingTimes()
@@ -49,7 +49,7 @@ const updateWorkingTime = async (id: string, start: Date, end: Date) => {
 const getWorkingTimes = async () => {
   try {
     const response = await axios.get(
-      `http://localhost:4000/api/workingtimes/${route.params.userId}`
+      `${import.meta.env.VITE_HOST}:4000/api/workingtimes/${route.params.userId}`
     )
     data.value.workingTimes = response.data.data.map(adapter.from.api.workingTime)
     data.value.loading = false

@@ -1,16 +1,17 @@
 services:
   client:
+    container_name: client-container
     build:
       context: ./client
     ports:
       - 3000:3000
     environment:
-      HOST: api
+      HOST: ${HOST}
     networks:
       - net
-    profiles: [all]
 
   api:
+    container_name: api-container
     build:
       context: ./server
     ports:
@@ -21,14 +22,15 @@ services:
       PGDATABASE: time_tracker_dev
       PGPORT: 5432
       PGHOST: postgres
+      HOST: ${HOST}
     depends_on:
       postgres:
         condition: service_healthy
     networks:
       - net
-    profiles: [all, api]
 
   postgres:
+    container_name: database-container
     image: postgres:16-alpine
     ports:
       - 5432:5432
@@ -44,7 +46,6 @@ services:
       retries: 120
     networks:
       - net
-    profiles: [all, api]
 
 networks:
   net:
