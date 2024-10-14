@@ -123,7 +123,7 @@ body:has(.side-menu:checked) {
 }
 
 /* Responsiveness */
-@media (min-width: 768px) {
+@media (min-width: 920px) {
     .nav{
         max-height: none;
         top: 0;

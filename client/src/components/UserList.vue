@@ -25,12 +25,7 @@ const tdClass = 'border border-blue-900 p-2'
       <table>
         <thead>
           <tr>
-            <th
-              :class="`${tdClass} font-bold text-[#1D0455]`"
-              scope="col"
-              v-for="header in headers"
-              :key="header"
-            >
+            <th :class="`${tdClass} font-bold bg-[#1D0455] text-white`" scope="col" v-for="header in headers" :key="header">
               {{ capFL(header) }}
             </th>
           </tr>
@@ -41,6 +36,17 @@ const tdClass = 'border border-blue-900 p-2'
             <td :class="tdClass">{{ user.username }}</td>
             <td :class="tdClass">{{ user.email }}</td>
             <td :class="tdClass">{{ user.role }}</td>
+            <td :class="tdClass">{{ user.average_daily }}</td>
+            <td :class="tdClass">{{ user.average_weekly }}</td>
+            <td :class="tdClass">
+              <button name="action" type="button" class="">
+                <select class="bg-[#1D0455] text-white p-1">
+                  <option>Promote</option>
+                  <option>Add to team</option>
+                  <option>Delete</option>
+                </select>
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
