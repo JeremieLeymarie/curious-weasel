@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { useUserStore } from './stores/user'
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 
 const { user } = useUserStore()
 </script>
@@ -9,11 +11,29 @@ const { user } = useUserStore()
     <RouterLink to="/">
       <img alt="CGT-U logo" class="ml-10" src="./assets/img/Logo_nobg.png" width="100" />
     </RouterLink>
-    <nav class="space-x-6 mr-10">
+    <Menu as="div" class="flex space-x-6 mr-10 text-white">
       <RouterLink to="/">Home</RouterLink>
       <RouterLink :to="`/workingtime/${user.id}`">Working Time</RouterLink>
       <RouterLink to="/chart-manager/1">Dashboard</RouterLink>
-      <RouterLink to="/users" v-if="user?.role === 'general_manager'">Employees</RouterLink>
+      <div>
+        <MenuButton
+          class="inline-flex w-full justify-center gap-x-1.5 rounded-md hover:bg-[#0b328a]">
+          Manage
+          <ChevronDownIcon class="-mr-1 h-5 w-5" aria-hidden="true" />
+        </MenuButton>
+      </div>
+      <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
+        <MenuItems class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md focus:outline-none bg-[#1D0455] text-white">
+          <div class="py-1">
+          <MenuItem v-slot="{ active }">
+            <a href="#" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-white', 'block px-4 py-2 text-sm']"><RouterLink to="/users" v-if="user?.role === 'general_manager'">Employees</RouterLink></a>
+          </MenuItem>
+          <MenuItem v-slot="{ active }">
+            <a href="#" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-white', 'block px-4 py-2 text-sm']"><RouterLink to="/teams" v-if="user?.role === 'general_manager'">Teams</RouterLink></a>
+          </MenuItem>
+        </div>
+        </MenuItems>
+      </transition>
       <RouterLink to="/user/1"><i class="pi pi-user"></i></RouterLink>
       <!-- Test de burger menu ><
       <input class="side-menu" type="checkbox" id="side-menu"/>
@@ -26,7 +46,7 @@ const { user } = useUserStore()
               <li><a href="#">Employees</a></li>
           </ul>
       </nav> -->
-    </nav>
+    </Menu>
   </header>
   <main class="p-4">
     <RouterView :key="$route.path" />

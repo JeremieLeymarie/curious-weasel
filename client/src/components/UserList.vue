@@ -21,7 +21,7 @@ const tdClass = 'border border-blue-900 p-2'
   <div class="mx-8 mt-4">
     <h3 class="text-2xl">Employees</h3>
     <hr class="h-1 mt-2 mb-6 bg-[#1D0455] border-0" />
-    <div v-if="users">
+    <div v-if="users" class="w-8">
       <table>
         <thead>
           <tr>
