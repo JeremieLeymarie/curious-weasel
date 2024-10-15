@@ -45,7 +45,7 @@ const toggleDarkMode = () => {
 <template>
   <header class="flex items-center justify-between text-white px-4 bg-primary-950">
     <RouterLink to="/">
-      <img alt="CGT-U logo" class="ml-10" src="./assets/img/Logo_white.png" width="100" />
+      <img alt="CGT-U logo" class="ml-10" src="./assets/img/Logo_white2.png" width="80" />
     </RouterLink>
     <div>
       <Menubar :model="items">
