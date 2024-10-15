@@ -121,7 +121,11 @@ const handleUpdate = async (user: User) => {
             <td :class="tdClass">{{ user.Daily }}</td>
             <td :class="tdClass">{{ user.weekly }}</td>
             <td :class="tdClass">
-              <button class="bg-[#1D0455] text-white p-1" @click="handleUpdate(user)">
+              <button
+                v-if="user.role === 'employee'"
+                class="bg-[#1D0455] text-white p-1"
+                @click="handleUpdate(user)"
+              >
                 Promote
               </button>
             </td>

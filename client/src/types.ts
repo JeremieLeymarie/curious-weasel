@@ -1,8 +1,6 @@
 export type UserRole = 'general_manager' | 'manager' | 'employee'
 
 export type User = {
-  Daily: any
-  weekly: any
   id: string
   username: string
   password?: string
