@@ -21,8 +21,10 @@ const submit = (e: Event) => {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      name: formValues.value.name,
-      user_ids: formValues.value.users?.map((user) => user.id)
+      team: {
+        name: formValues.value.name,
+        user_ids: formValues.value.users?.map((user) => user.id)
+      }
     })
   })
 }
