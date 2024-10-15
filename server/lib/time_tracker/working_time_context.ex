@@ -17,6 +17,7 @@ defmodule TimeTracker.WorkingTimeContext do
       [%WorkingTime{}, ...]
 
   """
+
   # def list_working_times(params) do
   #   filter_start =
   #     if params["start"] do
@@ -56,14 +57,14 @@ defmodule TimeTracker.WorkingTimeContext do
       end
 
     query =
-      from w in WorkingTime,
+      from(w in WorkingTime,
         where: w.user_id == ^user_id,
         where: ^filter_start,
         where: ^filter_end
+      )
 
     Repo.all(query)
   end
-
 
   def list_working_times_for_user(user_id) do
     query = from(w in WorkingTime, where: w.user_id == ^user_id)
