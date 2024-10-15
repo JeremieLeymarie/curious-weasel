@@ -10,7 +10,7 @@ import ChartManager from './components/ChartManager.vue'
 import UserList from './components/UserList.vue'
 import Login from './components/Login.vue'
 import { useUserStore } from '@/stores/user'
-import TeamManager from './components/TeamManager.vue'
+import TeamManager from './components/teams/TeamManager.vue'
 
 const routes = [
   { path: '/', component: HomeComponent },

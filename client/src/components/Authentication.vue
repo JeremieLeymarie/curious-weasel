@@ -18,7 +18,7 @@ async function login() {
     }
   })
   if (password.value != null && email.value != null) {
-    let res = await fetch('http://localhost:4000/api/workingtimes/' + route.params.id, {
+    let res = await fetch(`${import.meta.env.VITE_HOST}:4000/api/workingtimes/${route.params.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: data

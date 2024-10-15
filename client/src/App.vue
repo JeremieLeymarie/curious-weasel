@@ -65,7 +65,7 @@ const toggleDarkMode = () => {
       </Menubar>
     </div>
   </header>
-  <main class="p-4">
+  <main class="p-12">
     <RouterView :key="$route.path" />
   </main>
   <!-- <footer
