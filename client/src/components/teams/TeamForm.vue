@@ -9,22 +9,29 @@ import { BASE_API_URL } from '@/constants'
 import { ref } from 'vue'
 import UserDropdown from './UserDropdown.vue'
 
+const { onSubmit } = defineProps<{ onSubmit: () => void }>()
 const formValues = ref<Partial<Team>>({})
 
 const onUserChange = (users: User[]) => {
   formValues.value.users = users
 }
 
-const submit = (e: Event) => {
+console.log(onSubmit)
+
+const submit = async (e: Event) => {
   e.preventDefault()
-  const response = fetch(`${BASE_API_URL}/teams`, {
+
+  await fetch(`${BASE_API_URL}/teams`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      name: formValues.value.name,
-      user_ids: formValues.value.users?.map((user) => user.id)
+      team: {
+        name: formValues.value.name,
+        user_ids: formValues.value.users?.map((user) => user.id) ?? []
+      }
     })
   })
+  onSubmit()
 }
 </script>
 

@@ -3,8 +3,10 @@ import { deleteUser, getUser, updateUser } from '@/requests/user'
 import type { User } from '@/types'
 import { ref, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import AppInput from './ui/AppInput.vue'
-import AppButton from './ui/AppButton.vue'
+import InputText from 'primevue/inputtext'
+import Button from 'primevue/button'
+import Panel from 'primevue/panel'
+import Chip from 'primevue/chip'
 
 const user = ref<User>()
 
@@ -51,52 +53,75 @@ const handleDelete = () => {
 </script>
 
 <template>
-  <div v-if="user" class="ml-8 mt-3">
-    <div class="mb-2 flex gap-2 items-center">
+  <div v-if="user">
+    <div class="flex gap-4 items-center">
       <h2 class="text-2xl">Account</h2>
-      <AppButton variant="danger" @click="handleDelete"> Delete </AppButton>
+      <Button variant="danger" @click="handleDelete" severity="danger" size="small">
+        Delete
+      </Button>
     </div>
-    <hr class="h-1 mr-16 bg-[#1D0455] border-0" />
-    <div class="mt-4">
-      <div class="flex">
-        <h3 class="text-xl mr-4 mb-2">My information</h3>
-        <AppButton type="submit" class="ml-4 mb-2"> Edit </AppButton>
-      </div>
-      <form class="" @submit="handleUpdate">
-        <div class="flex mt-4">
+    <Panel class="space-y-4 my-4 p-2">
+      <template #header>
+        <div class="flex items-center gap-4">
+          <h3 class="text-xl">My information</h3>
+          <Button type="submit" size="small">Edit</Button>
+        </div>
+      </template>
+      <form class="space-y-4" @submit="handleUpdate">
+        <div class="flex items-center">
           <label for="name" class="w-[150px] inline-block">Name</label>
-          <AppInput id="name" name="name" placeholder="James Gordon" v-model="formValues.username"
-            class="bg-[#1D0455] rounded text-white p-1 text-center w-[250px]" />
+          <InputText
+            id="name"
+            name="name"
+            placeholder="James Gordon"
+            v-model="formValues.username"
+          />
         </div>
-        <div class="flex mt-4">
+        <div class="flex items-center">
           <label for="email" class="w-[150px] inline-block">Email address</label>
-          <AppInput id="email" name="email" placeholder="example@gotham-city.com" v-model="formValues.email"
-            class="bg-[#1D0455] rounded text-white p-1 text-center w-[250px]" />
+          <InputText
+            id="email"
+            name="email"
+            placeholder="example@gotham-city.com"
+            v-model="formValues.email"
+          />
         </div>
-        <div class="flex mt-4">
+        <div class="flex items-center">
           <label for="number" class="w-[150px] inline-block">Phone number</label>
-          <AppInput id="number" name="number" placeholder="+1 223 4984" v-model="formValues.number"
-            class="bg-[#1D0455] rounded text-white p-1 text-center w-[250px]" />
+          <InputText
+            id="number"
+            name="number"
+            placeholder="+1 223 4984"
+            v-model="formValues.number"
+          />
         </div>
       </form>
-    </div>
-    <div class="mt-10">
-      <h3 class="text-xl mr-4 mb-2">Job information</h3>
-      <div class="flex mt-4">
-        <h4 class="w-[165px] inline-block">Job title</h4>
-        <span class="bg-[#1D0455] rounded text-white p-1 text-center w-[250px]">Police Commissionner</span>
-      </div>
-      <div class="flex mt-4">
-          <h4 class="w-[165px] inline-block">Manager</h4>
-          <span class="bg-[#1D0455] rounded text-white p-1 text-center w-[250px]">Mayor Hilton Hill</span>
+    </Panel>
+    <Panel class="p-2">
+      <template #header>
+        <div class="flex items-center gap-4">
+          <h3 class="text-xl">Job information</h3>
         </div>
-      <div class="flex mt-4">
+      </template>
+      <div class="space-y-4">
+        <div class="flex items-center">
+          <h4 class="w-[165px] inline-block">Job title</h4>
+          <span>Police Commissionner</span>
+        </div>
+        <div class="flex items-center">
+          <h4 class="w-[165px] inline-block">Manager</h4>
+          <span>Mayor Hilton Hill</span>
+        </div>
+        <div class="flex items-center">
           <h4 class="w-[165px] inline-block">Team(s)</h4>
-          <span class="bg-[#1D0455] rounded text-white p-1 text-center w-[250px] mr-2">Police Dpt</span>
-          <span class="bg-[#1D0455] rounded text-white p-1 text-center w-[250px] mr-2">Crime Unit</span>
-          <span class="bg-[#1D0455] rounded text-white p-1 text-center w-[250px] mr-2">Batman Lover</span>
+          <div class="flex gap-2 flex-wrap">
+            <Chip label="Police Dpt" />
+            <Chip label="Crime Unit" />
+            <Chip label="Batman Lover" />
+          </div>
+        </div>
       </div>
-    </div>
+    </Panel>
   </div>
   <div v-else>User not found</div>
 </template>

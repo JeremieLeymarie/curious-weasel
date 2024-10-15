@@ -2,8 +2,8 @@
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useRouter } from 'vue-router'
-import AppInput from './ui/AppInput.vue'
-import AppButton from './ui/AppButton.vue'
+import InputText from 'primevue/inputtext'
+import Button from 'primevue/button'
 
 const router = useRouter()
 const route = useRoute()
@@ -39,13 +39,13 @@ async function login() {
     <div class="flex space-x-10">
       <div class="p-2">
         <p>Email</p>
-        <AppInput v-model="email" type="text" name="" id="" class="border-2" />
+        <InputText v-model="email" type="text" name="" id="" class="border-2" />
       </div>
       <div class="p-2">
         <p>Password</p>
-        <AppInput v-model="password" type="password" name="" id="" class="border-2" />
+        <InputText v-model="password" type="password" name="" id="" class="border-2" />
       </div>
     </div>
-    <AppButton @click="login"> Submit </AppButton>
+    <Button @click="login"> Submit </Button>
   </div>
 </template>

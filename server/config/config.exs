@@ -39,6 +39,11 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+#Thing for guardian -> mix guardian.gen.secret to generate a key
+config :time_tracker, TimeTracker.Guardian,
+       issuer: "time_tracker",
+       secret_key: "2W1dA7uP1kB6wuR4tyeqJKBsB6cPhrRAbLHMeqqAVirqERtw2bEOUUeP3WekuTTt"
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

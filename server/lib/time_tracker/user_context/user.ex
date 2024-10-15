@@ -6,6 +6,7 @@ defmodule TimeTracker.UserContext.User do
     field(:username, :string)
     field(:email, :string)
     field(:role, Ecto.Enum, values: [:general_manager, :manager, :employee])
+    field(:hash_password, :string)
 
     many_to_many(:teams, TimeTracker.TeamContext.Team,
       join_through: TimeTracker.TeamContext.TeamUser
@@ -20,10 +21,21 @@ defmodule TimeTracker.UserContext.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:username, :email, :role])
+    |> cast(attrs, [:username, :email, :role, :hash_password])
     |> cast_assoc(:teams)
-    |> validate_required([:username, :email, :role])
+    |> validate_required([:username, :email, :role, :hash_password])
     |> validate_format(:email, ~r/(.+)@(.+)\.(.+)/)
     |> unique_constraint(:email)
+    |> validate_length(:hash_password, min: 6)
+    |> put_password_hash()
   end
+
+  defp put_password_hash(
+         %Ecto.Changeset{valid?: true, changes: %{hash_password: hash_password}} = changeset
+       ) do
+    change(changeset, hash_password: Bcrypt.hash_pwd_salt(hash_password))
+  end
+
+  defp put_password_hash(changeset), do: changeset
+
 end

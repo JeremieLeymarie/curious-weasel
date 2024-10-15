@@ -20,6 +20,19 @@ defmodule TimeTrackerWeb.UserController do
     end
   end
 
+  def create_bitch(conn, %{"user" => user_params}) do
+    with {:ok, %User{} = user} <- UserContext.create_user(user_params),
+         {:ok, token, _full_claims} <- TimeTracker.Guardian.encode_and_sign(user) do
+      conn
+      |> put_status(:created)
+      |> json(%{
+        id: user.id,
+        email: user.email,
+        token: token
+      })
+    end
+  end
+
   def show(conn, %{"id" => id}) do
     case UserContext.get_user(id) do
       nil -> conn |> put_status(:not_found) |> json(%{error: "User not found"})
@@ -42,4 +55,25 @@ defmodule TimeTrackerWeb.UserController do
       send_resp(conn, :no_content, "")
     end
   end
+
+  def sign_in(conn, %{"user" => %{"email" => email, "hash_password" => hash_password}}) do
+    case TimeTracker.Guardian.authenticate(email, hash_password) do
+      {:ok, user, token} ->
+        conn
+        |> put_status(:ok)
+        |> json(%{
+          id: user.id,
+          email: user.email,
+          token: token
+        })
+
+      {:error, _reason} ->
+        conn
+        |> put_status(:unauthorized)
+        |> json(%{
+          error: "invalid credentials"
+        })
+    end
+  end
+
 end

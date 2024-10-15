@@ -1,56 +1,46 @@
 <script setup lang="ts">
-import { Bar, Line, Doughnut } from 'vue-chartjs'
-import {
-  Chart as ChartJS,
-  Title,
-  Tooltip,
-  Legend,
-  BarElement,
-  LineElement,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  Filler,
-  ArcElement
-} from 'chart.js'
 import { ref, onMounted, watch, computed } from 'vue'
-import AppButton from './ui/AppButton.vue'
 
-ChartJS.register(
-  Title,
-  Tooltip,
-  Legend,
-  BarElement,
-  LineElement,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  Filler,
-  ArcElement
-)
+import Chart from 'primevue/chart'
+import Panel from 'primevue/panel'
+import Select from 'primevue/Select'
+import FloatLabel from 'primevue/floatlabel'
+import { useRoute } from 'vue-router'
 
-interface WorkingTime {
+type WorkingTime = {
   id: number
   start: string
   end: string
 }
 
-// Références pour les données des temps de travail et le graphique
+const monthOptions = ref([
+  { name: 'January', id: 1 },
+  { name: 'February', id: 2 },
+  { name: 'March', id: 3 },
+  { name: 'April', id: 4 },
+  { name: 'May', id: 5 },
+  { name: 'June', id: 6 },
+  { name: 'July', id: 7 },
+  { name: 'August', id: 8 },
+  { name: 'September', id: 9 },
+  { name: 'October', id: 10 },
+  { name: 'November', id: 11 },
+  { name: 'December', id: 12 }
+])
+
 const workingTimes = ref<WorkingTime[]>([])
 const labels = ref<string[]>([])
 const datasetData = ref<number[]>([])
-const selectedMonth = ref<string>('10') // Mois par défaut
-const selectedYear = ref<string>('2024') // Année par défaut
+const selectedMonth = ref(monthOptions.value[9])
+const selectedYear = ref<string>('2024')
 const chartType = ref<string>('bar')
-const hourlyRate = ref<number>(20) // Salaire horaire par défaut
 
 const totalHours = computed(() => datasetData.value.reduce((a, b) => a + b, 0))
-const estimatedSalary = computed(() => totalHours.value * hourlyRate.value)
 
-// Objectif d'heures pour le mois (35 heures * 4 semaines)
+const route = useRoute()
+
 const targetHours = 140
 
-// Calculer le pourcentage atteint pour le graphique en camembert
 const doughnutData = computed(() => {
   const hoursWorked = totalHours.value
   const remainingHours = Math.max(targetHours - hoursWorked, 0)
@@ -66,7 +56,6 @@ const doughnutData = computed(() => {
   }
 })
 
-// Fonction pour récupérer les temps de travail depuis l'API
 const getWorkingTimes = async (userId: string) => {
   try {
     const response = await fetch(`${import.meta.env.VITE_HOST}:4000/api/workingtimes/${userId}`)
@@ -78,7 +67,6 @@ const getWorkingTimes = async (userId: string) => {
   }
 }
 
-// Fonction pour calculer la durée d'un intervalle en heures
 const calculateDuration = (start: string, end: string) => {
   const startDate = new Date(start)
   const endDate = new Date(end)
@@ -97,7 +85,7 @@ const generateDaysOfMonth = (year: number, month: number) => {
 
 const generateChartData = () => {
   const year = parseInt(selectedYear.value)
-  const month = parseInt(selectedMonth.value)
+  const month = selectedMonth.value.id
 
   const daysOfMonth = generateDaysOfMonth(year, month)
   const groupedData: { [key: string]: number } = {}
@@ -121,13 +109,11 @@ const generateChartData = () => {
     datasets: [
       {
         label: 'Worked hours',
-        backgroundColor:
-          chartType.value === 'stacked' ? 'rgba(75, 192, 192, 0.2)' : 'rgba(220, 53, 69, 0.6)',
-        borderColor:
-          chartType.value === 'stacked' ? 'rgba(75, 192, 192, 1)' : 'rgba(220, 53, 69, 1)',
+        backgroundColor: 'rgba(220, 53, 69, 0.6)',
+        borderColor: 'rgba(220, 53, 69, 1)',
         borderWidth: 2,
         data: datasetData.value,
-        fill: chartType.value === 'stacked', // Remplir la zone pour le graphique en aires empilées
+        fill: false,
         tension: chartType.value === 'line' ? 0.1 : 0
       }
     ]
@@ -139,13 +125,12 @@ watch([selectedMonth, selectedYear, chartType], () => {
 })
 
 onMounted(() => {
-  getWorkingTimes('1').then((res) => {
+  getWorkingTimes(route.params.userId as string).then((res) => {
     workingTimes.value = res
     generateChartData()
   })
 })
 
-// Référence pour le graphique
 const chartData = ref({
   labels: labels.value,
   datasets: [
@@ -166,122 +151,70 @@ const chartOptions = {
   maintainAspectRatio: false,
   plugins: {
     legend: {
-      display: true,
-      labels: {
-        color: '#ffffff'
-      }
+      display: true
     },
     tooltip: {
-      enabled: true,
-      backgroundColor: '#333333',
-      titleColor: '#ffffff',
-      bodyColor: '#ffffff'
-    }
-  },
-  scales: {
-    x: {
-      ticks: {
-        color: '#ffffff'
-      },
-      grid: {
-        color: '#444444'
-      },
-      title: {
-        display: true,
-        text: 'Date',
-        color: '#ffffff'
-      }
-    },
-    y: {
-      ticks: {
-        color: '#ffffff'
-      },
-      grid: {
-        color: '#444444'
-      },
-      title: {
-        display: true,
-        text: 'Worked hours',
-        color: '#ffffff'
-      },
-      beginAtZero: true
+      enabled: true
     }
   }
 }
 </script>
 
 <template>
-  <h3 class="text-2xl m-4">Dashboard</h3>
-  <div class="bg-[#1D0455] p-6 flex flex-col mb-8">
-    <div class="flex flex-col">
-      <div class="m-2 p-2">
-        <div class="bg-[#1D0455] p-6 h-screen flex flex-col">
-          <div class="mb-4 flex flex-wrap space-x-4 items-center">
-            <div class="bg-[#1D0455] text-white p-2 rounded">
-              <h3 class="text-sm">Total worked hours:</h3>
-              <p class="text-xl font-bold">{{ totalHours }}</p>
-            </div>
-            <div>
-              <label for="year-select" class="text-white">Select Year:</label>
-              <select
-                id="year-select"
-                v-model="selectedYear"
-                class="bg-gray-600 text-white rounded p-2 m-3"
-              >
-                <option value="2022">2022</option>
-                <option value="2023">2023</option>
-                <option value="2024">2024</option>
-                <option value="2025">2025</option>
-              </select>
-            </div>
-            <div>
-              <label for="month-select" class="text-white">Select Month:</label>
-              <select
-                id="month-select"
-                v-model="selectedMonth"
-                class="bg-gray-600 text-white rounded p-2 m-3"
-              >
-                <option value="1">January</option>
-                <option value="2">February</option>
-                <option value="3">March</option>
-                <option value="4">April</option>
-                <option value="5">May</option>
-                <option value="6">June</option>
-                <option value="7">July</option>
-                <option value="8">August</option>
-                <option value="9">September</option>
-                <option value="10">October</option>
-                <option value="11">November</option>
-                <option value="12">December</option>
-              </select>
-              <label class="text-white">Select Chart Type:</label>
-              <select v-model="chartType" class="bg-gray-600 text-white rounded p-2 m-3">
-                <option value="bar">Bar</option>
-                <option value="line">Line</option>
-                <option value="stacked">Stacked Area</option>
-              </select>
-              <button class="rounded bg-gray-600 p-2 ml-4 text-white">Export Data</button>
-            </div>
-          </div>
-          <div class="flex-1 flex flex-row overflow-hidden">
-            <div class="flex-1 overflow-hidden pr-4">
-              <!-- Graphique principal (Bar, Line, Stacked Area) -->
-              <component
-                :is="chartType === 'bar' ? Bar : Line"
-                :data="chartData"
-                :options="chartOptions"
-                class="h-full"
-              />
-            </div>
-            <div class="w-1/5 flex justify-center items-center h-full">
-              <!-- Graphique en camembert -->
-              <Doughnut
-                :data="doughnutData"
-                :options="{ responsive: true, maintainAspectRatio: false }"
-              />
-            </div>
-          </div>
+  <div class="space-y-4">
+    <h3 class="text-2xl my-4">Dashboard</h3>
+    <Panel>
+      <div class="flex gap-4">
+        <div>
+          <FloatLabel>
+            <Select
+              inputId="year-input"
+              v-model="selectedYear"
+              :options="['2022', '2023', '2024', '2025']"
+            />
+            <label for="year-input">Select Year</label>
+          </FloatLabel>
         </div>
+        <div>
+          <FloatLabel>
+            <Select
+              inputId="month-select"
+              v-model="selectedMonth"
+              :options="monthOptions"
+              optionLabel="name"
+            />
+            <label for="month-select">Select Month</label>
+          </FloatLabel>
+        </div>
+
+        <div>
+          <FloatLabel>
+            <label>Select Chart Type</label>
+            <Select v-model="chartType" :options="['line', 'bar']" class="min-w-[150px]" />
+          </FloatLabel>
+        </div>
+      </div>
+    </Panel>
+
+    <div class="flex w-full gap-4 flex-col md:flex-row">
+      <Panel class="md:w-10/12 w-full" header="Worked hours over time">
+        <Chart :type="chartType" :data="chartData" :options="chartOptions" class="h-[30rem]" />
+      </Panel>
+      <div class="space-y-4">
+        <Panel header="Total worked hours:">
+          <div class="flex gap-2 items-center">
+            <i class="pi pi-clock !text-xl"></i>
+            <p class="text-xl font-bold">{{ totalHours.toFixed(2) }}</p>
+          </div>
+        </Panel>
+        <Panel class="p-2" header="Remaining work time">
+          <Chart
+            type="doughnut"
+            :data="doughnutData"
+            :options="{ responsive: true, maintainAspectRatio: false }"
+            class="w-full md:w-[30rem] !h-[20vw] min-h-[150px]"
+          />
+        </Panel>
       </div>
     </div>
   </div>

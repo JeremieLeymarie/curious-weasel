@@ -2,8 +2,8 @@
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useRouter } from 'vue-router'
-import AppInput from './ui/AppInput.vue'
-import AppButton from './ui/AppButton.vue'
+import DatePicker from 'primevue/datepicker'
+import Button from 'primevue/button'
 
 const router = useRouter()
 const route = useRoute()
@@ -40,18 +40,18 @@ async function updateWorkingTime(id: any) {
     <div class="flex space-x-10">
       <div class="p-2">
         <p>Start</p>
-        <AppInput v-model="start" type="datetime-local" name="" id="" class="border-2" />
+        <DatePicker v-model="start" showTime hourFormat="24" fluid />
       </div>
       <div class="p-2">
         <p>End</p>
-        <AppInput v-model="end" type="datetime-local" name="" id="" class="border-2" />
+        <DatePicker v-model="end" showTime hourFormat="24" fluid />
       </div>
     </div>
-    <AppButton
+    <Button
       @click="updateWorkingTime(1)"
       class="bg-[#1D0455] text-white rounded-full p-2 my-6 w-1/12 text-center"
     >
       Submit
-    </AppButton>
+    </Button>
   </div>
 </template>

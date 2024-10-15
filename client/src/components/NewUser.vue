@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { User, UserWithoutId } from '@/types'
 import { ref } from 'vue'
-import AppInput from './ui/AppInput.vue'
-import AppButton from './ui/AppButton.vue'
+import InputText from 'primevue/inputtext'
+import Button from 'primevue/button'
 
 const formValues = ref<Partial<UserWithoutId>>({})
 const BASE_URL = `${import.meta.env.VITE_HOST}:4000/api/users`
@@ -37,7 +37,7 @@ const handleCreate = (e: Event) => {
     <form class="text-center mt-6" @submit="handleCreate">
       <div class="flex flex-col items-center m-2">
         <label for="name">Name</label>
-        <AppInput
+        <InputText
           id="username"
           name="username"
           placeholder="Enter your name"
@@ -47,7 +47,7 @@ const handleCreate = (e: Event) => {
       </div>
       <div class="flex flex-col items-center m-2">
         <label for="email">Email address</label>
-        <AppInput
+        <InputText
           id="email"
           name="email"
           placeholder="example@gotham-city.com"
@@ -57,7 +57,7 @@ const handleCreate = (e: Event) => {
       </div>
       <div class="flex flex-col items-center m-2">
         <label for="password">Password</label>
-        <AppInput
+        <InputText
           id="password"
           name="password"
           placeholder="Create a password"
@@ -72,7 +72,7 @@ const handleCreate = (e: Event) => {
           <option value="Manager">Manager</option>
         </select>
       </div>
-      <AppButton type="submit" class="w-20 mt-4"> Create </AppButton>
+      <Button type="submit" class="w-20 mt-4"> Create </Button>
     </form>
   </div>
 </template>

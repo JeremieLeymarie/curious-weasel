@@ -128,45 +128,52 @@ onMounted(() => {
 
 <template>
   <ProtectedView :resource-id="route.params.userId.toString()">
-    <Panel class="p-6 w-full">
+    <div class="space-y-4">
       <h3 class="text-2xl">Working Times for User {{ user.username }}</h3>
-      <Button @click="goToNewWTpage" class="my-6"> New Working Time </Button>
-      <div v-if="data.loading" class="text-center text-gray-300">Loading...</div>
-      <div v-else>
-        <Accordion :value="[]" multiple>
-          <AccordionPanel
-            :value="date"
-            v-for="(times, date) in groupedWorkingTimes"
-            :key="date"
-            class="mb-4"
-          >
-            <AccordionHeader>
-              <div class="flex justify-between w-full pr-4">
-                <p>{{ date }}</p>
-                <p>{{ calculateTotalDuration(times) }}</p>
-              </div>
-            </AccordionHeader>
-            <AccordionContent>
-              <div v-for="(time, index) in times" :key="index" class="mb-2 space-y-2">
-                <div class="flex justify-between items-center">
-                  <p>
-                    <strong>{{ getPeriod(time.start) }}:</strong> {{ formatTime(time.start) }} -
-                    {{ formatTime(time.end) }}
-                  </p>
-                  <p>Duration: {{ calculateDuration(time.start, time.end) }}</p>
-                  <div class="flex gap-2">
-                    <Button @click="updateWorkingTime(time.id, time.start, time.end)" size="small">
-                      Update
-                    </Button>
-                    <Button @click="deleteWorkingTime(time.id)" size="small"> Delete </Button>
-                  </div>
+      <Panel>
+        <template #header>
+          <Button @click="goToNewWTpage"> New Working Time </Button>
+        </template>
+        <div v-if="data.loading" class="text-center text-gray-300">Loading...</div>
+        <div v-else>
+          <Accordion :value="[]" multiple>
+            <AccordionPanel
+              :value="date"
+              v-for="(times, date) in groupedWorkingTimes"
+              :key="date"
+              class="mb-4"
+            >
+              <AccordionHeader>
+                <div class="flex justify-between w-full pr-4">
+                  <p>{{ date }}</p>
+                  <p>{{ calculateTotalDuration(times) }}</p>
                 </div>
-                <Divider />
-              </div>
-            </AccordionContent>
-          </AccordionPanel>
-        </Accordion>
-      </div>
-    </Panel>
+              </AccordionHeader>
+              <AccordionContent>
+                <div v-for="(time, index) in times" :key="index" class="mb-2 space-y-2">
+                  <div class="flex justify-between items-center">
+                    <p>
+                      <strong>{{ getPeriod(time.start) }}:</strong> {{ formatTime(time.start) }} -
+                      {{ formatTime(time.end) }}
+                    </p>
+                    <p>Duration: {{ calculateDuration(time.start, time.end) }}</p>
+                    <div class="flex gap-2">
+                      <Button
+                        @click="updateWorkingTime(time.id, time.start, time.end)"
+                        size="small"
+                      >
+                        Update
+                      </Button>
+                      <Button @click="deleteWorkingTime(time.id)" size="small"> Delete </Button>
+                    </div>
+                  </div>
+                  <Divider />
+                </div>
+              </AccordionContent>
+            </AccordionPanel>
+          </Accordion>
+        </div>
+      </Panel>
+    </div>
   </ProtectedView>
 </template>
