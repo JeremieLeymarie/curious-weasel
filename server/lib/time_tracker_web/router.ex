@@ -9,6 +9,7 @@ defmodule TimeTrackerWeb.Router do
     pipe_through(:api)
 
     post("/users/register", UserController, :create_bitch)
+    post("/users/sign_in", UserController, :sign_in)
 
     resources("/users", UserController, except: [:new, :edit])
     resources("/workingtimes", WorkingTimeController, only: [:update, :delete])

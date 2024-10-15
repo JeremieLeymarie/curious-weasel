@@ -3,7 +3,6 @@ defmodule TimeTrackerWeb.UserController do
 
   alias TimeTracker.UserContext
   alias TimeTracker.UserContext.User
-  alias TimeTrackerWeb.AccountJSON
 
   action_fallback TimeTrackerWeb.FallbackController
 
@@ -56,4 +55,25 @@ defmodule TimeTrackerWeb.UserController do
       send_resp(conn, :no_content, "")
     end
   end
+
+  def sign_in(conn, %{"user" => %{"email" => email, "hash_password" => hash_password}}) do
+    case TimeTracker.Guardian.authenticate(email, hash_password) do
+      {:ok, user, token} ->
+        conn
+        |> put_status(:ok)
+        |> json(%{
+          id: user.id,
+          email: user.email,
+          token: token
+        })
+
+      {:error, _reason} ->
+        conn
+        |> put_status(:unauthorized)
+        |> json(%{
+          error: "invalid credentials"
+        })
+    end
+  end
+
 end
