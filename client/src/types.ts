@@ -6,7 +6,10 @@ export type User = {
   password?: string
   email: string
   role: UserRole
+  teams: Team[]
 }
+
+export type SimpleUser = Pick<User, 'id' | 'username'>
 
 export type UserWithoutId = Omit<User, 'id'>
 

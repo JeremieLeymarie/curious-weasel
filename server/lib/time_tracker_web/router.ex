@@ -24,6 +24,8 @@ defmodule TimeTrackerWeb.Router do
 
     post("/teams", TeamController, :create)
     get("/teams", TeamController, :index)
+    get("/teams/:id", TeamController, :show)
+    put("/teams/:id", TeamController, :update)
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

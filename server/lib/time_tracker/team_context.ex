@@ -42,7 +42,15 @@ defmodule TimeTracker.TeamContext do
       ** (Ecto.NoResultsError)
 
   """
-  def get_team(id), do: Repo.get(Team, id)
+  def get_team(id) do
+    query =
+      from(Team,
+        where: [id: ^id],
+        preload: [:users]
+      )
+
+    Repo.one(query)
+  end
 
   @doc """
   Creates a team.
@@ -80,6 +88,9 @@ defmodule TimeTracker.TeamContext do
 
   """
   def update_team(%Team{} = team, attrs) do
+    IO.inspect("AHAHHHAHHHHH")
+    IO.inspect(team)
+
     team
     |> Team.changeset(attrs)
     |> Repo.update()

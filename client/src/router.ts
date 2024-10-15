@@ -11,6 +11,7 @@ import UserList from './components/UserList.vue'
 import Login from './components/Login.vue'
 import { useUserStore } from '@/stores/user'
 import TeamManager from './components/teams/TeamManager.vue'
+import TeamDetail from './components/teams/TeamDetail.vue'
 
 const routes = [
   { path: '/', component: HomeComponent },
@@ -22,7 +23,8 @@ const routes = [
   { path: '/users', component: UserList },
   { path: '/chart-manager/:userId', component: ChartManager },
   { path: '/login', component: Login },
-  { path: '/teams', component: TeamManager }
+  { path: '/teams', component: TeamManager },
+  { path: '/teams/:teamId', component: TeamDetail }
 ]
 
 export const router = createRouter({

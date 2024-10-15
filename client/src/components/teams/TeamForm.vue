@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Team, User } from '@/types'
+import type { SimpleUser, Team, User } from '@/types'
 import InputText from 'primevue/inputtext'
 import FloatLabel from 'primevue/floatlabel'
 import Panel from 'primevue/panel'
@@ -12,7 +12,7 @@ import UserDropdown from './UserDropdown.vue'
 const { onSubmit } = defineProps<{ onSubmit: () => void }>()
 const formValues = ref<Partial<Team>>({})
 
-const onUserChange = (users: User[]) => {
+const onUserChange = (users: SimpleUser[]) => {
   formValues.value.users = users
 }
 

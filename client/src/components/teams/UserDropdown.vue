@@ -1,14 +1,17 @@
 <script lang="ts" setup>
 import { getUsers } from '@/requests/user'
-import type { User } from '@/types'
+import type { SimpleUser } from '@/types'
 import AutoComplete from 'primevue/autocomplete'
 import { onMounted, ref, watch } from 'vue'
 
-const { onChange } = defineProps<{ onChange: (users: User[]) => void }>()
+const { onChange, defaultValues } = defineProps<{
+  onChange: (users: SimpleUser[]) => void
+  defaultValues?: SimpleUser[]
+}>()
 
-const users = ref<User[]>([])
-const filteredUsers = ref<User[]>([])
-const values = ref<User[]>([])
+const users = ref<SimpleUser[]>([])
+const filteredUsers = ref<SimpleUser[]>([])
+const values = ref<SimpleUser[]>(defaultValues ?? [])
 
 onMounted(() => {
   getUsers().then((res) => {

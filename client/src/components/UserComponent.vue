@@ -40,7 +40,8 @@ const handleUpdate = (event: Event) => {
   updateUser({
     id: user.value.id,
     username: formValues.value.username ?? user.value.username,
-    email: formValues.value.email ?? user.value.username
+    email: formValues.value.email ?? user.value.username,
+    role: user.value.role
   })
 }
 
@@ -115,9 +116,9 @@ const handleDelete = () => {
         <div class="flex items-center">
           <h4 class="w-[165px] inline-block">Team(s)</h4>
           <div class="flex gap-2 flex-wrap">
-            <Chip label="Police Dpt" />
-            <Chip label="Crime Unit" />
-            <Chip label="Batman Lover" />
+            <router-link v-for="team in user.teams" :key="team.id" :to="`/teams/${team.id}`">
+              <Chip :label="team.name" />
+            </router-link>
           </div>
         </div>
       </div>
