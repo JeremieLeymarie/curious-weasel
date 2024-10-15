@@ -5,7 +5,8 @@ import type { Clock, User } from '@/types'
 import { adapter } from '@/adapters'
 import { getUser } from '@/requests/user'
 import { readableDate, readableDateTime, getReadableInterval } from '@/utils/date'
-import AppButton from './ui/AppButton.vue'
+import Card from 'primevue/card'
+import Button from 'primevue/button'
 
 const clocks = ref<Clock[]>()
 const user = ref<User>()
@@ -18,7 +19,7 @@ onMounted(() => {
 })
 
 const getClocks = async (userId: string) => {
-  const response = await fetch(`http://localhost:4000/api/clocks/${userId}`)
+  const response = await fetch(`${import.meta.env.VITE_HOST}:4000/api/clocks/${userId}`)
     .then((res) => res.json())
     .catch((err) => console.error(err))
 
@@ -37,49 +38,47 @@ const today = readableDate(new Date())
 </script>
 
 <template>
-  <h1 class="text-3xl m-4 ml-8">Welcome, {{ user?.username }}!</h1>
-  <p class="text-l m-4 ml-8">Today is {{ today }}</p>
-  <hr class="h-1 m-3 ml-8 mr-16 bg-[#1D0455] border-0" />
+  <div class="space-y-4" v-if="user">
+    <h1 class="text-3xl">Welcome, {{ user?.username }}!</h1>
+    <p class="text-l">Today is {{ today }}</p>
+    <hr class="h-1 bg-[#1D0455] border-0" />
 
-  <div v-if="user" class="flex ml-8">
-    <div class="m-4 w-6/12">
-      <h3 class="text-2xl my-4">Fast Clocking</h3>
-      <p v-if="currentClock">
-        You have been working for
-        <strong>{{ getReadableInterval({ start: currentClock.time, end: new Date() }) }}</strong>
-        <span class="text-xs">
-          (working time started on {{ readableDateTime(currentClock.time) }})</span
+    <div class="flex gap-8">
+      <Card class="w-6/12">
+        <template #title>Fast Clocking</template>
+        <template #subtitle>
+          <p v-if="currentClock">
+            You have been working for
+            <strong>{{
+              getReadableInterval({ start: currentClock.time, end: new Date() })
+            }}</strong>
+            <span class="text-xs">
+              (working time started on {{ readableDateTime(currentClock.time) }})</span
+            >
+          </p>
+          <p v-else>You have not started working today.</p></template
         >
-      </p>
-      <p v-else>You have not started working today.</p>
-      <ClockManager :clock="currentClock" :userId="user.id.toString()" :refetch="fetchClocks" />
-    </div>
-    <div class="m-4 w-6/12">
-      <h3 class="text-2xl m-4">Overview</h3>
-      <span>
-        <p class="bg-[#1D0455] text-white squared-full p-3 m-4 w-8/12 text-center">
-          You have worked {{}} this week.
-        </p>
-      </span>
-      <span>
-        <p class="bg-[#1D0455] text-white squared-full p-3 m-4 w-8/12 text-center">
-          You have {{}} days off left.
-        </p>
-      </span>
-      <span class="">
-        <AppButton class="rounded p-1 m-4 w-3/12 text-center">
-          <RouterLink to="/chart-manager/1"><a>Consult dashboard</a></RouterLink>
-        </AppButton>
-      </span>
+        <template #content>
+          <ClockManager :clock="currentClock" :userId="user.id.toString()" :refetch="fetchClocks" />
+        </template>
+      </Card>
+      <Card class="w-6/12">
+        <template #title>Overview</template>
+        <template #content>
+          <div class="flex items-center gap-4">
+            <i class="pi pi-briefcase !text-2xl"></i>
+            <p class="p-3 text-center">You have worked {{}} this week.</p>
+          </div>
+          <div class="flex items-center gap-4">
+            <i class="pi pi-sun !text-2xl"></i>
+            <p class="p-3 text-center">You have {{}} days off left.</p>
+          </div>
+          <Button class="block my-4">
+            <RouterLink to="/chart-manager/1"><a>Consult dashboard</a></RouterLink>
+          </Button>
+        </template>
+      </Card>
     </div>
   </div>
   <div v-else>User not found...</div>
 </template>
-
-<style lang="css">
-@media screen and (width <= 1250px) {
- h1 {
-  font-size: 16px;
- } 
-}
-</style>

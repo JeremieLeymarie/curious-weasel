@@ -21,6 +21,8 @@ defmodule TimeTrackerWeb.Router do
     get("/clocks/:userId", ClockController, :index)
     put("/clocks/:id", ClockController, :update)
     post("/clocks/:userId", ClockController, :create)
+
+    post("/teams", TeamController, :create)
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

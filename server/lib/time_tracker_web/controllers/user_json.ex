@@ -22,8 +22,16 @@ defmodule TimeTrackerWeb.UserJSON do
       email: user.email,
       role: user.role,
       clocks: nil,
-      working_times: nil
+      working_times: nil,
+      teams: nil
     }
+
+    teams =
+      if Ecto.assoc_loaded?(user.teams) do
+        for(team <- user.teams, do: %{id: team.id, name: team.name})
+      else
+        nil
+      end
 
     clocks =
       if Ecto.assoc_loaded?(user.clocks) do
@@ -43,6 +51,7 @@ defmodule TimeTrackerWeb.UserJSON do
       end
 
     result = %{result | clocks: clocks}
+    result = %{result | teams: teams}
     %{result | working_times: working_times}
   end
 end

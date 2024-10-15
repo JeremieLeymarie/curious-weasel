@@ -34,7 +34,7 @@ module.exports = {
 
   vite_dev_server: {
     start_vite: true,
-    port: process.env.CI ? 4173 : 5173
+    port: import.meta.env.CI ? 4173 : 5173
   },
 
   webdriver: {},
@@ -47,7 +47,7 @@ module.exports = {
   test_settings: {
     default: {
       disable_error_log: false,
-      launch_url: `http://localhost:${process.env.CI ? '4173' : '5173'}`,
+      launch_url: `${import.meta.env.VITE_HOST}:${import.meta.env.CI ? '4173' : '5173'}`,
 
       screenshots: {
         enabled: false,

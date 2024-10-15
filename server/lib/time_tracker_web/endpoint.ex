@@ -48,7 +48,7 @@ defmodule TimeTrackerWeb.Endpoint do
     json_decoder: Phoenix.json_library()
   )
 
-  plug(CORSPlug, origin: ["http://localhost:3000"])
+  plug(CORSPlug, origin: ["#{System.get_env("HOST", "http://localhost")}:3000"])
 
   plug(Plug.MethodOverride)
   plug(Plug.Head)
