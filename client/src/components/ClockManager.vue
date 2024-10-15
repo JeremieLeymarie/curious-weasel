@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import type { Clock } from '@/types'
 import { ref } from 'vue'
-import AppInput from './ui/AppInput.vue'
-import AppButton from './ui/AppButton.vue'
+
+import DatePicker from 'primevue/datepicker'
+import Button from 'primevue/button'
 
 const { userId, clock, refetch } = defineProps<{
   userId: string
@@ -14,7 +15,7 @@ const dateInput = ref<Date>()
 const clockIn = async (date?: Date) => {
   const d = date ?? new Date()
 
-  await fetch(`${import.meta.env.VITE_HOST}://localhost:4000/api/clocks/${userId}`, {
+  await fetch(`${import.meta.env.VITE_HOST}:4000/api/clocks/${userId}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ clock: { time: d.toISOString(), status: true } })
@@ -70,25 +71,16 @@ const manualClock = () => {
 <template>
   <div>
     <div class="flex items-center justify-left my-6">
-      <AppButton class="text-xl w-[120px]" @click="clock ? clockOut() : clockIn()">
+      <Button class="text-xl w-[120px]" @click="clock ? clockOut() : clockIn()">
         Clock {{ clock ? 'out' : 'in' }}
-      </AppButton>
+      </Button>
     </div>
     <div class="space-y-4">
-      <label for="date-input" class="text-2xl"
-        ><h3>Manual clock {{ clock ? 'out' : 'in' }}</h3></label
-      >
-      <div class="flex gap-4">
-        <AppInput
-          v-model="dateInput"
-          type="datetime-local"
-          name="date-input"
-          id="date-input"
-          class="border-2"
-        />
-        <AppButton type="submit" class="rounded m-4 w-[80px] text-center" @click="manualClock()">
-          Submit
-        </AppButton>
+      <label for="date-input" class="text-xl">Manual clock {{ clock ? 'out' : 'in' }}</label>
+      <div class="gap-4 flex">
+        <DatePicker id="datepicker-24h" v-model="dateInput" showTime hourFormat="24" fluid />
+
+        <Button type="submit" class="w-[80px]" @click="manualClock()"> Submit </Button>
       </div>
     </div>
   </div>

@@ -6,6 +6,7 @@ import { adapter } from '@/adapters'
 import { getUser } from '@/requests/user'
 import { readableDate, readableDateTime, getReadableInterval } from '@/utils/date'
 import AppButton from './ui/AppButton.vue'
+import Card from 'primevue/card'
 
 const clocks = ref<Clock[]>()
 const user = ref<User>()
@@ -42,18 +43,20 @@ const today = readableDate(new Date())
   <hr class="h-1 m-3 ml-8 mr-16 bg-[#1D0455] border-0" />
 
   <div v-if="user" class="flex ml-8">
-    <div class="m-4 w-6/12">
-      <h3 class="text-2xl my-4">Fast Clocking</h3>
-      <p v-if="currentClock">
-        You have been working for
-        <strong>{{ getReadableInterval({ start: currentClock.time, end: new Date() }) }}</strong>
-        <span class="text-xs">
-          (working time started on {{ readableDateTime(currentClock.time) }})</span
-        >
-      </p>
-      <p v-else>You have not started working today.</p>
-      <ClockManager :clock="currentClock" :userId="user.id.toString()" :refetch="fetchClocks" />
-    </div>
+    <Card class="m-4 w-6/12">
+      <template #title>Fast Clocking</template>
+      <template #content>
+        <p v-if="currentClock">
+          You have been working for
+          <strong>{{ getReadableInterval({ start: currentClock.time, end: new Date() }) }}</strong>
+          <span class="text-xs">
+            (working time started on {{ readableDateTime(currentClock.time) }})</span
+          >
+        </p>
+        <p v-else>You have not started working today.</p>
+        <ClockManager :clock="currentClock" :userId="user.id.toString()" :refetch="fetchClocks" />
+      </template>
+    </Card>
     <div class="m-4 w-6/12">
       <h3 class="text-2xl m-4">Overview</h3>
       <div>
