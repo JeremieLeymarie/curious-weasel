@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { User } from '@/types'
 import { ref } from 'vue'
-import AppInput from './ui/AppInput.vue'
-import AppButton from './ui/AppButton.vue'
+import InputText from 'primevue/inputtext'
+import Button from 'primevue/button'
 
 const formValues = ref<Partial<User>>({})
 const BASE_URL = `${import.meta.env.VITE_HOST}:4000/api/users`
@@ -29,7 +29,7 @@ const test = async () => {
   <div class="text-center mt-6">
     <div class="flex flex-col items-center m-2">
       <label for="username">Email address</label>
-      <AppInput
+      <InputText
         v-model="formValues.email"
         class="border-2 w-2/12"
         placeholder="example@gotham-city.com"
@@ -37,7 +37,7 @@ const test = async () => {
     </div>
     <div class="flex flex-col items-center m-2">
       <label for="password" class="">Password</label>
-      <AppInput
+      <InputText
         v-model="formValues.password"
         type="password"
         class="border-2 w-2/12"
@@ -46,7 +46,7 @@ const test = async () => {
       <a class="text-xs mt-1 hover:text-[#1D0455] hover:font-bold" href="#">Forgot password?</a>
     </div>
     <div class="mt-3">
-      <AppButton @click="test" class="w-20 mt-4"> Login </AppButton>
+      <Button @click="test" class="w-20 mt-4"> Login </Button>
     </div>
   </div>
 </template>
