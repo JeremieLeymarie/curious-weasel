@@ -6,7 +6,6 @@ import Chip from 'primevue/chip'
 import type { Team } from '@/types'
 
 const { teams } = defineProps<{ teams: Team[] }>()
-
 // TODO: sorting
 </script>
 

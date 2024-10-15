@@ -7,16 +7,18 @@ import type { Team } from '@/types'
 
 const teams = ref<Team[]>()
 
-onMounted(() => {
-  getTeams().then((res) => {
-    teams.value = res
+const getData = async () => {
+  return getTeams().then((res) => {
+    teams.value = res.reverse()
   })
-})
+}
+
+onMounted(getData)
 </script>
 
 <template>
   <div class="space-y-4">
-    <TeamForm />
+    <TeamForm :on-submit="getData" />
     <TeamList v-if="teams" :teams="teams" />
   </div>
 </template>
