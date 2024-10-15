@@ -8,7 +8,6 @@ services:
       HOST: api
     networks:
       - net
-    profiles: [all]
 
   api:
     build:
@@ -26,7 +25,6 @@ services:
         condition: service_healthy
     networks:
       - net
-    profiles: [all, api]
 
   postgres:
     image: postgres:16-alpine
@@ -44,7 +42,60 @@ services:
       retries: 120
     networks:
       - net
-    profiles: [all, api]
+
+  prometheus:
+    image: bitnami/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus:/etc/prometheus
+    networks:
+      - net
+
+  grafana:
+    image: grafana/grafana-oss
+    ports:
+      - 4005:3000
+    volumes:
+      - ~/grafana-storage:/var/lib/grafana
+    networks:
+      - net
+
+  sonarqube:
+    image: sonarqube:9.9.7-community
+    ports:
+      - 9000:9000
+    # environment:
+    # SONAR_JDBC_URL: jdbc:postgres://db:5432/sonar
+    # SONAR_JDBC_USERNAME: sonar
+    # SONAR_JDBC_PASSWORD: Test12345
+    # depends_on:
+    #   postgres:
+    #     condition: service_healthy
+    # volumes:
+    #   - sonarqube_conf:/opt/sonarqube/conf
+    #   - sonarqube_data:/opt/sonarqube/data
+    #   - sonarqube_extensions:/opt/sonarqube/extensions
+    networks:
+      - net
+
+  node-exporter:
+    image: bitnami/node-exporter
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+      - /:/host:ro,rslave
+    command:
+      - "--path.rootfs=/host"
+      - "--path.procfs=/host/proc"
+      - "--path.sysfs=/host/sys"
+      - --collector.filesystem.ignored-mount-points
+      - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
+    ports:
+      - 9100:9100
+    networks:
+      - net
 
 networks:
   net:
