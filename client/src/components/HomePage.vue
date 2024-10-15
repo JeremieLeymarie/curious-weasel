@@ -41,7 +41,7 @@ const today = readableDate(new Date())
   <div class="space-y-4" v-if="user">
     <h1 class="text-3xl">Welcome, {{ user?.username }}!</h1>
     <p class="text-l">Today is {{ today }}</p>
-    <hr class="h-1 bg-[#1D0455] border-0" />
+    <hr class="h-1 bg-primary-950 border-0" />
 
     <div class="flex gap-8">
       <Card class="w-6/12">

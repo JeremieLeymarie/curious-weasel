@@ -12,7 +12,7 @@ onMounted(() => {
   })
 })
 
-const headers = ['id', 'username', 'email', 'role']
+const headers = ['id', 'username', 'email', 'role', 'daily', 'weekly', 'actions']
 
 const tdClass = 'border border-blue-900 p-2'
 </script>

@@ -47,6 +47,13 @@ services:
     networks:
       - net
 
+  # zap:
+  #   image: zaproxy/zap-stable
+  #   container_name: "zap"
+  #   command: zap-webswing.sh
+  #   ports:
+  #     - 8080:8080
+
   prometheus:
     image: bitnami/prometheus
     ports:
@@ -62,26 +69,28 @@ services:
       - 4005:3000
     volumes:
       - ~/grafana-storage:/var/lib/grafana
+      - ./grafana/dashboard.yml:/etc/grafana/provisioning/dashboards/main.yaml
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
     networks:
       - net
 
-  sonarqube:
-    image: sonarqube:9.9.7-community
-    ports:
-      - 9000:9000
-    # environment:
-    # SONAR_JDBC_URL: jdbc:postgres://db:5432/sonar
-    # SONAR_JDBC_USERNAME: sonar
-    # SONAR_JDBC_PASSWORD: Test12345
-    # depends_on:
-    #   postgres:
-    #     condition: service_healthy
-    # volumes:
-    #   - sonarqube_conf:/opt/sonarqube/conf
-    #   - sonarqube_data:/opt/sonarqube/data
-    #   - sonarqube_extensions:/opt/sonarqube/extensions
-    networks:
-      - net
+  # sonarqube:
+  #   image: sonarqube:9.9.7-community
+  #   ports:
+  #     - 9000:9000
+  # environment:
+  # SONAR_JDBC_URL: jdbc:postgres://db:5432/sonar
+  # SONAR_JDBC_USERNAME: sonar
+  # SONAR_JDBC_PASSWORD: Test12345
+  # depends_on:
+  #   postgres:
+  #     condition: service_healthy
+  # volumes:
+  #   - sonarqube_conf:/opt/sonarqube/conf
+  #   - sonarqube_data:/opt/sonarqube/data
+  #   - sonarqube_extensions:/opt/sonarqube/extensions
+  # networks:
+  #   - net
 
   node-exporter:
     image: bitnami/node-exporter
