@@ -74,7 +74,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Copy repo content to VPS
+      - name: Deploy the app on the VPS
         uses: appleboy/ssh-action@v1.1.0
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -82,4 +82,11 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            rm -rf time-tracker; git clone https://github.com/JeremieLeymarie/curious-weasel.git time-tracker; cd time-tracker; docker compose build; docker compose --profile all up -d
+            rm -rf time-tracker  
+            git clone https://github.com/JeremieLeymarie/curious-weasel.git time-tracker  
+            cd time-tracker 
+            cp ../.env .env 
+            cp ../.env client/.env 
+            docker compose up down 
+            docker compose build  
+            docker compose up -d

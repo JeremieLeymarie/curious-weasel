@@ -1,8 +1,9 @@
 import type { User } from '@/types'
 
-const USER_BASE_URL = 'http://localhost:4000/api/users'
+const USER_BASE_URL = `${import.meta.env.VITE_HOST}:4000/api/users`
 
 export const getUser = async (userId: string) => {
+  console.log(import.meta.env)
   const response: { data: User } = await fetch(`${USER_BASE_URL}/${userId}`)
     .then((res) => res.json())
     .catch((err) => console.error(err))

@@ -5,7 +5,7 @@ import AppInput from './ui/AppInput.vue'
 import AppButton from './ui/AppButton.vue'
 
 const formValues = ref<Partial<User>>({})
-const BASE_URL = 'http://localhost:4000/api/users'
+const BASE_URL = `${import.meta.env.VITE_HOST}:4000/api/users`
 
 const getUser = async (user: User) => {
   const response: { data: User } = await fetch(`${BASE_URL}`, {

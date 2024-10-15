@@ -37,7 +37,7 @@ defmodule TimeTracker.UserContext do
       from(u in User,
         where: ^filter_email,
         where: ^filter_username,
-        preload: [:clocks, :working_times]
+        preload: [:clocks, :working_times, :teams]
       )
 
     Repo.all(query)
@@ -57,7 +57,15 @@ defmodule TimeTracker.UserContext do
       ** (Ecto.NoResultsError)
 
   """
-  def get_user(id), do: Repo.get(User, id)
+  def get_user(id) do
+    query =
+      from(u in User,
+        where: [id: ^id],
+        preload: [:clocks, :working_times, :teams]
+      )
+
+    Repo.one(query)
+  end
 
   @doc """
   Creates a user.

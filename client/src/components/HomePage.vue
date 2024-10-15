@@ -18,7 +18,7 @@ onMounted(() => {
 })
 
 const getClocks = async (userId: string) => {
-  const response = await fetch(`http://localhost:4000/api/clocks/${userId}`)
+  const response = await fetch(`${import.meta.env.VITE_HOST}:4000/api/clocks/${userId}`)
     .then((res) => res.json())
     .catch((err) => console.error(err))
 
@@ -56,30 +56,34 @@ const today = readableDate(new Date())
     </div>
     <div class="m-4 w-6/12">
       <h3 class="text-2xl m-4">Overview</h3>
-      <span>
+      <div>
         <p class="bg-[#1D0455] text-white squared-full p-3 m-4 w-8/12 text-center">
           You have worked {{}} this week.
         </p>
-      </span>
-      <span>
+      </div>
+      <div>
         <p class="bg-[#1D0455] text-white squared-full p-3 m-4 w-8/12 text-center">
           You have {{}} days off left.
         </p>
-      </span>
-      <span class="">
+      </div>
+      <div class="">
         <AppButton class="rounded p-1 m-4 w-3/12 text-center">
           <RouterLink to="/chart-manager/1"><a>Consult dashboard</a></RouterLink>
         </AppButton>
-      </span>
+      </div>
     </div>
   </div>
   <div v-else>User not found...</div>
 </template>
 
 <style lang="css">
-@media screen and (width <= 1250px) {
- h1 {
-  font-size: 16px;
- } 
+@media screen and (max-width: 920px) {
+  h1 {
+    font-size: 2em;
+  }
+
+  .ml-8 {
+    flex-direction: column;
+  }
 }
 </style>

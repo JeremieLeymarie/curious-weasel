@@ -22,3 +22,10 @@ export type Clock = {
   status: boolean
   time: Date
 }
+
+export type Team = {
+  users: User[]
+  id: string
+  name: string
+  manager: User
+}

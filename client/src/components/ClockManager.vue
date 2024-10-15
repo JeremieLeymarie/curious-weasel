@@ -14,7 +14,7 @@ const dateInput = ref<Date>()
 const clockIn = async (date?: Date) => {
   const d = date ?? new Date()
 
-  await fetch(`http://localhost:4000/api/clocks/${userId}`, {
+  await fetch(`${import.meta.env.VITE_HOST}://localhost:4000/api/clocks/${userId}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ clock: { time: d.toISOString(), status: true } })
@@ -37,21 +37,21 @@ const clockOut = async (date?: Date) => {
   // TODO: all of this should be done in one API endpoint
 
   // Create new clock
-  await fetch(`http://localhost:4000/api/clocks/${userId}`, {
+  await fetch(`${import.meta.env.VITE_HOST}://localhost:4000/api/clocks/${userId}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ clock: newClock })
   })
 
   // Create corresponding working time
-  await fetch(`http://localhost:4000/api/workingtimes/${userId}`, {
+  await fetch(`${import.meta.env.VITE_HOST}://localhost:4000/api/workingtimes/${userId}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ working_time: { start: clock?.time.toISOString(), end: newClock.time } })
   })
 
   // Update previous clock to indicate that user is not currently working
-  await fetch(`http://localhost:4000/api/clocks/${clock.id}`, {
+  await fetch(`${import.meta.env.VITE_HOST}://localhost:4000/api/clocks/${clock.id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ clock: { status: false } })
@@ -70,7 +70,7 @@ const manualClock = () => {
 <template>
   <div>
     <div class="flex items-center justify-left my-6">
-      <AppButton class="text-xl" @click="clock ? clockOut() : clockIn()">
+      <AppButton class="text-xl w-[120px]" @click="clock ? clockOut() : clockIn()">
         Clock {{ clock ? 'out' : 'in' }}
       </AppButton>
     </div>
@@ -86,7 +86,7 @@ const manualClock = () => {
           id="date-input"
           class="border-2"
         />
-        <AppButton type="submit" class="rounded m-4 w-2/12 text-center" @click="manualClock()">
+        <AppButton type="submit" class="rounded m-4 w-[80px] text-center" @click="manualClock()">
           Submit
         </AppButton>
       </div>
