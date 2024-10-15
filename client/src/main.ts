@@ -27,6 +27,23 @@ const MyPreset = definePreset(Aura, {
       900: '{indigo.900}',
       950: '{indigo.950}'
     }
+  },
+  components: {
+    button: {
+      colorScheme: {
+        light: {
+          root: {
+            primary: {
+              background: '{primary.900}',
+              border: { color: '{primary.900}' }
+            }
+          }
+        },
+        dark: {
+          root: { primary: { background: '{primary.400}', border: { color: '{primary.400}' } } }
+        }
+      }
+    }
   }
 })
 
