@@ -4,8 +4,7 @@ import { ref, onMounted, watch, computed } from 'vue'
 import Chart from 'primevue/chart'
 import Panel from 'primevue/panel'
 import Select from 'primevue/Select'
-import Card from 'primevue/card'
-import FloatLabel from 'primevue/FloatLabel'
+import FloatLabel from 'primevue/floatLabel'
 import { useRoute } from 'vue-router'
 
 type WorkingTime = {
