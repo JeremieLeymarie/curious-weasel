@@ -19,7 +19,7 @@ export const getUsers = async () => {
   return response.data
 }
 
-export const updateUser = async (user: Omit<User, 'role'>) => {
+export const updateUser = async (user: User) => {
   const response: { data: User } = await fetch(`${USER_BASE_URL}/${user.id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
