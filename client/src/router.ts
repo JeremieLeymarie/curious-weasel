@@ -12,6 +12,7 @@ import { useUserStore } from '@/stores/user'
 import TeamManager from './components/teams/TeamManager.vue'
 import TeamDetail from './components/teams/TeamDetail.vue'
 import UserDashboard from './components/UserDashboard.vue'
+import TeamDashboard from './components/TeamDashboard.vue'
 
 const routes = [
   { path: '/', component: HomeComponent },
@@ -22,6 +23,7 @@ const routes = [
   { path: '/user/new', component: NewUser },
   { path: '/users', component: UserList },
   { path: '/chart-manager/:userId', component: UserDashboard },
+  { path: '/chart-manager/team/:teamId', component: TeamDashboard },
   { path: '/login', component: Login },
   { path: '/teams', component: TeamManager },
   { path: '/teams/:teamId', component: TeamDetail }

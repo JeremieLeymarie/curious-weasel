@@ -3,21 +3,28 @@ import { onMounted, ref } from 'vue';
 import ChartManager from './ChartManager.vue';
 import { getWorkingTimes } from '@/requests/workingTimes';
 import { useRoute } from 'vue-router';
-import type { WorkingTime } from '@/types';
+import type { User, WorkingTime } from '@/types';
 import { adapter } from '@/adapters';
+import { getUser } from '@/requests/user';
 
 
 const workingTimes = ref<WorkingTime[]>()
+const user = ref<User>()
 const route = useRoute()
 
-onMounted(() => getWorkingTimes(route.params.userId as string).then(res => {
-    workingTimes.value = res.map(adapter.from.api.workingTime)
-}))
+onMounted(() => {
+    getWorkingTimes(route.params.userId as string).then(res => {
+        workingTimes.value = res.map(adapter.from.api.workingTime)
+    })
+    getUser(route.params.userId as string).then(res => {
+        user.value = res
+    })
+})
 
 
 </script>
 
 <template>
-    <ChartManager :working-times="workingTimes" v-if="workingTimes" />
+    <ChartManager :working-times="workingTimes" v-if="workingTimes && user" :is-team="false" :name="user.username" />
     <p v-else>Loading...</p>
 </template>
