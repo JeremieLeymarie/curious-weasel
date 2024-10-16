@@ -7,6 +7,8 @@ defmodule TimeTracker.WorkingTimeContext do
   alias TimeTracker.Repo
 
   alias TimeTracker.WorkingTimeContext.WorkingTime
+  alias TimeTracker.TeamContext.Team
+  alias TimeTracker.TeamContext
 
   @doc """
   Returns the list of working_times.
@@ -69,6 +71,13 @@ defmodule TimeTracker.WorkingTimeContext do
   def list_working_times_for_user(user_id) do
     query = from(w in WorkingTime, where: w.user_id == ^user_id)
     Repo.all(query)
+  end
+
+  def list_working_times_for_team(teamId) do
+    team = TeamContext.get_team(teamId)
+    user_ids = for user <- team.users, do: user.id
+
+    WorkingTime |> where([w], w.user_id in ^user_ids) |> Repo.all()
   end
 
   @doc """

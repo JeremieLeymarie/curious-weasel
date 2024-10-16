@@ -16,8 +16,6 @@ defmodule TimeTrackerWeb.TeamJSON do
   end
 
   defp data(%Team{} = team) do
-    IO.inspect(team)
-
     result = %{
       id: team.id,
       name: team.name,
