@@ -4,6 +4,7 @@ import { ref } from 'vue'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import Select from 'primevue/select'
+import { useToast } from 'primevue/usetoast'
 
 const formValues = ref<Partial<UserWithoutId>>({})
 const BASE_URL = `${import.meta.env.VITE_HOST}:4000/api/users`
@@ -35,6 +36,12 @@ const roles = ref([
     'Employee',
     'Manager'
 ]);
+
+const toast = useToast()
+const show = () => {
+    toast.add({ severity: 'danger', summary: 'Info', detail: 'Your password must be, at least, 6 characters long', life: 3000 });
+};
+
 </script>
 
 <template>
@@ -49,6 +56,7 @@ const roles = ref([
           placeholder="Enter your name"
           v-model="formValues.username"
           class="border-2 w-2/12"
+          required
         />
       </div>
       <div class="flex flex-col items-center m-3">
@@ -59,6 +67,7 @@ const roles = ref([
           placeholder="example@gotham-city.com"
           class="border-2 w-2/12"
           v-model="formValues.email"
+          required
         />
       </div>
       <div class="flex flex-col items-center m-3">
@@ -69,14 +78,15 @@ const roles = ref([
           type="password"
           placeholder="Create a password"
           class="border-2 w-2/12"
-          v-model="formValues.password"
+          v-model="formValues.hash_password" required
         />
       </div>
       <div class="flex flex-col items-center m-3">
         <label for="role">Role</label>
-        <Select id="role-select" v-model="selectedRole" :options="roles" placeholder="Select a role" class="border-2 w-2/12"></Select>
+        <Select id="role-select" v-model="selectedRole" :options="roles" placeholder="Select a role" class="border-2 w-2/12" required></Select>
       </div>
-      <Button type="submit" class="w-20 mt-4"> Create </Button>
+      <Toast />
+      <Button type="submit" label="Error" class="w-20 mt-4" @click="show()"> Create </Button>
     </form>
   </div>
 </template>
