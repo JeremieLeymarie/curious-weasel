@@ -15,6 +15,7 @@ defmodule TimeTrackerWeb.Router do
     resources("/workingtimes", WorkingTimeController, only: [:update, :delete])
 
     get("/workingtimes/:userId", WorkingTimeController, :index)
+    get("/workingtimes/team/:teamId", WorkingTimeController, :list_team_working_times)
     post("/workingtimes/:userId", WorkingTimeController, :create)
     get("/workingtimes/:userId/:id", WorkingTimeController, :show_user_working_time)
 

@@ -28,9 +28,11 @@ content-type: application/json
     "end": "2024-10-07 08:02:00Z"
 }}
 
-
 ### List specific WT for a specific User
 GET http://localhost:4000/api/workingtimes/2
+
+### List working times for specific team
+GET http://localhost:4000/api/workingtimes/team/23
 
 ### List WT with start and end dates
 GET http://localhost:4000/api/workingtimes/1/?start=2024-10-03%2013%3A02%3A00Z&end=2024-10-10%2013%3A02%3A00Z HTTP/1.1
@@ -101,7 +103,6 @@ content-type: application/json
 {"team" : {
     "user_ids" : [1, 2, 3]
 }}
-
 
 
 ### Create Account and get a Token
