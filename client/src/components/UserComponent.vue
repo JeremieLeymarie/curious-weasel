@@ -41,7 +41,7 @@ const handleUpdate = (event: Event) => {
     id: user.value.id,
     username: formValues.value.username ?? user.value.username,
     email: formValues.value.email ?? user.value.username,
-    role: user.value.role
+    teams: []
   })
 }
 
@@ -65,10 +65,10 @@ const handleDelete = () => {
       <template #header>
         <div class="flex items-center gap-4">
           <h3 class="text-xl">My information</h3>
-          <Button type="submit" size="small">Edit</Button>
+          <Button type="submit" @click="handleUpdate" size="small">Edit</Button>
         </div>
       </template>
-      <form class="space-y-4" @submit="handleUpdate">
+      <div class="space-y-4">
         <div class="flex items-center">
           <label for="name" class="w-[150px] inline-block">Name</label>
           <InputText
@@ -96,7 +96,7 @@ const handleDelete = () => {
             v-model="formValues.number"
           />
         </div>
-      </form>
+      </div>
     </Panel>
     <Panel class="p-2">
       <template #header>
