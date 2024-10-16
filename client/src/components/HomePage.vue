@@ -62,7 +62,7 @@ const today = readableDate(new Date())
           <ClockManager :clock="currentClock" :userId="user.id.toString()" :refetch="fetchClocks" />
         </template>
       </Card>
-      <Card class=" mt-4 w-6/12">
+      <Card class="mt-4 w-6/12">
         <template #title>Overview</template>
         <template #content>
           <div class="flex items-center gap-4">

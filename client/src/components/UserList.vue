@@ -4,6 +4,8 @@ import { onMounted, ref } from 'vue'
 import { capFL } from '../utils/string'
 import { differenceInSeconds, formatDuration, intervalToDuration } from 'date-fns'
 import { deleteUser, getUsers, updateUser } from '@/requests/user'
+import Card from 'primevue/card'
+import Button from 'primevue/button'
 
 let users = ref<User[]>()
 onMounted(() => {
@@ -97,49 +99,46 @@ const handleUpdate = async (user: User) => {
   <div class="mx-8 mt-4">
     <h3 class="text-2xl">Employees</h3>
     <hr class="h-1 mt-2 mb-6 bg-[#1D0455] border-0" />
-    <div v-if="users" class="w-8">
-      <table>
-        <thead>
-          <tr>
-            <th
-              :class="`${tdClass} font-bold bg-[#1D0455] text-white`"
-              scope="col"
-              v-for="header in headers"
-              :key="header"
-            >
-              {{ capFL(header) }}
-            </th>
-            <th :class="`${tdClass} font-bold bg-[#1D0455] text-white`" colspan="3">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="user in users" :key="user.id">
-            <th :class="tdClass" scope="row">{{ user.id }}</th>
-            <td :class="tdClass">{{ user.username }}</td>
-            <td :class="tdClass">{{ user.email }}</td>
-            <td :class="tdClass">{{ user.role }}</td>
-            <td :class="tdClass">{{ user.Daily }}</td>
-            <td :class="tdClass">{{ user.weekly }}</td>
-            <td :class="tdClass">
-              <button
-                v-if="user.role === 'employee'"
-                class="bg-[#1D0455] text-white p-1"
-                @click="handleUpdate(user)"
-              >
-                Promote
-              </button>
-            </td>
-            <td :class="tdClass">
-              <button class="bg-[#1D0455] text-white p-1">Add</button>
-            </td>
-            <td :class="tdClass">
-              <button class="bg-[#1D0455] text-white p-1" @click="handleDelete(user.id)">
-                Delete
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <div v-if="users">
+      <Card class="">
+        <template #content>
+          <table>
+            <thead>
+              <tr>
+                <th :class="`${tdClass} font-bold bg-[#1D0455] text-white`" scope="col" v-for="header in headers"
+                  :key="header">
+                  {{ capFL(header) }}
+                </th>
+                <th :class="`${tdClass} font-bold bg-[#1D0455] text-white`" colspan="3">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="user in users" :key="user.id">
+                <th :class="tdClass" scope="row">{{ user.id }}</th>
+                <td :class="tdClass">{{ user.username }}</td>
+                <td :class="tdClass">{{ user.email }}</td>
+                <td :class="tdClass">{{ user.role }}</td>
+                <td :class="tdClass">{{ user.Daily }}</td>
+                <td :class="tdClass">{{ user.weekly }}</td>
+                <td :class="tdClass">
+                  <Button v-if="user.role === 'employee'" size="small"
+                    @click="handleUpdate(user)">
+                    Promote
+                  </Button>
+                </td>
+                <td :class="tdClass">
+                  <Button size="small">Add</Button>
+                </td>
+                <td :class="tdClass">
+                  <Button @click="handleDelete(user.id)" label="Delete" severity="danger" size="small">
+                    Delete
+                  </Button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </template>
+      </Card>
     </div>
     <div v-else>Loading...</div>
   </div>
