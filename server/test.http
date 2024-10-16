@@ -5,7 +5,8 @@ content-type: application/json
 {"user" : {
     "username": "some username",
     "email": "some@email.fr",
-    "role" : "general_manager"
+    "role" : "general_manager",
+    "hash_password" : "password"
 }}
 
 
@@ -91,6 +92,9 @@ content-type: application/json
 ### List teams
 GET http://localhost:4000/api/teams HTTP/1.1
 
+### Get one team
+GET http://localhost:4000/api/teams/23 HTTP/1.1
+
 ### Update team members
 PUT http://localhost:4000/api/teams/15 HTTP/1.1
 content-type: application/json
@@ -99,8 +103,6 @@ content-type: application/json
 }}
 
 
-### Get one team
-GET http://localhost:4000/api/teams/8 HTTP/1.1
 
 ### Create Account and get a Token
 POST http://localhost:4000/api/users/register HTTP/1.1

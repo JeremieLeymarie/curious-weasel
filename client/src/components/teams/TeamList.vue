@@ -2,7 +2,6 @@
 import DataView from 'primevue/dataview'
 import Divider from 'primevue/divider'
 import Panel from 'primevue/panel'
-import Chip from 'primevue/chip'
 import type { Team } from '@/types'
 
 const { teams } = defineProps<{ teams: Team[] }>()
@@ -15,16 +14,16 @@ const { teams } = defineProps<{ teams: Team[] }>()
       <DataView :value="teams">
         <template #list="slotProps">
           <div v-for="(team, index) in slotProps.items" :key="index" class="my-4 p-2 space-y-2">
-            <div class="space-y-2">
-              <router-link :to="`/teams/${team.id}`">
-                <p class="px-2 text-md font-semibold">{{ team.name }}</p>
-              </router-link>
-              <div class="flex gap-2 flex-wrap">
-                <router-link :to="`/user/${user.id}`" v-for="user in team.users" :key="user.id"
-                  ><Chip :label="user.username"
-                /></router-link>
+            <router-link :to="`/teams/${team.id}`">
+              <div class="space-y-2 flex justify-between items-center">
+                <p class="text-md">
+                  <strong> {{ team.name }}</strong> -
+                  {{ team.manager ? `Managed by ${team.manager.username}` : 'No manager' }}
+                </p>
+
+                <p>{{ team.users.length }} member(s)</p>
               </div>
-            </div>
+            </router-link>
             <Divider />
           </div>
         </template>

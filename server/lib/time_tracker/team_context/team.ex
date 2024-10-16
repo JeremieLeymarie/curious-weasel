@@ -20,6 +20,7 @@ defmodule TimeTracker.TeamContext.Team do
     user
     |> cast(attrs, [:name])
     |> cast_assoc(:users)
+    |> cast_assoc(:manager)
     |> validate_required([:name])
   end
 end
