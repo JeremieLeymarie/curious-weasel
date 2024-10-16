@@ -6,6 +6,8 @@ import Panel from 'primevue/panel'
 import Select from 'primevue/select'
 import FloatLabel from 'primevue/floatlabel'
 import { useRoute } from 'vue-router'
+import { differenceInDays, subDays } from 'date-fns'
+import DatePicker from 'primevue/datepicker'
 
 type WorkingTime = {
   id: number
@@ -13,35 +15,18 @@ type WorkingTime = {
   end: string
 }
 
-const monthOptions = ref([
-  { name: 'January', id: 1 },
-  { name: 'February', id: 2 },
-  { name: 'March', id: 3 },
-  { name: 'April', id: 4 },
-  { name: 'May', id: 5 },
-  { name: 'June', id: 6 },
-  { name: 'July', id: 7 },
-  { name: 'August', id: 8 },
-  { name: 'September', id: 9 },
-  { name: 'October', id: 10 },
-  { name: 'November', id: 11 },
-  { name: 'December', id: 12 }
-])
-
 const workingTimes = ref<WorkingTime[]>([])
 const labels = ref<string[]>([])
 const datasetData = ref<number[]>([])
-const selectedMonth = ref(monthOptions.value[9])
-const selectedYear = ref<string>('2024')
+const selectedInterval = ref<Date[]>([subDays(new Date(), 7), new Date()])
 const chartType = ref<string>('bar')
 
-const totalHours = computed(() => datasetData.value.reduce((a, b) => a + b, 0))
+const totalHours = computed(() => datasetData.value.reduce((acc, value) => acc + value, 0))
 
 const route = useRoute()
 
-const targetHours = 140
-
 const doughnutData = computed(() => {
+  let targetHours = 8 * differenceInDays(selectedInterval.value[1], selectedInterval.value[0]) + 8
   const hoursWorked = totalHours.value
   const remainingHours = Math.max(targetHours - hoursWorked, 0)
   return {
@@ -73,21 +58,19 @@ const calculateDuration = (start: string, end: string) => {
   return (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60)
 }
 
-const generateDaysOfMonth = (year: number, month: number) => {
-  const daysInMonth = new Date(year, month, 0).getDate()
+const generateDaysOfInterval = () => {
+  const daysInInterval = differenceInDays(selectedInterval.value[1], selectedInterval.value[0])
   const dates = []
-  for (let day = 1; day <= daysInMonth; day++) {
-    const date = new Date(year, month - 1, day).toLocaleDateString('en-CA')
-    dates.push(date)
+  for (let day = 0; day <= daysInInterval; day++) {
+    let date = new Date(selectedInterval.value[0])
+    date.setDate(date.getDate() + day)
+    dates.push(date.toLocaleDateString('en-CA'))
   }
   return dates
 }
 
 const generateChartData = () => {
-  const year = parseInt(selectedYear.value)
-  const month = selectedMonth.value.id
-
-  const daysOfMonth = generateDaysOfMonth(year, month)
+  const daysOfMonth = generateDaysOfInterval()
   const groupedData: { [key: string]: number } = {}
 
   daysOfMonth.forEach((day) => {
@@ -120,7 +103,7 @@ const generateChartData = () => {
   }
 }
 
-watch([selectedMonth, selectedYear, chartType], () => {
+watch([selectedInterval], () => {
   generateChartData()
 })
 
@@ -167,23 +150,8 @@ const chartOptions = {
       <div class="flex gap-4">
         <div>
           <FloatLabel>
-            <Select
-              inputId="year-input"
-              v-model="selectedYear"
-              :options="['2022', '2023', '2024', '2025']"
-            />
-            <label for="year-input">Select Year</label>
-          </FloatLabel>
-        </div>
-        <div>
-          <FloatLabel>
-            <Select
-              inputId="month-select"
-              v-model="selectedMonth"
-              :options="monthOptions"
-              optionLabel="name"
-            />
-            <label for="month-select">Select Month</label>
+            <DatePicker selectionMode="range" inputId="range-input" v-model="selectedInterval" />
+            <label for="range-input">Select Dates</label>
           </FloatLabel>
         </div>
 

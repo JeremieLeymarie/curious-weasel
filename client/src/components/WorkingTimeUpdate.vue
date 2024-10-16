@@ -10,7 +10,6 @@ const route = useRoute()
 
 const start = ref(new Date(route.params.start as string))
 const end = ref(new Date(route.params.end as string))
-console.log(start)
 async function updateWorkingTime(id: any) {
   let data = JSON.stringify({
     working_time: {
