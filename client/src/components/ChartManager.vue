@@ -3,19 +3,15 @@ import { ref, onMounted, watch, computed } from 'vue'
 
 import Chart from 'primevue/chart'
 import Panel from 'primevue/panel'
-import Select from 'primevue/Select'
+import Select from 'primevue/select'
 import FloatLabel from 'primevue/floatlabel'
-import { useRoute } from 'vue-router'
 import { differenceInDays, subDays } from 'date-fns'
 import DatePicker from 'primevue/datepicker'
+import type { WorkingTime } from '@/types'
 
-type WorkingTime = {
-  id: number
-  start: string
-  end: string
-}
+const { workingTimes } = defineProps<{ workingTimes: WorkingTime[] }>()
 
-const workingTimes = ref<WorkingTime[]>([])
+
 const labels = ref<string[]>([])
 const datasetData = ref<number[]>([])
 const selectedInterval = ref<Date[]>([subDays(new Date(), 7), new Date()])
@@ -23,7 +19,6 @@ const chartType = ref<string>('bar')
 
 const totalHours = computed(() => datasetData.value.reduce((acc, value) => acc + value, 0))
 
-const route = useRoute()
 
 const doughnutData = computed(() => {
   let targetHours = 8 * differenceInDays(selectedInterval.value[1], selectedInterval.value[0]) + 8
@@ -41,16 +36,7 @@ const doughnutData = computed(() => {
   }
 })
 
-const getWorkingTimes = async (userId: string) => {
-  try {
-    const response = await fetch(`${import.meta.env.VITE_HOST}:4000/api/workingtimes/${userId}`)
-    const data = await response.json()
-    return data.data as WorkingTime[]
-  } catch (error) {
-    console.error('Error fetching working times:', error)
-    return []
-  }
-}
+
 
 const calculateDuration = (start: string, end: string) => {
   const startDate = new Date(start)
@@ -70,6 +56,7 @@ const generateDaysOfInterval = () => {
 }
 
 const generateChartData = () => {
+  console.log(workingTimes)
   const daysOfMonth = generateDaysOfInterval()
   const groupedData: { [key: string]: number } = {}
 
@@ -77,7 +64,7 @@ const generateChartData = () => {
     groupedData[day] = 0
   })
 
-  workingTimes.value.forEach((time) => {
+  workingTimes.forEach((time) => {
     const dateKey = new Date(time.start).toLocaleDateString('en-CA')
     if (groupedData[dateKey] !== undefined) {
       groupedData[dateKey] += calculateDuration(time.start, time.end)
@@ -108,10 +95,7 @@ watch([selectedInterval], () => {
 })
 
 onMounted(() => {
-  getWorkingTimes(route.params.userId as string).then((res) => {
-    workingTimes.value = res
-    generateChartData()
-  })
+  generateChartData()
 })
 
 const chartData = ref({
