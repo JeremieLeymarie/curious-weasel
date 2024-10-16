@@ -9,7 +9,7 @@ import { differenceInDays, subDays } from 'date-fns'
 import DatePicker from 'primevue/datepicker'
 import type { WorkingTime } from '@/types'
 
-const { workingTimes } = defineProps<{ workingTimes: WorkingTime[] }>()
+const { workingTimes, isTeam, name } = defineProps<{ workingTimes: WorkingTime[], isTeam: boolean; name: string }>()
 
 
 const labels = ref<string[]>([])
@@ -129,7 +129,7 @@ const chartOptions = {
 
 <template>
   <div class="space-y-4">
-    <h3 class="text-2xl my-4">Dashboard</h3>
+    <h3 class="text-2xl my-4">Dashboard for {{ isTeam ? "team" : "user" }} <strong>{{ name }}</strong></h3>
     <Panel>
       <div class="flex gap-4">
         <div>
