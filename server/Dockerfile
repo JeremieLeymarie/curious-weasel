@@ -6,14 +6,8 @@ COPY . /app
 RUN mix local.hex --force
 RUN chmod +x ./entrypoint.sh
 
-RUN apk update && apk add --no-cache \
-    build-base \
-    nodejs \
-    npm \
-    git \
-    bash \
-    openssl-dev
-
+RUN apk add --no-cache \
+    build-base 
 RUN mix deps.get
 RUN mix deps.compile
 
