@@ -8,10 +8,10 @@ import Button from 'primevue/button'
 const router = useRouter()
 const route = useRoute()
 
-const start = ref(new Date(route.params.start as string).toISOString().split('.')[0])
-const end = ref(new Date(route.params.end as string).toISOString().split('.')[0])
+const start = ref(new Date(route.params.start as string))
+const end = ref(new Date(route.params.end as string))
+console.log(start)
 async function updateWorkingTime(id: any) {
-  console.log(id, start.value, end.value)
   let data = JSON.stringify({
     working_time: {
       end: end.value,
