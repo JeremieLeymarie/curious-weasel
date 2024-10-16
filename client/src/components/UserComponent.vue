@@ -50,6 +50,15 @@ onMounted(() => {
 //     role: user.value.role
 //   })
 // }
+  if (!user.value?.id) return
+  // TODO: use zod for validation?
+  updateUser({
+    id: user.value.id,
+    username: formValues.value.username ?? user.value.username,
+    email: formValues.value.email ?? user.value.username,
+    teams: []
+  })
+}
 
 const handleDelete = () => {
   if (!user.value?.id) return
@@ -107,10 +116,11 @@ const confirm2 = () => {
       <template #header>
         <div class="flex items-center gap-4">
           <h3 class="text-xl">My information</h3>
-          <Button type="submit" size="small">Edit</Button>
+          <Button type="submit" @click="handleUpdate" size="small">Edit</Button>
         </div>
       </template>
       <form class="space-y-4" @submit="">
+      <div class="space-y-4">
         <div class="flex items-center">
           <label for="name" class="w-[150px] inline-block">Name</label>
           <InputText id="name" name="name" placeholder="James Gordon" v-model="formValues.username" />
@@ -123,7 +133,7 @@ const confirm2 = () => {
           <label for="number" class="w-[150px] inline-block">Phone number</label>
           <!-- <InputText id="number" name="number" placeholder="+1 223 4984" v-model="formValues.number" /> -->
         </div>
-      </form>
+      </div>
     </Panel>
     <Panel class="p-2">
       <template #header>

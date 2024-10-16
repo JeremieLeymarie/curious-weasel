@@ -69,9 +69,9 @@ const getWorkingTimes = async () => {
 // TODO: use date-fns here
 const formatTime = (date: Date) => {
   return (
-    date.getUTCHours().toString().padStart(2, '0') +
+    date.getHours().toString().padStart(2, '0') +
     ':' +
-    date.getUTCMinutes().toString().padStart(2, '0')
+    date.getMinutes().toString().padStart(2, '0')
   )
 }
 
