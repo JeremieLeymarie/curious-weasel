@@ -23,7 +23,7 @@ defmodule TimeTracker.TeamContext do
   def list_teams(_params) do
     query =
       from(t in Team,
-        preload: [:users]
+        preload: [:users, :manager]
       )
 
     Repo.all(query)
@@ -47,7 +47,7 @@ defmodule TimeTracker.TeamContext do
     query =
       from(Team,
         where: [id: ^id],
-        preload: [:users]
+        preload: [:users, :manager]
       )
 
     Repo.one(query)
@@ -66,8 +66,11 @@ defmodule TimeTracker.TeamContext do
 
   """
   def create_team(attrs \\ %{}) do
+    manager = Repo.get(User, attrs["manager_id"])
+
     %Team{}
     |> Team.changeset(%{name: attrs["name"]})
+    |> Ecto.Changeset.put_assoc(:manager, manager)
     |> Repo.insert()
   end
 
@@ -92,11 +95,6 @@ defmodule TimeTracker.TeamContext do
     user_ids = attrs["user_ids"]
 
     users = User |> where([u], u.id in ^user_ids) |> Repo.all()
-
-    # users_as_maps =
-    #   Enum.map(users, fn user ->
-    #     Map.take(user, User.__schema__(:fields))
-    #   end)
 
     team
     |> Ecto.Changeset.change()

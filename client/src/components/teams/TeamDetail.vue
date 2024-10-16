@@ -7,6 +7,7 @@ import Chip from 'primevue/chip'
 import Button from 'primevue/button'
 import Panel from 'primevue/panel'
 import Dialog from 'primevue/dialog'
+import Divider from 'primevue/divider'
 import UserDropdown from './UserDropdown.vue'
 
 const route = useRoute()
@@ -38,11 +39,21 @@ const submitChangeMembers = async () => {
 
 <template>
   <Panel v-if="team" :header="`Team ${team.name}`">
-    <div class="flex gap-2 flex-wrap">
-      <router-link :to="`/user/${user.id}`" v-for="user in team.users" :key="user.id"
-        ><Chip :label="user.username"
+    <div v-if="team.manager" class="flex gap-2">
+      <p class="my-2 font-semibold">Managed by:</p>
+      <router-link :to="`/user/${team.manager.id}`">
+        <Chip :label="team.manager.username"
       /></router-link>
-      <Button outlined size="small" icon="pi pi-pencil" @click="isModalOpen = true"></Button>
+    </div>
+    <Divider />
+    <div class="space-y-2">
+      <p>Members:</p>
+      <div class="flex gap-2 flex-wrap">
+        <router-link :to="`/user/${user.id}`" v-for="user in team.users" :key="user.id"
+          ><Chip :label="user.username"
+        /></router-link>
+        <Button outlined size="small" icon="pi pi-pencil" @click="isModalOpen = true"></Button>
+      </div>
     </div>
   </Panel>
   <p v-else>Loading...</p>
@@ -58,7 +69,11 @@ const submitChangeMembers = async () => {
       >Add or remove team members.</span
     >
 
-    <UserDropdown :on-change="onChangeMembers" :default-values="team?.users ?? []" />
+    <UserDropdown
+      :on-change="onChangeMembers"
+      :default-values="team?.users ?? []"
+      :multiple="true"
+    />
     <div class="flex justify-end gap-2 mt-4">
       <Button
         type="button"

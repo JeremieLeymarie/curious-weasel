@@ -12,6 +12,10 @@ import UserDropdown from './UserDropdown.vue'
 const { onSubmit } = defineProps<{ onSubmit: () => void }>()
 const formValues = ref<Partial<Team>>({})
 
+const onManagerChange = (user: User) => {
+  formValues.value.manager = user
+}
+
 const onUserChange = (users: SimpleUser[]) => {
   formValues.value.users = users
 }
@@ -25,7 +29,8 @@ const submit = async (e: Event) => {
     body: JSON.stringify({
       team: {
         name: formValues.value.name,
-        user_ids: formValues.value.users?.map((user) => user.id) ?? []
+        user_ids: formValues.value.users?.map((user) => user.id) ?? [],
+        manager_id: formValues.value.manager?.id
       }
     })
   })
@@ -41,7 +46,16 @@ const submit = async (e: Event) => {
         <label for="name">Name</label>
       </FloatLabel>
 
-      <UserDropdown :onChange="onUserChange" />
+      <FloatLabel class="!mt-8">
+        <UserDropdown :onChange="onManagerChange" :multiple="false" />
+        <label>Manager</label>
+      </FloatLabel>
+
+      <FloatLabel class="!mt-8">
+        <UserDropdown :onChange="onUserChange" multiple />
+        <label>Team members</label>
+      </FloatLabel>
+
       <div>
         <Button label="Submit" type="submit" />
       </div>

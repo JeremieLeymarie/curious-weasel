@@ -16,10 +16,18 @@ defmodule TimeTrackerWeb.TeamJSON do
   end
 
   defp data(%Team{} = team) do
+    IO.inspect(team)
+
     result = %{
       id: team.id,
       name: team.name,
-      users: nil
+      users: nil,
+      manager:
+        if Ecto.assoc_loaded?(team.manager) && team.manager != nil do
+          %{id: team.manager.id, username: team.manager.username}
+        else
+          nil
+        end
     }
 
     users =
@@ -30,6 +38,7 @@ defmodule TimeTrackerWeb.TeamJSON do
       end
 
     result = %{result | users: users}
+
     result
   end
 end

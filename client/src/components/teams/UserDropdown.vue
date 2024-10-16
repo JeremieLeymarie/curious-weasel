@@ -4,14 +4,15 @@ import type { SimpleUser } from '@/types'
 import AutoComplete from 'primevue/autocomplete'
 import { onMounted, ref, watch } from 'vue'
 
-const { onChange, defaultValues } = defineProps<{
-  onChange: (users: SimpleUser[]) => void
+const { onChange, defaultValues, multiple } = defineProps<{
+  onChange: ((users: SimpleUser[]) => void) | ((user: SimpleUser) => void)
   defaultValues?: SimpleUser[]
+  multiple: boolean
 }>()
 
 const users = ref<SimpleUser[]>([])
 const filteredUsers = ref<SimpleUser[]>([])
-const values = ref<SimpleUser[]>(defaultValues ?? [])
+const values = ref<SimpleUser[] | SimpleUser>(defaultValues ?? [])
 
 onMounted(() => {
   getUsers().then((res) => {
@@ -36,7 +37,7 @@ const search = (e: any) => {
     :suggestions="filteredUsers"
     option-label="username"
     @complete="search"
-    multiple
+    :multiple="multiple"
     v-model="values"
   />
 </template>
