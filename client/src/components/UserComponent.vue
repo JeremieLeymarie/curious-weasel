@@ -74,6 +74,7 @@ const confirm2 = () => {
       severity: 'danger'
     },
     accept: () => {
+      handleDelete()
       toast.add({
         severity: 'info',
         summary: 'Confirmed',
