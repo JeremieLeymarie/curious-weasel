@@ -42,7 +42,7 @@ const submitChangeMembers = async () => {
       <router-link :to="`/user/${user.id}`" v-for="user in team.users" :key="user.id"
         ><Chip :label="user.username"
       /></router-link>
-      <Button outlined size="small" icon="pi pi-plus" @click="isModalOpen = true"></Button>
+      <Button outlined size="small" icon="pi pi-pencil" @click="isModalOpen = true"></Button>
     </div>
   </Panel>
   <p v-else>Loading...</p>
@@ -51,13 +51,15 @@ const submitChangeMembers = async () => {
     v-model:visible="isModalOpen"
     modal
     header="Add member to team"
-    :style="{ width: '25rem' }"
+    :style="{ width: '40vw', minWidth: '400px' }"
     :dismissable-mask="true"
   >
-    <span class="text-surface-500 dark:text-surface-400 block mb-8">Update your information.</span>
+    <span class="text-surface-500 dark:text-surface-400 block my-2"
+      >Add or remove team members.</span
+    >
 
     <UserDropdown :on-change="onChangeMembers" :default-values="team?.users ?? []" />
-    <div class="flex justify-end gap-2">
+    <div class="flex justify-end gap-2 mt-4">
       <Button
         type="button"
         label="Cancel"

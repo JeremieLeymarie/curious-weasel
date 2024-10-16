@@ -16,8 +16,6 @@ const onUserChange = (users: SimpleUser[]) => {
   formValues.value.users = users
 }
 
-console.log(onSubmit)
-
 const submit = async (e: Event) => {
   e.preventDefault()
 

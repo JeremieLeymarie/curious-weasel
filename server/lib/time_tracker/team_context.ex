@@ -9,6 +9,7 @@ defmodule TimeTracker.TeamContext do
 
   alias TimeTracker.TeamContext.Team
   alias TimeTracker.TeamContext.TeamUser
+  alias TimeTracker.UserContext.User
 
   @doc """
   Returns the list of teams.
@@ -88,11 +89,18 @@ defmodule TimeTracker.TeamContext do
 
   """
   def update_team(%Team{} = team, attrs) do
-    IO.inspect("AHAHHHAHHHHH")
-    IO.inspect(team)
+    user_ids = attrs["user_ids"]
+
+    users = User |> where([u], u.id in ^user_ids) |> Repo.all()
+
+    # users_as_maps =
+    #   Enum.map(users, fn user ->
+    #     Map.take(user, User.__schema__(:fields))
+    #   end)
 
     team
-    |> Team.changeset(attrs)
+    |> Ecto.Changeset.change()
+    |> Ecto.Changeset.put_assoc(:users, users)
     |> Repo.update()
   end
 
