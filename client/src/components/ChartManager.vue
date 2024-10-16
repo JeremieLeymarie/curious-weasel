@@ -176,12 +176,8 @@ const chartOptions = {
           </div>
         </Panel>
         <Panel class="p-2" header="Remaining work time">
-          <Chart
-            type="doughnut"
-            :data="doughnutData"
-            :options="{ responsive: true, maintainAspectRatio: false }"
-            class="w-full md:w-[30rem] !h-[20vw] min-h-[150px]"
-          />
+          <Chart type="doughnut" :data="doughnutData" :options="{ responsive: true, maintainAspectRatio: false }"
+            class="w-full md:w-[30rem] !h-[20vw] min-h-[150px]" />
         </Panel>
       </div>
     </div>
