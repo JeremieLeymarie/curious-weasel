@@ -9,6 +9,7 @@ defmodule TimeTracker.TeamContext do
 
   alias TimeTracker.TeamContext.Team
   alias TimeTracker.TeamContext.TeamUser
+  alias TimeTracker.UserContext.User
 
   @doc """
   Returns the list of teams.
@@ -22,7 +23,7 @@ defmodule TimeTracker.TeamContext do
   def list_teams(_params) do
     query =
       from(t in Team,
-        preload: [:users]
+        preload: [:users, :manager]
       )
 
     Repo.all(query)
@@ -46,7 +47,7 @@ defmodule TimeTracker.TeamContext do
     query =
       from(Team,
         where: [id: ^id],
-        preload: [:users]
+        preload: [:users, :manager]
       )
 
     Repo.one(query)
@@ -65,8 +66,11 @@ defmodule TimeTracker.TeamContext do
 
   """
   def create_team(attrs \\ %{}) do
+    manager = Repo.get(User, attrs["manager_id"])
+
     %Team{}
     |> Team.changeset(%{name: attrs["name"]})
+    |> Ecto.Changeset.put_assoc(:manager, manager)
     |> Repo.insert()
   end
 
@@ -88,11 +92,13 @@ defmodule TimeTracker.TeamContext do
 
   """
   def update_team(%Team{} = team, attrs) do
-    IO.inspect("AHAHHHAHHHHH")
-    IO.inspect(team)
+    user_ids = attrs["user_ids"]
+
+    users = User |> where([u], u.id in ^user_ids) |> Repo.all()
 
     team
-    |> Team.changeset(attrs)
+    |> Ecto.Changeset.change()
+    |> Ecto.Changeset.put_assoc(:users, users)
     |> Repo.update()
   end
 

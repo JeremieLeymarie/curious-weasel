@@ -3,7 +3,7 @@ import { ref, onMounted, watch, computed } from 'vue'
 
 import Chart from 'primevue/chart'
 import Panel from 'primevue/panel'
-import Select from 'primevue/select'
+import Select from 'primevue/Select'
 import FloatLabel from 'primevue/floatlabel'
 import { useRoute } from 'vue-router'
 import { differenceInDays, subDays } from 'date-fns'

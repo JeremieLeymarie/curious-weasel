@@ -27,8 +27,8 @@ export type Clock = {
 }
 
 export type Team = {
-  users?: { id: string; username: string }[]
+  users?: SimpleUser[]
+  manager?: SimpleUser
   id: string
   name: string
-  manager?: User
 }

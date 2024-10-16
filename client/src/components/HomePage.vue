@@ -43,8 +43,8 @@ const today = readableDate(new Date())
     <p class="text-l">Today is {{ today }}</p>
     <hr class="h-1 bg-primary-950 border-0" />
 
-    <div class="flex gap-8">
-      <Card class="w-6/12">
+    <div class="gap-8 md:flex">
+      <Card class="mt-4 w-6/12">
         <template #title>Fast Clocking</template>
         <template #subtitle>
           <p v-if="currentClock">
@@ -62,7 +62,7 @@ const today = readableDate(new Date())
           <ClockManager :clock="currentClock" :userId="user.id.toString()" :refetch="fetchClocks" />
         </template>
       </Card>
-      <Card class="w-6/12">
+      <Card class="mt-4 w-6/12">
         <template #title>Overview</template>
         <template #content>
           <div class="flex items-center gap-4">
