@@ -7,12 +7,12 @@ import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import Panel from 'primevue/panel'
 import Chip from 'primevue/chip'
-import ConfirmDialog from 'primevue/confirmdialog';
-import { useConfirm } from 'primevue/useconfirm';
-import { useToast } from 'primevue/usetoast';
+import ConfirmDialog from 'primevue/confirmdialog'
+import { useConfirm } from 'primevue/useconfirm'
+import { useToast } from 'primevue/usetoast'
 
-const confirm = useConfirm();
-const toast = useToast();
+const confirm = useConfirm()
+const toast = useToast()
 
 const user = ref<User>()
 
@@ -38,18 +38,9 @@ onMounted(() => {
   })
 })
 
-// const handleUpdate = (event: Event) => {
-//   event.preventDefault()
+const handleUpdate = (event: Event) => {
+  event.preventDefault()
 
-//   if (!user.value?.id) return
-//   // TODO: use zod for validation?
-//   updateUser({
-//     id: user.value.id,
-//     username: formValues.value.username ?? user.value.username,
-//     email: formValues.value.email ?? user.value.username,
-//     role: user.value.role
-//   })
-// }
   if (!user.value?.id) return
   // TODO: use zod for validation?
   updateUser({
@@ -76,30 +67,30 @@ const confirm2 = () => {
     rejectProps: {
       label: 'Cancel',
       severity: 'secondary',
-      outlined: true,
+      outlined: true
     },
     acceptProps: {
       label: 'Delete',
-      severity: 'danger',
+      severity: 'danger'
     },
     accept: () => {
       toast.add({
         severity: 'info',
         summary: 'Confirmed',
         detail: 'Account deleted',
-        life: 3000,
-      });
+        life: 3000
+      })
     },
     reject: () => {
       toast.add({
         severity: 'error',
         summary: 'Rejected',
         detail: 'You have canceled',
-        life: 3000,
-      });
-    },
-  });
-};
+        life: 3000
+      })
+    }
+  })
+}
 </script>
 
 <template>
@@ -119,21 +110,32 @@ const confirm2 = () => {
           <Button type="submit" @click="handleUpdate" size="small">Edit</Button>
         </div>
       </template>
-      <form class="space-y-4" @submit="">
-      <div class="space-y-4">
-        <div class="flex items-center">
-          <label for="name" class="w-[150px] inline-block">Name</label>
-          <InputText id="name" name="name" placeholder="James Gordon" v-model="formValues.username" />
+      <form class="space-y-4">
+        <div class="space-y-4">
+          <div class="flex items-center">
+            <label for="name" class="w-[150px] inline-block">Name</label>
+            <InputText
+              id="name"
+              name="name"
+              placeholder="James Gordon"
+              v-model="formValues.username"
+            />
+          </div>
+          <div class="flex items-center">
+            <label for="email" class="w-[150px] inline-block">Email address</label>
+            <InputText
+              id="email"
+              name="email"
+              placeholder="example@gotham-city.com"
+              v-model="formValues.email"
+            />
+          </div>
+          <div class="flex items-center">
+            <label for="number" class="w-[150px] inline-block">Phone number</label>
+            <!-- <InputText id="number" name="number" placeholder="+1 223 4984" v-model="formValues.number" /> -->
+          </div>
         </div>
-        <div class="flex items-center">
-          <label for="email" class="w-[150px] inline-block">Email address</label>
-          <InputText id="email" name="email" placeholder="example@gotham-city.com" v-model="formValues.email" />
-        </div>
-        <div class="flex items-center">
-          <label for="number" class="w-[150px] inline-block">Phone number</label>
-          <!-- <InputText id="number" name="number" placeholder="+1 223 4984" v-model="formValues.number" /> -->
-        </div>
-      </div>
+      </form>
     </Panel>
     <Panel class="p-2">
       <template #header>
