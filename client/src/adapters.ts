@@ -4,13 +4,13 @@ const _workingTimeFromAPI = (wt: {
   id: number
   start: string
   end: string
-  user_id: string
+  user_id: number
 }): WorkingTime => {
   return {
     id: wt.id.toString(),
     start: new Date(wt.start),
     end: new Date(wt.end),
-    userId: wt.user_id
+    userId: wt.user_id?.toString()
   }
 }
 
