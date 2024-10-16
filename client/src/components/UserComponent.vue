@@ -147,7 +147,7 @@ const confirm2 = () => {
       <div class="space-y-4">
         <div class="flex items-center">
           <h4 class="w-[165px] inline-block">Job title</h4>
-          <span>Police Commissionner</span>
+          <span>Police Commissioner</span>
         </div>
         <div class="flex items-center">
           <h4 class="w-[165px] inline-block">Manager</h4>
