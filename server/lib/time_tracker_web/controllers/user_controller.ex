@@ -8,6 +8,7 @@ defmodule TimeTrackerWeb.UserController do
 
   def index(conn, params) do
     users = UserContext.list_users(params)
+
     render(conn, :index, users: users)
   end
 
@@ -20,7 +21,7 @@ defmodule TimeTrackerWeb.UserController do
     end
   end
 
-  def create_bitch(conn, %{"user" => user_params}) do
+  def sign_user_up(conn, %{"user" => user_params}) do
     with {:ok, %User{} = user} <- UserContext.create_user(user_params),
          {:ok, token, _full_claims} <- TimeTracker.Guardian.encode_and_sign(user) do
       conn
@@ -60,6 +61,7 @@ defmodule TimeTrackerWeb.UserController do
     case TimeTracker.Guardian.authenticate(email, hash_password) do
       {:ok, user, token} ->
         conn
+        |> put_session(:current_user, %{test: "tutut"})
         |> put_status(:ok)
         |> json(%{
           id: user.id,

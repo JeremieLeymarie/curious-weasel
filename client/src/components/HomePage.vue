@@ -77,7 +77,7 @@ const today = readableDate(new Date())
             <p class="p-3 text-center">You have {{}} days off left.</p>
           </div>
           <Button class="block my-4">
-            <RouterLink :to="`/chart-manager/${userStore.user.id}`"><a>Consult dashboard</a></RouterLink>
+            <RouterLink :to="`/chart-manager/${userStore.user?.id}`"><a>Consult dashboard</a></RouterLink>
           </Button>
         </template>
       </Card>
