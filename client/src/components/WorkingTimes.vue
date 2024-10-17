@@ -43,7 +43,7 @@ const deleteWorkingTime = async (id: string) => {
 }
 
 const goToNewWTpage = async () => {
-  router.push(`/workingtime/new`)
+  router.push(`/workingtime/new/` + route.params.userId)
 }
 
 const updateWorkingTime = async (id: string, start: Date, end: Date) => {
@@ -91,7 +91,6 @@ const calculateTotalDuration = (times: any[]) => {
   return formatted
 }
 const getPeriod = (start: Date) => {
-  console.log(start)
   const hour = start.getHours()
   return hour < 12 ? 'Morning' : 'Afternoon'
 }
@@ -137,12 +136,7 @@ onMounted(() => {
         <div v-if="data.loading" class="text-center text-gray-300">Loading...</div>
         <div v-else>
           <Accordion :value="[]" multiple>
-            <AccordionPanel
-              :value="date"
-              v-for="(times, date) in groupedWorkingTimes"
-              :key="date"
-              class="mb-4"
-            >
+            <AccordionPanel :value="date" v-for="(times, date) in groupedWorkingTimes" :key="date" class="mb-4">
               <AccordionHeader>
                 <div class="flex justify-between w-full pr-4">
                   <p>{{ date }}</p>
@@ -158,10 +152,7 @@ onMounted(() => {
                     </p>
                     <p>Duration: {{ calculateDuration(time.start, time.end) }}</p>
                     <div class="flex gap-2">
-                      <Button
-                        @click="updateWorkingTime(time.id, time.start, time.end)"
-                        size="small"
-                      >
+                      <Button @click="updateWorkingTime(time.id, time.start, time.end)" size="small">
                         Update
                       </Button>
                       <Button @click="deleteWorkingTime(time.id)" size="small"> Delete </Button>

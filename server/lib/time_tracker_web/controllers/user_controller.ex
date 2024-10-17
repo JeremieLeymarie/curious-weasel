@@ -4,7 +4,7 @@ defmodule TimeTrackerWeb.UserController do
   alias TimeTracker.UserContext
   alias TimeTracker.UserContext.User
 
-  action_fallback TimeTrackerWeb.FallbackController
+  action_fallback(TimeTrackerWeb.FallbackController)
 
   def index(conn, params) do
     users = UserContext.list_users(params)
@@ -64,7 +64,9 @@ defmodule TimeTrackerWeb.UserController do
         |> json(%{
           id: user.id,
           email: user.email,
-          token: token
+          token: token,
+          role: user.role,
+          username: user.username
         })
 
       {:error, _reason} ->
@@ -75,5 +77,4 @@ defmodule TimeTrackerWeb.UserController do
         })
     end
   end
-
 end

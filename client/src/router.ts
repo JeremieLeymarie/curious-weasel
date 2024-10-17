@@ -13,10 +13,11 @@ import TeamManager from './components/teams/TeamManager.vue'
 import TeamDetail from './components/teams/TeamDetail.vue'
 import UserDashboard from './components/UserDashboard.vue'
 import TeamDashboard from './components/TeamDashboard.vue'
+import Authentication from './components/Authentication.vue'
 
 const routes = [
   { path: '/', component: HomeComponent },
-  { path: '/workingtime/new', component: WorkingTimesCreated },
+  { path: '/workingtime/new/:userId', component: WorkingTimesCreated },
   { path: '/workingtime/:userId', component: WorkingTimes },
   { path: '/workingtime/update/:id/:start/:end', component: WorkingTimesUpdate },
   { path: '/user/:id', component: UserComponent },
@@ -24,7 +25,7 @@ const routes = [
   { path: '/users', component: UserList },
   { path: '/chart-manager/:userId', component: UserDashboard },
   { path: '/chart-manager/team/:teamId', component: TeamDashboard },
-  { path: '/login', component: Login },
+  { path: '/login', component: Authentication },
   { path: '/teams', component: TeamManager },
   { path: '/teams/:teamId', component: TeamDetail }
 ]

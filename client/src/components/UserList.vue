@@ -121,8 +121,7 @@ const handleUpdate = async (user: User) => {
                 <td :class="tdClass">{{ user.Daily }}</td>
                 <td :class="tdClass">{{ user.weekly }}</td>
                 <td :class="tdClass">
-                  <Button v-if="user.role === 'employee'" size="small"
-                    @click="handleUpdate(user)">
+                  <Button v-if="user.role === 'employee'" size="small" @click="handleUpdate(user)">
                     Promote
                   </Button>
                 </td>

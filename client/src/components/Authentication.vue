@@ -4,27 +4,35 @@ import { useRoute } from 'vue-router'
 import { useRouter } from 'vue-router'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
+import { useUserStore } from '@/stores/user'
+import type { User } from '@/types'
 
 const router = useRouter()
 const route = useRoute()
 
 const email = ref(null)
 const password = ref(null)
+const userStore = useUserStore();
 async function login() {
   let data = JSON.stringify({
-    working_time: {
+    user: {
       email: email.value,
-      password: password.value
+      hash_password: password.value
     }
   })
   if (password.value != null && email.value != null) {
-    let res = await fetch(`${import.meta.env.VITE_HOST}:4000/api/workingtimes/${route.params.id}`, {
-      method: 'PUT',
+    let res = await fetch(`${import.meta.env.VITE_HOST}:4000/api/users/sign_in`, {
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: data
     })
     if (res.status == 200) {
+      let user: User = await res.json()
+      userStore.setUser(user)
+      console.log(userStore.user?.id)
       router.push(`/`)
+    } else {
+      console.log("bad credential")
     }
   } else {
     console.log('no email or password')
@@ -33,19 +41,20 @@ async function login() {
 </script>
 
 <template>
-  <div class="ml-8">
-    <p class="text-2xl my-4">Connections</p>
-    <hr class="h-1 mb-4 ml-1 mr-16 bg-[#1343ad] border-0" />
-    <div class="flex space-x-10">
-      <div class="p-2">
-        <p>Email</p>
-        <InputText v-model="email" type="text" name="" id="" class="border-2" />
+  <h3 class="text-2xl text-center mt-8">Login to your app</h3>
+  <div>
+    <div class="text-center mt-6">
+      <div class="flex flex-col items-center m-2">
+        <label for="email">Email address</label>
+        <InputText id="email" name="email" placeholder="example@gotham-city.com" class="border-2 w-2/12"
+          v-model="email" />
       </div>
-      <div class="p-2">
-        <p>Password</p>
-        <InputText v-model="password" type="password" name="" id="" class="border-2" />
+      <div class="flex flex-col items-center m-2">
+        <label for="password">Password</label>
+        <InputText id="password" type="password" placeholder="Create a password" class="border-2 w-2/12"
+          v-model="password" />
       </div>
+      <Button @click="login" type="button" class="w-20 mt-4"> Login </Button>
     </div>
-    <Button @click="login"> Submit </Button>
   </div>
 </template>

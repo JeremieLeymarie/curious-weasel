@@ -4,12 +4,7 @@ import type { User } from '@/types'
 
 export const useUserStore = defineStore('user', () => {
   // TODO: use actual user
-  const user = ref<User | null>({
-    id: '1',
-    username: 'testman',
-    email: 'test@mail.com',
-    role: 'general_manager'
-  })
+  const user = ref<User | null>(null)
 
   const setUser = (u: User) => {
     user.value = u
