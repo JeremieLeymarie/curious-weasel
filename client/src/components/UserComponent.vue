@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { deleteUser, getUser, updateUser } from '@/requests/user'
+import { deleteUser, getUser, updateUser, logOut} from '@/requests/user'
 import type { User } from '@/types'
 import { ref, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -58,6 +58,12 @@ const handleDelete = () => {
   router.push('/')
 }
 
+const handleLogout = () => {
+  if (!user.value?.id) return logOut()
+
+  router.push('/')
+}
+
 const confirm2 = () => {
   confirm.require({
     message: 'Do you want to delete this account?',
@@ -102,7 +108,7 @@ const confirm2 = () => {
       <ConfirmDialog></ConfirmDialog>
       <div class="card flex flex-wrap gap-2 justify-center">
         <Button @click="confirm2()" label="Delete" severity="danger" outlined size="small"></Button>
-        <Button severity="danger" size="small">Log out</Button>
+        <Button @click="handleLogout" severity="danger" size="small">Log out</Button>
       </div>
     </div>
     <Panel class="space-y-4 my-4 p-2">

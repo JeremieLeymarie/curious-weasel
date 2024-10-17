@@ -34,3 +34,7 @@ export const updateUser = async (user: Partial<User>) => {
 export const deleteUser = async (userId: string) => {
   await fetch(`${USER_BASE_URL}/${userId}`, { method: 'DELETE' })
 }
+
+export const logOut = async (userId: string) => {
+  
+}
