@@ -29,7 +29,8 @@ const routes = [
   { path: '/register', component: UserRegister },
   { path: '/teams', component: TeamManager },
   { path: '/teams/:teamId', component: TeamDetail },
-  { path: '/signin', component: SignIn}
+  { path: '/signin', component: SignIn },
+  { path: '/login', component: Authentication },
 ]
 
 export const router = createRouter({
