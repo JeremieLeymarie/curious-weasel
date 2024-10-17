@@ -13,11 +13,12 @@ import TeamManager from './components/teams/TeamManager.vue'
 import TeamDetail from './components/teams/TeamDetail.vue'
 import UserDashboard from './components/UserDashboard.vue'
 import TeamDashboard from './components/TeamDashboard.vue'
+import Authentication from './components/Authentication.vue'
 import SignIn from './components/SignIn.vue'
 
 const routes = [
   { path: '/', component: HomeComponent },
-  { path: '/workingtime/new', component: WorkingTimesCreated },
+  { path: '/workingtime/new/:userId', component: WorkingTimesCreated },
   { path: '/workingtime/:userId', component: WorkingTimes },
   { path: '/workingtime/update/:id/:start/:end', component: WorkingTimesUpdate },
   { path: '/user/:id', component: UserComponent },

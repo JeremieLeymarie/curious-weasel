@@ -39,7 +39,7 @@ const roles = ref([
 
 const toast = useToast()
 const show = () => {
-    toast.add({ severity: 'danger', summary: 'Info', detail: 'Your password must be, at least, 6 characters long', life: 3000 });
+    toast.add({ severity: 'error', summary: 'Error', detail: 'Your password must be, at least, 6 characters long', life: 3000 });
 };
 
 </script>

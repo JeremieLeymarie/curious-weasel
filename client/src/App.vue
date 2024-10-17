@@ -3,7 +3,7 @@ import Menubar from 'primevue/menubar'
 
 import { computed, ref, watch } from 'vue'
 import { useUserStore } from './stores/user'
-const { user } = useUserStore()
+const userStore = useUserStore()
 
 const isDarkModeEnabled = ref(document.documentElement.classList.contains('my-app-dark'))
 
@@ -14,8 +14,8 @@ watch(isDarkModeEnabled, () => {
 
 const items = computed(() => [
   { label: 'Home', icon: 'pi pi-home', route: '/' },
-  { label: 'Working Times', icon: 'pi pi-clock', route: `/workingtime/${user?.id}` },
-  { label: 'Dashboard', icon: 'pi pi-chart-bar', route: `/chart-manager/${user?.id}` },
+  { label: 'Working Times', icon: 'pi pi-clock', route: `/workingtime/${userStore.user?.id}` },
+  { label: 'Dashboard', icon: 'pi pi-chart-bar', route: `/chart-manager/${userStore.user?.id}` },
   {
     label: 'Manage',
     icon: 'pi pi-users',
@@ -30,7 +30,7 @@ const items = computed(() => [
       }
     ]
   },
-  { label: 'Account', icon: 'pi pi-user', route: `/user/${user?.id}` },
+  { label: 'Account', icon: 'pi pi-user', route: `/user/${userStore.user?.id}` },
   {
     icon: isDarkModeEnabled.value ? 'pi pi-sun' : 'pi pi-moon',
     command: () => toggleDarkMode()

@@ -110,9 +110,9 @@ POST http://localhost:4000/api/users/register HTTP/1.1
 content-type: application/json
 
 {"user" : {
-    "username": "some username",
-    "email": "coucou222@email.fr",
-    "hash_password": "123dzd56"
+    "username": "test",
+    "email": "test@test.fr",
+    "hash_password": "test"
 }}
 
 ### Sign in

@@ -1,15 +1,19 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import DatePicker from 'primevue/datepicker'
 import Button from 'primevue/button'
+import { useUserStore } from '@/stores/user'
 
 const router = useRouter()
+const userStore = useUserStore();
 
 const start = ref(null)
 const end = ref(null)
+const route = useRoute()
 
-async function createWorkingTime(id: any) {
+async function createWorkingTime() {
+  let id = route.params.userId;
   let data = JSON.stringify({
     working_time: {
       end: end.value,
@@ -46,6 +50,6 @@ async function createWorkingTime(id: any) {
         <DatePicker v-model="end" showTime hourFormat="24" fluid />
       </div>
     </div>
-    <Button @click="createWorkingTime(1)" class="my-6 w-1/12 text-center">Submit</Button>
+    <Button @click="createWorkingTime()" class="my-6 w-1/12 text-center">Submit</Button>
   </div>
 </template>

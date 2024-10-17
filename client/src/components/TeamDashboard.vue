@@ -24,6 +24,6 @@ onMounted(() => {
 </script>
 
 <template>
-    <ChartManager :working-times="workingTimes" v-if="workingTimes && team" is-team :name="team?.name" />
+    <ChartManager :working-times="workingTimes" v-if="workingTimes && team" :team="team" :name="team?.name" />
     <p v-else>Loading...</p>
 </template>
