@@ -3,6 +3,7 @@ import Menubar from 'primevue/menubar'
 
 import { computed, ref, watch } from 'vue'
 import { useUserStore } from './stores/user'
+import { onMounted } from 'vue';
 const userStore = useUserStore()
 
 const isDarkModeEnabled = ref(document.documentElement.classList.contains('my-app-dark'))
@@ -11,7 +12,12 @@ watch(isDarkModeEnabled, () => {
   if (isDarkModeEnabled.value) document.documentElement.classList.add('my-app-dark')
   else document.documentElement.classList.remove('my-app-dark')
 })
-
+onMounted(() => {
+  let user = localStorage.getItem('user')
+  if (user) {
+    userStore.setUser(JSON.parse(user))
+  }
+})
 const items = computed(() => [
   { label: 'Home', icon: 'pi pi-home', route: '/' },
   { label: 'Working Times', icon: 'pi pi-clock', route: `/workingtime/${userStore.user?.id}` },
