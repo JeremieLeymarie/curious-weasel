@@ -3,13 +3,22 @@ defmodule TimeTrackerWeb.Router do
 
   pipeline :api do
     plug(:accepts, ["json"])
+    plug(:fetch_session)
+  end
+
+  pipeline :authenticated do
+    plug(TimeTracker.Plug.Authenticate)
   end
 
   scope "/api", TimeTrackerWeb do
     pipe_through(:api)
 
-    post("/users/register", UserController, :create_bitch)
+    post("/users/register", UserController, :sign_user_up)
     post("/users/sign_in", UserController, :sign_in)
+  end
+
+  scope "/api", TimeTrackerWeb do
+    pipe_through([:api, :authenticated])
 
     resources("/users", UserController, except: [:new, :edit])
     resources("/workingtimes", WorkingTimeController, only: [:update, :delete])
