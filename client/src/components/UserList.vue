@@ -7,9 +7,6 @@ import Card from 'primevue/card'
 import Button from 'primevue/button'
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
-import { useUserStore } from '@/stores/user'
-
-const userStore = useUserStore();
 
 let users = ref<User[]>()
 onMounted(() => {
@@ -17,8 +14,6 @@ onMounted(() => {
     users.value = getModifyUsers(res)
   })
 })
-
-const tdClass = 'border border-blue-900 p-2'
 
 const getModifyUsers = (res: any) => {
   let newUsers = res
@@ -34,6 +29,7 @@ const getModifyUsers = (res: any) => {
 
   return newUsers
 }
+
 const calculate7DayDuration = (times: any[]) => {
   let lastweek = []
   if (times.length < 7) {
@@ -115,9 +111,9 @@ const handleUpdate = async (user: User) => {
             <Column field="Daily" header="Daily avg" sortable></Column>
             <Column field="weekly" header="Weekly avg" sortable></Column>
             <Column header="Info" class="w-24" sortable>
-              <template #body="{ users }">
-                <Button size="small" @click="handleUpdate(users.user)">Promote</Button>
-                <Button size="small" class="mt-1" severity="danger" @click="handleDelete(users.user.id)">Delete</Button>
+              <template #body=" { user }">
+                <Button size="small" @click="handleUpdate(user)">Promote</Button>
+                <Button size="small" class="mt-1" severity="danger" @click="handleDelete(user.id)">Delete</Button>
               </template>
             </Column>
           </DataTable>
