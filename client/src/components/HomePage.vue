@@ -7,12 +7,15 @@ import { getUser } from '@/requests/user'
 import { readableDate, readableDateTime, getReadableInterval } from '@/utils/date'
 import Card from 'primevue/card'
 import Button from 'primevue/button'
+import { useUserStore } from '@/stores/user'
 
 const clocks = ref<Clock[]>()
 const user = ref<User>()
+const userStore = useUserStore();
 
 onMounted(() => {
-  getUser('1').then((res) => {
+  if (!userStore.user) return
+  getUser(userStore.user.id).then((res) => {
     user.value = res
   })
   fetchClocks()
@@ -27,7 +30,8 @@ const getClocks = async (userId: string) => {
 }
 
 const fetchClocks = () => {
-  getClocks('1').then((res) => {
+  if (!userStore.user) return
+  getClocks(userStore.user?.id).then((res) => {
     clocks.value = res
   })
 }
@@ -53,11 +57,10 @@ const today = readableDate(new Date())
               getReadableInterval({ start: currentClock.time, end: new Date() })
             }}</strong>
             <span class="text-xs">
-              (working time started on {{ readableDateTime(currentClock.time) }})</span
-            >
+              (working time started on {{ readableDateTime(currentClock.time) }})</span>
           </p>
-          <p v-else>You have not started working today.</p></template
-        >
+          <p v-else>You have not started working today.</p>
+        </template>
         <template #content>
           <ClockManager :clock="currentClock" :userId="user.id.toString()" :refetch="fetchClocks" />
         </template>

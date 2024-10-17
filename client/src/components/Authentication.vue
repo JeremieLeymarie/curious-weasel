@@ -27,9 +27,10 @@ async function login() {
       body: data
     })
     if (res.status == 200) {
+      localStorage.clear();
       let user: User = await res.json()
       userStore.setUser(user)
-      console.log(userStore.user?.id)
+      localStorage.setItem('user', JSON.stringify(user))
       router.push(`/`)
     } else {
       console.log("bad credential")
