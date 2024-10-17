@@ -31,7 +31,7 @@ const test = async () => {
       <label for="username">Email address</label>
       <InputText
         v-model="formValues.email"
-        class="border-2 w-2/12"
+        class="border-2 w-[300px]"
         placeholder="example@gotham-city.com"
       />
     </div>
@@ -40,7 +40,7 @@ const test = async () => {
       <InputText
         v-model="formValues.password"
         type="password"
-        class="border-2 w-2/12"
+        class="border-2 w-[300px]"
         placeholder="Enter your password"
       />
       <a class="text-xs mt-1 hover:text-[#1D0455] hover:font-bold" href="#">Forgot password?</a>
