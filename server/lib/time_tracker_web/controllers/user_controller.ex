@@ -79,4 +79,10 @@ defmodule TimeTrackerWeb.UserController do
         })
     end
   end
+
+  def sign_out(conn,  %{"user" => %{"email" => email, "hash_password" => hash_password}}) do
+    {:ok, user, token} ->
+    conn
+    {:ok, %{message: "Logged out"}} = Guardian.revoke!(conn)
+  end
 end

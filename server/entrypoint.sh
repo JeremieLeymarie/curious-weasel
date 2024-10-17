@@ -1,4 +1,3 @@
-mix ecto.create
-mix ecto.migrate
+mix ecto.setup
 
 mix phx.server
