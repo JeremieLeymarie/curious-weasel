@@ -7,12 +7,13 @@ import WorkingTimesCreated from './components/WorkingTime.vue'
 import WorkingTimesUpdate from './components/WorkingTimeUpdate.vue'
 import WorkingTimes from './components/WorkingTimes.vue'
 import UserList from './components/UserList.vue'
-import Login from './components/Login.vue'
+import UserRegister from './components/UserRegister.vue'
 import { useUserStore } from '@/stores/user'
 import TeamManager from './components/teams/TeamManager.vue'
 import TeamDetail from './components/teams/TeamDetail.vue'
 import UserDashboard from './components/UserDashboard.vue'
 import TeamDashboard from './components/TeamDashboard.vue'
+import SignIn from './components/SignIn.vue'
 
 const routes = [
   { path: '/', component: HomeComponent },
@@ -24,9 +25,10 @@ const routes = [
   { path: '/users', component: UserList },
   { path: '/chart-manager/:userId', component: UserDashboard },
   { path: '/chart-manager/team/:teamId', component: TeamDashboard },
-  { path: '/login', component: Login },
+  { path: '/register', component: UserRegister },
   { path: '/teams', component: TeamManager },
-  { path: '/teams/:teamId', component: TeamDetail }
+  { path: '/teams/:teamId', component: TeamDetail },
+  { path: '/signin', component: SignIn}
 ]
 
 export const router = createRouter({
