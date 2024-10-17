@@ -58,9 +58,7 @@ jobs:
         env:
           MIX_ENV: test
           DATABASE_URL: ecto://postgres:postgres@localhost/time_tracker_dev
-        run: |
-          mix ecto.create
-          mix ecto.migrate
+        run: mix ecto.setup
       - name: Compile app
         run: mix compile
       - name: Run unit tests
