@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRoute } from 'vue-router'
 import { useRouter } from 'vue-router'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
@@ -8,7 +7,6 @@ import { useUserStore } from '@/stores/user'
 import type { User } from '@/types'
 
 const router = useRouter()
-const route = useRoute()
 
 const email = ref(null)
 const password = ref(null)
@@ -47,12 +45,12 @@ async function login() {
     <div class="text-center mt-6">
       <div class="flex flex-col items-center m-2">
         <label for="email">Email address</label>
-        <InputText id="email" name="email" placeholder="example@gotham-city.com" class="border-2 w-2/12"
+        <InputText id="email" name="email" placeholder="example@gotham-city.com" class="border-2 w-3/12 min-w-[200px]"
           v-model="email" />
       </div>
       <div class="flex flex-col items-center m-2">
         <label for="password">Password</label>
-        <InputText id="password" type="password" placeholder="Create a password" class="border-2 w-2/12"
+        <InputText id="password" type="password" placeholder="Create a password" class="border-2 w-3/12 min-w-[200px]"
           v-model="password" />
       </div>
       <Button @click="login" type="button" class="w-20 mt-4"> Login </Button>
