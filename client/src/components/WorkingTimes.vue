@@ -86,7 +86,7 @@ const calculateTotalDuration = (times: any[]) => {
 
   const duration = intervalToDuration({ start: 0, end: timeInSeconds * 1000 })
 
-  const formatted = formatDuration(duration, { format: ['hours', 'minutes'] })
+  const formatted = formatDuration(duration)
 
   return formatted
 }

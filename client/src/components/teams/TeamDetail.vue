@@ -64,7 +64,7 @@ const submitUpdate = async () => {
     </div>
   </Panel>
   <p v-else>Loading...</p>
-  <ChartManager :working-times="workingTimes" v-if="workingTimes && team" is-team :name="team?.name" />
+  <ChartManager :working-times="workingTimes" v-if="workingTimes && team" :team="team" :name="team?.name" />
   <p v-else>Loading dashboard...</p>
 
   <Dialog v-model:visible="isModalOpen" modal header="Add member to team" :style="{ width: '40vw', minWidth: '400px' }"
