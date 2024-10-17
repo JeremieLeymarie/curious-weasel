@@ -7,8 +7,11 @@ import Card from 'primevue/card'
 import Button from 'primevue/button'
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
+import { useUserStore } from '@/stores/user'
 
 let users = ref<User[]>()
+const userStore = useUserStore();
+
 onMounted(() => {
   getUsers().then((res) => {
     users.value = getModifyUsers(res)
@@ -81,6 +84,7 @@ const handleDelete = async (id: string) => {
 }
 
 const handleUpdate = async (user: User) => {
+  console.log(user)
   if (user.role == 'employee') {
     await updateUser({
       role: 'manager',
@@ -110,10 +114,12 @@ const handleUpdate = async (user: User) => {
             <Column field="role" header="Role" sortable></Column>
             <Column field="Daily" header="Daily avg" sortable></Column>
             <Column field="weekly" header="Weekly avg" sortable></Column>
-            <Column header="Info" class="w-24" sortable>
-              <template #body=" { user }">
-                <Button size="small" @click="handleUpdate(user)">Promote</Button>
-                <Button size="small" class="mt-1" severity="danger" @click="handleDelete(user.id)">Delete</Button>
+            <Column header="Info" class="w-24" v-if="userStore.user?.role == 'general_manager'" sortable>
+              <template #body="user">
+                <Button size="small" @click="handleUpdate(user.data)"
+                  v-if="userStore.user?.role == 'general_manager'">Promote</Button>
+                <Button size="small" class="mt-1" severity="danger" @click="handleDelete(user.data.id)"
+                  v-if="userStore.user?.role == 'general_manager'">Delete</Button>
               </template>
             </Column>
           </DataTable>

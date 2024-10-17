@@ -10,10 +10,13 @@ import Chip from 'primevue/chip'
 import ConfirmDialog from 'primevue/confirmdialog'
 import { useConfirm } from 'primevue/useconfirm'
 import { useToast } from 'primevue/usetoast'
+import ProtectedViewVue from './ProtectedView.vue'
+import { useUserStore } from '@/stores/user'
+
 
 const confirm = useConfirm()
 const toast = useToast()
-
+const userStore = useUserStore();
 const user = ref<User>()
 
 const formValues = ref<Partial<User>>({})
@@ -96,74 +99,67 @@ const confirm2 = () => {
 
 <template>
   <div v-if="user">
-    <div class="flex gap-4 items-center">
-      <h2 class="text-2xl">Account</h2>
-      <Toast />
-      <ConfirmDialog></ConfirmDialog>
-      <div class="card flex flex-wrap gap-2 justify-center">
-        <Button @click="confirm2()" label="Delete" severity="danger" outlined size="small"></Button>
-        <Button severity="danger" size="small">Log out</Button>
-      </div>
-    </div>
-    <Panel class="space-y-4 my-4 p-2">
-      <template #header>
-        <div class="flex items-center gap-4">
-          <h3 class="text-xl">My information</h3>
-          <Button type="submit" @click="handleUpdate" size="small">Edit</Button>
+    <ProtectedViewVue :authorizedRoles="['manager', 'general_manager']" :resourceId="`${route.params.id}`">
+      <div class="flex gap-4 items-center">
+        <h2 class="text-2xl">Account</h2>
+        <Toast />
+        <ConfirmDialog></ConfirmDialog>
+        <div class="card flex flex-wrap gap-2 justify-center">
+          <Button @click="confirm2()" label="Delete" severity="danger" outlined size="small"
+            v-if="user.id == userStore.user?.id"></Button>
+          <Button severity="danger" size="small">Log out</Button>
         </div>
-      </template>
-      <form class="space-y-4">
+      </div>
+      <Panel class="space-y-4 my-4 p-2">
+        <template #header>
+          <div class="flex items-center gap-4">
+            <h3 class="text-xl">My information</h3>
+            <Button type="submit" @click="handleUpdate" size="small">Edit</Button>
+          </div>
+        </template>
+        <form class="space-y-4">
+          <div class="space-y-4">
+            <div class="flex items-center">
+              <label for="name" class="w-[150px] inline-block">Name</label>
+              <InputText id="name" name="name" placeholder="James Gordon" v-model="formValues.username" />
+            </div>
+            <div class="flex items-center">
+              <label for="email" class="w-[150px] inline-block">Email address</label>
+              <InputText id="email" name="email" placeholder="example@gotham-city.com" v-model="formValues.email" />
+            </div>
+            <div class="flex items-center">
+              <label for="number" class="w-[150px] inline-block">Phone number</label>
+              <!-- <InputText id="number" name="number" placeholder="+1 223 4984" v-model="formValues.number" /> -->
+            </div>
+          </div>
+        </form>
+      </Panel>
+      <Panel class="p-2">
+        <template #header>
+          <div class="flex items-center gap-4">
+            <h3 class="text-xl">Job information</h3>
+          </div>
+        </template>
         <div class="space-y-4">
           <div class="flex items-center">
-            <label for="name" class="w-[150px] inline-block">Name</label>
-            <InputText
-              id="name"
-              name="name"
-              placeholder="James Gordon"
-              v-model="formValues.username"
-            />
+            <h4 class="w-[165px] inline-block">Job title</h4>
+            <span>Police Commissioner</span>
           </div>
           <div class="flex items-center">
-            <label for="email" class="w-[150px] inline-block">Email address</label>
-            <InputText
-              id="email"
-              name="email"
-              placeholder="example@gotham-city.com"
-              v-model="formValues.email"
-            />
+            <h4 class="w-[165px] inline-block">Manager</h4>
+            <span>Mayor Hilton Hill</span>
           </div>
           <div class="flex items-center">
-            <label for="number" class="w-[150px] inline-block">Phone number</label>
-            <!-- <InputText id="number" name="number" placeholder="+1 223 4984" v-model="formValues.number" /> -->
+            <h4 class="w-[165px] inline-block">Team(s)</h4>
+            <div class="flex gap-2 flex-wrap">
+              <router-link v-for="team in user.teams" :key="team.id" :to="`/teams/${team.id}`">
+                <Chip :label="team.name" />
+              </router-link>
+            </div>
           </div>
         </div>
-      </form>
-    </Panel>
-    <Panel class="p-2">
-      <template #header>
-        <div class="flex items-center gap-4">
-          <h3 class="text-xl">Job information</h3>
-        </div>
-      </template>
-      <div class="space-y-4">
-        <div class="flex items-center">
-          <h4 class="w-[165px] inline-block">Job title</h4>
-          <span>Police Commissioner</span>
-        </div>
-        <div class="flex items-center">
-          <h4 class="w-[165px] inline-block">Manager</h4>
-          <span>Mayor Hilton Hill</span>
-        </div>
-        <div class="flex items-center">
-          <h4 class="w-[165px] inline-block">Team(s)</h4>
-          <div class="flex gap-2 flex-wrap">
-            <router-link v-for="team in user.teams" :key="team.id" :to="`/teams/${team.id}`">
-              <Chip :label="team.name" />
-            </router-link>
-          </div>
-        </div>
-      </div>
-    </Panel>
+      </Panel>
+    </ProtectedViewVue>
   </div>
   <div v-else>User not found</div>
 </template>

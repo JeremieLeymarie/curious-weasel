@@ -14,7 +14,6 @@ import TeamDetail from './components/teams/TeamDetail.vue'
 import UserDashboard from './components/UserDashboard.vue'
 import TeamDashboard from './components/TeamDashboard.vue'
 import Authentication from './components/Authentication.vue'
-import ProtectedVue from './components/ProtectedView2.vue'
 
 const routes = [
   { path: '/', component: HomeComponent },
@@ -29,8 +28,7 @@ const routes = [
   { path: '/register', component: UserRegister },
   { path: '/teams', component: TeamManager },
   { path: '/teams/:teamId', component: TeamDetail },
-  { path: '/login', component: Authentication },
-  { path: '/unauthorized', component: ProtectedVue }
+  { path: '/login', component: Authentication }
 ]
 
 export const router = createRouter({
