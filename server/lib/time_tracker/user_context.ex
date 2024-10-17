@@ -80,7 +80,12 @@ defmodule TimeTracker.UserContext do
 
   """
   def create_user(attrs \\ %{}) do
-    payload = Map.put(attrs, "role", "employee")
+    payload =
+      if attrs["role"] == nil do
+        Map.put(attrs, "role", "employee")
+      else
+        attrs
+      end
 
     %User{}
     |> User.changeset(payload)
@@ -136,6 +141,5 @@ defmodule TimeTracker.UserContext do
 
   def get_user_by_email(email) do
     Repo.get_by(User, email: email)
- end
-
+  end
 end
