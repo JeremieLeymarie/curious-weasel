@@ -4,6 +4,7 @@ import { ref } from 'vue'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import Select from 'primevue/select'
+import Toast from 'primevue/toast'
 import { useToast } from 'primevue/usetoast'
 
 const formValues = ref<Partial<UserWithoutId>>({})
@@ -21,7 +22,7 @@ const createUser = async (user: UserWithoutId) => {
   return response.data
 }
 
-const handleCreate = (e: Event) => {
+const handleCreate = async (e: Event) => {
   e.preventDefault()
 
   if (!formValues.value.email || !formValues.value.username) {
@@ -29,7 +30,8 @@ const handleCreate = (e: Event) => {
     return
   }
 
-  createUser(formValues.value as User)
+  await createUser(formValues.value as User)
+  show();
 }
 const selectedRole = ref();
 const roles = ref([
@@ -39,7 +41,7 @@ const roles = ref([
 
 const toast = useToast()
 const show = () => {
-    toast.add({ severity: 'error', summary: 'Error', detail: 'Your password must be, at least, 6 characters long', life: 3000 });
+    toast.add({ severity: 'success', summary: 'Success', detail: 'Your account has been created.', life: 3000 });
 };
 
 </script>
@@ -86,7 +88,7 @@ const show = () => {
         <Select id="role-select" v-model="selectedRole" :options="roles" placeholder="Select a role" class="border-2 w-2/12" required></Select>
       </div>
       <Toast />
-      <Button type="submit" label="Error" class="w-20 mt-4" @click="show()"> Create </Button>
+      <Button type="submit" label="Error" class="w-20 mt-4"> Create </Button>
     </form>
   </div>
 </template>
