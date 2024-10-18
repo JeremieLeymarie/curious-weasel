@@ -67,10 +67,10 @@ services:
     image: grafana/grafana-oss
     ports:
       - 4005:3000
-    volumes:
-      - ~/grafana-storage:/var/lib/grafana
-      - ./grafana/dashboard.yml:/etc/grafana/provisioning/dashboards/main.yaml
-      - ./grafana/dashboards:/var/lib/grafana/dashboards
+    # volumes:
+    #   - ~/grafana-storage:/var/lib/grafana
+    #   - ./grafana/dashboard.yml:/etc/grafana/provisioning/dashboards/main.yaml
+    #   - ./grafana/dashboards:/var/lib/grafana/dashboards
     networks:
       - net
 

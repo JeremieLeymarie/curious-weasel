@@ -18,7 +18,7 @@ GET http://localhost:4000/api/users
 
 
 ### List one user
-GET http://localhost:4000/api/users/2
+GET http://localhost:4000/api/users/1
 
 
 ### Create working_time
