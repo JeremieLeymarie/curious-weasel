@@ -5,7 +5,7 @@ defmodule TimeTracker.TeamContext.Team do
   schema "teams" do
     field(:name, :string)
 
-    belongs_to(:manager, TimeTracker.UserContext.User)
+    belongs_to(:manager, TimeTracker.UserContext.User, foreign_key: :manager_id)
 
     many_to_many(:users, TimeTracker.UserContext.User,
       join_through: TimeTracker.TeamContext.TeamUser,

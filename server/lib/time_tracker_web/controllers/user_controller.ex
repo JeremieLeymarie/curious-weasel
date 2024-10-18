@@ -7,7 +7,10 @@ defmodule TimeTrackerWeb.UserController do
   action_fallback(TimeTrackerWeb.FallbackController)
 
   def index(conn, params) do
-    users = UserContext.list_users(params)
+    # TODO: get actual logged in user
+    current_user = UserContext.get_user(1)
+
+    users = UserContext.list_users(params, current_user)
 
     render(conn, :index, users: users)
   end
