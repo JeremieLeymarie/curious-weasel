@@ -4,7 +4,9 @@ import { useRoute } from 'vue-router'
 import { useRouter } from 'vue-router'
 import DatePicker from 'primevue/datepicker'
 import Button from 'primevue/button'
+import { useUserStore } from '@/stores/user'
 
+const { user } = useUserStore()
 
 const router = useRouter()
 const route = useRoute()
@@ -24,7 +26,7 @@ async function updateWorkingTime(id: any) {
             body: data
         })
         if (res.status == 200) {
-            router.push(`/`)
+            router.push(`/workingtime/${user?.id}`)
         }
     } else {
         console.log('no end or start')
