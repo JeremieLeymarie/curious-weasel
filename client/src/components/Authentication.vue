@@ -54,6 +54,10 @@ async function login() {
           v-model="password" />
       </div>
       <Button @click="login" type="button" class="w-20 mt-4"> Login </Button>
+      <p>Or</p>
+      <router-link to="/register">
+        Register
+      </router-link>
     </div>
   </div>
 </template>
