@@ -20,8 +20,6 @@ defmodule TimeTracker.UserContext do
 
   """
   def list_users(params, current_user) do
-    IO.inspect("tutu")
-
     filter_email =
       if params["email"] do
         dynamic([p], like(p.email, ^"%#{String.replace(params["email"], "%", "\\%")}%"))

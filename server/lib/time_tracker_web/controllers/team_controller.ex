@@ -1,13 +1,17 @@
 defmodule TimeTrackerWeb.TeamController do
   use TimeTrackerWeb, :controller
 
+  alias TimeTracker.UserContext
   alias TimeTracker.TeamContext
   alias TimeTracker.TeamContext.Team
 
   action_fallback(TimeTrackerWeb.FallbackController)
 
-  def index(conn, params) do
-    teams = TeamContext.list_teams(params)
+  def index(conn, _params) do
+    # TODO: get actual logged in user
+    current_user = UserContext.get_user(1)
+
+    teams = TeamContext.list_teams(current_user)
     render(conn, :index, teams: teams)
   end
 
