@@ -80,13 +80,13 @@ defmodule TimeTrackerWeb.UserController do
     end
   end
 
-  def sign_out(conn,  %{"user" => %{"email" => email, "hash_password" => hash_password}}) do
-    {:ok, user, token} ->
-    conn
-    # {:ok, %{message: "Logged out"}} = Guardian.revoke!(conn)
-    delete_resp_cookie(token,
-    path: "/",
-    http_only: true,
-    max_age: 1970)
-  end
+  # def sign_out(conn,  %{"user" => %{"email" => email, "hash_password" => hash_password}}) do
+  #   {:ok, user, token} ->
+  #   conn
+  #   # {:ok, %{message: "Logged out"}} = Guardian.revoke!(conn)
+  #   delete_resp_cookie(token,
+  #   path: "/",
+  #   http_only: true,
+  #   max_age: 1970)
+  # end
 end
