@@ -63,9 +63,9 @@ const toggleDarkMode = () => {
             </a>
           </router-link>
           <a v-else v-ripple :href="item.url" :target="item.target" v-bind="props.action">
-            <span v-if="item.icon" :class="item.icon" />
+            <span v-if="item.icon" :class="item.icon"></span>
             <span v-if="item.label" class="ml-2">{{ item.label }}</span>
-            <span v-if="hasSubmenu" class="pi pi-fw pi-angle-down ml-2" />
+            <span v-if="hasSubmenu" class="pi pi-fw pi-angle-down ml-2"></span>
           </a>
         </template>
       </Menubar>
@@ -74,13 +74,4 @@ const toggleDarkMode = () => {
   <main class="p-12">
     <RouterView :key="$route.path" />
   </main>
-  <!-- <footer
-    class="flex items-center justify-center bg-[#1D0455] text-white h-12 text-center fixed mt-4 bottom-0 w-full"
-  >
-    <p class="">
-      Need help? Contact the IT service at the following number : +1 252 258 4736 <b>or</b> download
-      the
-      <a class="bold underline" href="server/documentation/UserGuide.pdf" download>documentation</a>
-    </p>
-  </footer> -->
 </template>

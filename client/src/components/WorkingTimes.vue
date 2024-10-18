@@ -126,32 +126,32 @@ onMounted(() => {
 </script>
 
 <template>
+  <h3 class="text-2xl mb-4">Working Times for User {{ user.username }}</h3>
   <div class="space-y-4">
     <ProtectedViewVue :authorizedRoles="['manager', 'general_manager']" :resourceId="`${route.params.userId}`">
-      <h3 class="text-2xl">Working Times for User {{ user.username }}</h3>
       <Panel>
         <template #header>
-          <Button @click="goToNewWTpage"> New Working Time </Button>
+          <Button size="small" @click="goToNewWTpage"> New Working Time </Button>
         </template>
         <div v-if="data.loading" class="text-center text-gray-300">Loading...</div>
         <div v-else>
           <Accordion :value="[]" multiple>
             <AccordionPanel :value="date" v-for="(times, date) in groupedWorkingTimes" :key="date" class="mb-4">
               <AccordionHeader>
-                <div class="flex justify-between w-full pr-4">
+                <div class="row md:flex md:justify-between md:w-full pr-4">
                   <p>{{ date }}</p>
                   <p>{{ calculateTotalDuration(times) }}</p>
                 </div>
               </AccordionHeader>
               <AccordionContent>
-                <div v-for="(time, index) in times" :key="index" class="mb-2 space-y-2">
-                  <div class="flex justify-between items-center">
+                <div v-for="(time, index) in times" :key="index" class="mb-1 space-y-2">
+                  <div class=" row p-2 md:flex md:justify-between md:items-center">
                     <p>
                       <strong>{{ getPeriod(time.start) }}:</strong> {{ formatTime(time.start) }} -
                       {{ formatTime(time.end) }}
                     </p>
                     <p>Duration: {{ calculateDuration(time.start, time.end) }}</p>
-                    <div class="flex gap-2">
+                    <div class="flex gap-2 mt-2">
                       <Button @click="updateWorkingTime(time.id, time.start, time.end)" size="small">
                         Update
                       </Button>
