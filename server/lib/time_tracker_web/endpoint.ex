@@ -8,7 +8,7 @@ defmodule TimeTrackerWeb.Endpoint do
     store: :cookie,
     key: "_time_tracker_key",
     signing_salt: "g6nhyet5",
-    same_site: "Lax",
+    same_site: "None",
     max_age: 9_999_999_999
   ]
 

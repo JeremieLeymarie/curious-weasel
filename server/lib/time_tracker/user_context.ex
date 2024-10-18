@@ -18,7 +18,7 @@ defmodule TimeTracker.UserContext do
       [%User{}, ...]
 
   """
-  def list_users(params) do
+  def list_users(params, current_user) do
     filter_email =
       if params["email"] do
         dynamic([p], like(p.email, ^"%#{String.replace(params["email"], "%", "\\%")}%"))
@@ -33,11 +33,19 @@ defmodule TimeTracker.UserContext do
         true
       end
 
+    filter_role =
+      case current_user.role do
+        :general_manager -> true
+        :manager -> true
+        :employee -> raise "Employee cannot list users"
+      end
+
     query =
       from(u in User,
         where: ^filter_email,
         where: ^filter_username,
-        preload: [:clocks, :working_times, :teams]
+        where: ^filter_role,
+        preload: [:clocks, :working_times, :teams, :managed_teams]
       )
 
     Repo.all(query)
@@ -61,7 +69,7 @@ defmodule TimeTracker.UserContext do
     query =
       from(u in User,
         where: [id: ^id],
-        preload: [:clocks, :working_times, :teams]
+        preload: [:clocks, :working_times, :teams, :managed_teams]
       )
 
     Repo.one(query)
