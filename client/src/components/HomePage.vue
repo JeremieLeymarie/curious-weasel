@@ -48,7 +48,7 @@ const today = readableDate(new Date())
     <hr class="h-1 bg-primary-950 border-0" />
 
     <div class="gap-8 md:flex">
-      <Card class="mt-4 w-6/12">
+      <Card class="mt-4 w-10/12 md:w-6/12">
         <template #title>Fast Clocking</template>
         <template #subtitle>
           <p v-if="currentClock">
@@ -65,7 +65,7 @@ const today = readableDate(new Date())
           <ClockManager :clock="currentClock" :userId="user.id.toString()" :refetch="fetchClocks" />
         </template>
       </Card>
-      <Card class="mt-4 w-6/12">
+      <Card class="mt-4 w-10/12 md:w-6/12">
         <template #title>Overview</template>
         <template #content>
           <div class="flex items-center gap-4">
@@ -76,7 +76,7 @@ const today = readableDate(new Date())
             <i class="pi pi-sun !text-2xl"></i>
             <p class="p-3 text-center">You have {{}} days off left.</p>
           </div>
-          <Button class="block my-4">
+          <Button class="my-4">
             <RouterLink :to="`/chart-manager/${userStore.user?.id}`"><a>Consult dashboard</a></RouterLink>
           </Button>
         </template>
