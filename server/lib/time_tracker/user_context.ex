@@ -8,6 +8,7 @@ defmodule TimeTracker.UserContext do
   alias TimeTracker.Repo
 
   alias TimeTracker.UserContext.User
+  alias TimeTracker.TeamContext.TeamUser
 
   @doc """
   Returns the list of users.
@@ -19,6 +20,8 @@ defmodule TimeTracker.UserContext do
 
   """
   def list_users(params, current_user) do
+    IO.inspect("tutu")
+
     filter_email =
       if params["email"] do
         dynamic([p], like(p.email, ^"%#{String.replace(params["email"], "%", "\\%")}%"))
@@ -35,9 +38,14 @@ defmodule TimeTracker.UserContext do
 
     filter_role =
       case current_user.role do
-        :general_manager -> true
-        :manager -> true
-        :employee -> raise "Employee cannot list users"
+        :general_manager ->
+          true
+
+        :manager ->
+          dynamic([p], p.id in ^TimeTracker.UserContext.get_managed_user_ids(current_user))
+
+        :employee ->
+          raise "Employee cannot list users"
       end
 
     query =
@@ -49,6 +57,15 @@ defmodule TimeTracker.UserContext do
       )
 
     Repo.all(query)
+  end
+
+  def get_managed_user_ids(user) do
+    team_ids = for team <- user.managed_teams, do: team.id
+
+    query = TeamUser |> where([tu], tu.team_id in ^team_ids) |> select([:user_id])
+    team_users = Repo.all(query)
+
+    for tu <- team_users, do: tu.user_id
   end
 
   @doc """
