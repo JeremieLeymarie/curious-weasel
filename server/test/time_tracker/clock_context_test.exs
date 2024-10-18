@@ -10,9 +10,9 @@ defmodule TimeTracker.ClockContextTest do
 
     @invalid_attrs %{status: nil, time: nil}
 
-    test "list_clocks/0 returns all clocks" do
+    test "list_clocks/1 returns all clocks" do
       clock = clock_fixture()
-      assert ClockContext.list_clocks() == [clock]
+      assert ClockContext.list_clocks(1) == [clock]
     end
 
     test "get_clock!/1 returns the clock with given id" do
