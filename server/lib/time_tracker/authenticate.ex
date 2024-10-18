@@ -2,6 +2,7 @@ defmodule TimeTracker.Plug.Authenticate do
   import Plug.Conn
   require Logger
   alias TimeTracker.UserContext
+  alias TimeTracker.UserContext.User
 
   def init(opts) do
     opts
@@ -25,5 +26,10 @@ defmodule TimeTracker.Plug.Authenticate do
         |> Phoenix.Controller.json(%{error: "Unauthorized"})
         |> halt()
     end
+  end
+
+  def temp_get_current_user do
+    # TODO: get actual logged in user
+    UserContext.get_user(1)
   end
 end
