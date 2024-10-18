@@ -38,7 +38,7 @@ export const router = createRouter({
 
 router.beforeEach(async (to) => {
   const { user } = useUserStore()
-  const publicPages = ['/login']
+  const publicPages = ['/login', '/register']
   const authRequired = !publicPages.includes(to.path)
   if (authRequired && !user) {
     return '/login'
