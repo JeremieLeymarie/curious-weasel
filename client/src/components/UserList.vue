@@ -84,7 +84,17 @@ const handleDelete = async (id: string) => {
 }
 
 const handleUpdate = async (user: User) => {
-  console.log(user)
+  if (user.role == 'manager') {
+    await updateUser({
+      role: 'employee',
+      id: user.id,
+      username: user.username,
+      email: user.email
+    })
+    getUsers().then((res) => {
+      users.value = getModifyUsers(res)
+    })
+  }
   if (user.role == 'employee') {
     await updateUser({
       role: 'manager',
@@ -116,10 +126,9 @@ const handleUpdate = async (user: User) => {
             <Column field="weekly" header="Weekly avg" sortable></Column>
             <Column header="Info" class="w-24" v-if="userStore.user?.role == 'general_manager'" sortable>
               <template #body="user">
-                <Button size="small" @click="handleUpdate(user.data)"
-                  v-if="userStore.user?.role == 'general_manager'">Promote</Button>
-                <Button size="small" class="mt-1" severity="danger" @click="handleDelete(user.data.id)"
-                  v-if="userStore.user?.role == 'general_manager'">Delete</Button>
+                <Button size="small" @click="handleUpdate(user.data)" v-if="user.data.role == 'employee'">Promote</Button>
+                <Button size="small" @click="handleUpdate(user.data)" v-if="user.data.role == 'manager'">Demote</Button>
+                <Button size="small" class="mt-1" severity="danger" @click="handleDelete(user.data.id)">Delete</Button>
               </template>
             </Column>
           </DataTable>
