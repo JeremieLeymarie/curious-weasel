@@ -9,7 +9,8 @@ import Panel from 'primevue/panel'
 import Chip from 'primevue/chip'
 import ConfirmDialog from 'primevue/confirmdialog'
 import { useConfirm } from 'primevue/useconfirm'
-import { useToast } from 'primevue/usetoast'
+import Toast from 'primevue/toast'
+import { useToast } from 'primevue/usetoast';
 import ProtectedViewVue from './ProtectedView.vue'
 import { useUserStore } from '@/stores/user'
 
@@ -83,21 +84,21 @@ const confirm2 = () => {
       severity: 'danger'
     },
     accept: () => {
-      handleDelete()
+      // handleDelete()
       toast.add({
-        severity: 'info',
+        severity: 'success',
         summary: 'Confirmed',
         detail: 'Account deleted',
         life: 3000
-      })
+      });
     },
     reject: () => {
       toast.add({
         severity: 'error',
-        summary: 'Rejected',
-        detail: 'You have canceled',
+        summary: 'Canceled',
+        detail: 'You have canceled your action',
         life: 3000
-      })
+      });
     }
   })
 }
