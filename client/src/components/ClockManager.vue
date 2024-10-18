@@ -4,6 +4,10 @@ import { ref } from 'vue'
 
 import DatePicker from 'primevue/datepicker'
 import Button from 'primevue/button'
+import Toast from 'primevue/toast'
+import { useToast } from 'primevue/usetoast'
+
+const toast = useToast();
 
 const { userId, clock, refetch } = defineProps<{
   userId: string
@@ -65,6 +69,12 @@ const manualClock = () => {
   if (!dateInput.value) return
   if (clock) clockOut(new Date(dateInput.value))
   else clockIn(new Date(dateInput.value))
+  toast.add({
+    severity: 'success',
+    summary: 'Confirmed',
+    detail: 'You clocked manually!',
+    life: 3000
+  });
 }
 </script>
 
@@ -76,6 +86,7 @@ const manualClock = () => {
       </Button>
     </div>
     <div class="space-y-4">
+      <Toast />
       <label for="date-input" class="text-xl">Manual clock {{ clock ? 'out' : 'in' }}</label>
       <div class="gap-4 flex">
         <DatePicker id="datepicker-24h" v-model="dateInput" showTime hourFormat="24" fluid />
