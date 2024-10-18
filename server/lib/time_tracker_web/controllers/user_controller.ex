@@ -7,7 +7,10 @@ defmodule TimeTrackerWeb.UserController do
   action_fallback(TimeTrackerWeb.FallbackController)
 
   def index(conn, params) do
-    users = UserContext.list_users(params)
+    # TODO: get actual logged in user
+    current_user = UserContext.get_user(1)
+
+    users = UserContext.list_users(params, current_user)
 
     render(conn, :index, users: users)
   end
@@ -80,13 +83,13 @@ defmodule TimeTrackerWeb.UserController do
     end
   end
 
-  def sign_out(conn,  %{"user" => %{"email" => email, "hash_password" => hash_password}}) do
-    {:ok, user, token} ->
-    conn
-    # {:ok, %{message: "Logged out"}} = Guardian.revoke!(conn)
-    delete_resp_cookie(token,
-    path: "/",
-    http_only: true,
-    max_age: 1970)
-  end
+  # def sign_out(conn,  %{"user" => %{"email" => email, "hash_password" => hash_password}}) do
+  #   {:ok, user, token} ->
+  #   conn
+  #   # {:ok, %{message: "Logged out"}} = Guardian.revoke!(conn)
+  #   delete_resp_cookie(token,
+  #   path: "/",
+  #   http_only: true,
+  #   max_age: 1970)
+  # end
 end

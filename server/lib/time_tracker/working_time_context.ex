@@ -7,7 +7,6 @@ defmodule TimeTracker.WorkingTimeContext do
   alias TimeTracker.Repo
 
   alias TimeTracker.WorkingTimeContext.WorkingTime
-  alias TimeTracker.TeamContext.Team
   alias TimeTracker.TeamContext
 
   @doc """

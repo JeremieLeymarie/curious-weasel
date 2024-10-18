@@ -111,7 +111,12 @@ const handleUpdate = async (user: User) => {
 
 <template>
   <div class="mx-8 mt-4">
-    <h3 class="text-2xl">Employees</h3>
+    <div class="flex gap-4 items-center">
+      <h3 class="text-2xl">Employees</h3>
+      <RouterLink to="/user/new">
+        <Button icon="pi pi-plus" class="!text-lg" outlined />
+      </RouterLink>
+    </div>
     <hr class="h-1 mt-2 mb-6 bg-[#1D0455] border-0" />
     <div v-if="users">
       <Card class="">
@@ -126,7 +131,8 @@ const handleUpdate = async (user: User) => {
             <Column field="weekly" header="Weekly avg" sortable></Column>
             <Column header="Info" class="w-24" v-if="userStore.user?.role == 'general_manager'" sortable>
               <template #body="user">
-                <Button size="small" @click="handleUpdate(user.data)" v-if="user.data.role == 'employee'">Promote</Button>
+                <Button size="small" @click="handleUpdate(user.data)"
+                  v-if="user.data.role == 'employee'">Promote</Button>
                 <Button size="small" @click="handleUpdate(user.data)" v-if="user.data.role == 'manager'">Demote</Button>
                 <Button size="small" class="mt-1" severity="danger" @click="handleDelete(user.data.id)">Delete</Button>
               </template>

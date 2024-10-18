@@ -20,9 +20,22 @@ defmodule TimeTracker.TeamContext do
       [%Team{}, ...]
 
   """
-  def list_teams(_params) do
+  def list_teams(current_user) do
+    filter_rights =
+      case current_user.role do
+        :general_manager ->
+          true
+
+        :manager ->
+          dynamic([p], p.manager_id == ^current_user.id)
+
+        :employee ->
+          raise "Employee cannot list teams"
+      end
+
     query =
       from(t in Team,
+        where: ^filter_rights,
         preload: [:users, :manager]
       )
 

@@ -12,6 +12,8 @@ defmodule TimeTracker.UserContext.User do
       join_through: TimeTracker.TeamContext.TeamUser
     )
 
+    has_many(:managed_teams, TimeTracker.TeamContext.Team, foreign_key: :manager_id)
+
     has_many(:clocks, TimeTracker.ClockContext.Clock)
     has_many(:working_times, TimeTracker.WorkingTimeContext.WorkingTime)
 
@@ -37,5 +39,4 @@ defmodule TimeTracker.UserContext.User do
   end
 
   defp put_password_hash(changeset), do: changeset
-
 end
