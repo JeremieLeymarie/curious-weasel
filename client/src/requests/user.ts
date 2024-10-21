@@ -36,6 +36,6 @@ export const deleteUser = async (userId: string) => {
   await authFetch(`${USER_BASE_URL}/${userId}`, { method: 'DELETE' })
 }
 
-export const logOut = async (userId: string) => {
-  
+export const logOut = async () => {
+  localStorage.removeItem('user')
 }

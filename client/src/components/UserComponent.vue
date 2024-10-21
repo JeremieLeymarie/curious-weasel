@@ -63,9 +63,8 @@ const handleDelete = () => {
 }
 
 const handleLogout = () => {
-  if (!user.value?.id) return logOut()
-
-  router.push('/')
+  logOut()
+  router.push('/login')
 }
 
 const confirm2 = () => {
