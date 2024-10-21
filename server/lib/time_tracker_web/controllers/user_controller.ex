@@ -82,7 +82,6 @@ defmodule TimeTrackerWeb.UserController do
     case TimeTracker.Guardian.authenticate(email, hash_password) do
       {:ok, user, token} ->
         conn
-        |> put_session(:current_user, %{test: "tutut"})
         |> put_status(:ok)
         |> json(%{
           id: user.id,
