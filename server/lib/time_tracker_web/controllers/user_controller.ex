@@ -7,7 +7,10 @@ defmodule TimeTrackerWeb.UserController do
   action_fallback(TimeTrackerWeb.FallbackController)
 
   def index(conn, params) do
-    users = UserContext.list_users(params, TimeTracker.Plug.Authenticate.temp_get_current_user())
+    users = UserContext.list_users(params, Guardian.Plug.current_resource(conn))
+
+    user = Guardian.Plug.current_resource(conn)
+    IO.inspect(user)
 
     render(conn, :index, users: users)
   end
@@ -35,7 +38,7 @@ defmodule TimeTrackerWeb.UserController do
   end
 
   def show(conn, %{"id" => id}) do
-    current_user = TimeTracker.Plug.Authenticate.temp_get_current_user()
+    current_user = Guardian.Plug.current_resource(conn)
 
     {user_id, _rest} = Integer.parse(id)
 

@@ -6,8 +6,8 @@ defmodule TimeTrackerWeb.Router do
     plug(:fetch_session)
   end
 
-  pipeline :authenticated do
-    plug(TimeTracker.Plug.Authenticate)
+  pipeline :auth do
+    plug TimeTracker.GuardianPipeline
   end
 
   scope "/api", TimeTrackerWeb do
@@ -18,7 +18,7 @@ defmodule TimeTrackerWeb.Router do
   end
 
   scope "/api", TimeTrackerWeb do
-    pipe_through([:api, :authenticated])
+    pipe_through([:api, :auth])
 
     resources("/users", UserController, except: [:new, :edit])
     resources("/workingtimes", WorkingTimeController, only: [:update, :delete])

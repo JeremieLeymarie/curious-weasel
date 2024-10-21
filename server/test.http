@@ -15,15 +15,16 @@ DELETE http://localhost:4000/api/users/9 HTTP/1.1
 
 ### List all users
 GET http://localhost:4000/api/users
-
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJ0aW1lX3RyYWNrZXIiLCJleHAiOjE3MzE5MjE2NDcsImlhdCI6MTcyOTUwMjQ0NywiaXNzIjoidGltZV90cmFja2VyIiwianRpIjoiNDQzMmFjYmEtN2RlMy00NTY5LWJhZjMtOTUxZTY4MGU1YWJhIiwibmJmIjoxNzI5NTAyNDQ2LCJzdWIiOiIyNyIsInR5cCI6ImFjY2VzcyJ9.OeRDtNAini21ssqM-n_d8_vNzzyUX4JRwWhIviJth2h7wpTZB0sf2uHwoFyNZShrWPmNmJxVQ2lZQ4gL3PnCxA
 
 ### List one user
-GET http://localhost:4000/api/users/1
+GET http://localhost:4000/api/users/24
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJ0aW1lX3RyYWNrZXIiLCJleHAiOjE3MzE5MjE2NDcsImlhdCI6MTcyOTUwMjQ0NywiaXNzIjoidGltZV90cmFja2VyIiwianRpIjoiNDQzMmFjYmEtN2RlMy00NTY5LWJhZjMtOTUxZTY4MGU1YWJhIiwibmJmIjoxNzI5NTAyNDQ2LCJzdWIiOiIyNyIsInR5cCI6ImFjY2VzcyJ9.OeRDtNAini21ssqM-n_d8_vNzzyUX4JRwWhIviJth2h7wpTZB0sf2uHwoFyNZShrWPmNmJxVQ2lZQ4gL3PnCxA
 
-
-### Create working_time
-POST http://localhost:4000/api/workingtimes/2 HTTP/1.1
+POST http://localhost:4000/api/workingtimes/24 HTTP/1.1
 content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJ0aW1lX3RyYWNrZXIiLCJleHAiOjE3MzE5MTgzMjQsImlhdCI6MTcyOTQ5OTEyNCwiaXNzIjoidGltZV90cmFja2VyIiwianRpIjoiYzA2YjA0MGUtYTAxNi00OTQ4LWI3YmMtMmM0NTZjNzZiMThiIiwibmJmIjoxNzI5NDk5MTIzLCJzdWIiOiIyNCIsInR5cCI6ImFjY2VzcyJ9.k03_lXa7AdJDGPZCPGrbbEICjHBxWBP27Lt3dryYFA-IyRWF0_bVCXka0GZDwg16jkLRDYmMtfhlppG_og6cnA
+
 
 {"working_time" : {
     "start": "2024-10-07 06:02:00Z",
@@ -115,8 +116,8 @@ POST http://localhost:4000/api/users/register HTTP/1.1
 content-type: application/json
 
 {"user" : {
-    "username": "admin",
-    "email": "admin@mail.com",
+    "username": "admin12345",
+    "email": "admin12345@mail.com",
     "hash_password": "password", 
     "role" : "general_manager"
 }}
@@ -126,6 +127,6 @@ POST http://localhost:4000/api/users/sign_in HTTP/1.1
 content-type: application/json
 
 {"user" : {
-    "email": "coucou222@email.fr",
-    "hash_password": "123dzd56"
+    "email": "admin12345@mail.com",
+    "hash_password": "password"
 }}

@@ -7,6 +7,7 @@ import Button from 'primevue/button'
 import Select from 'primevue/select'
 import Toast from 'primevue/toast'
 import { useToast } from 'primevue/usetoast'
+import { authFetch } from '@/requests/fetch'
 
 const formValues = ref<Partial<UserWithoutId>>({})
 const BASE_URL = `${import.meta.env.VITE_HOST}:4000/api/users`

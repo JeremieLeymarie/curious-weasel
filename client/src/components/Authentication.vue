@@ -5,6 +5,7 @@ import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import { useUserStore } from '@/stores/user'
 import type { User } from '@/types'
+import { authFetch } from '@/requests/fetch'
 
 const router = useRouter()
 

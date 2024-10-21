@@ -4,6 +4,7 @@ import { useRouter, useRoute } from 'vue-router'
 import DatePicker from 'primevue/datepicker'
 import Button from 'primevue/button'
 import { useUserStore } from '@/stores/user'
+import { authFetch } from '@/requests/fetch'
 
 const router = useRouter()
 const { user } = useUserStore();
@@ -21,7 +22,7 @@ async function createWorkingTime() {
     }
   })
   if (start.value != null && end.value != null) {
-    let res = await fetch(`${import.meta.env.VITE_HOST}:4000/api/workingtimes/${id}`, {
+    let res = await authFetch(`${import.meta.env.VITE_HOST}:4000/api/workingtimes/${id}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: data

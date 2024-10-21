@@ -6,6 +6,7 @@ import DatePicker from 'primevue/datepicker'
 import Button from 'primevue/button'
 import Toast from 'primevue/toast'
 import { useToast } from 'primevue/usetoast'
+import { authFetch } from '@/requests/fetch'
 
 const toast = useToast();
 
@@ -19,7 +20,7 @@ const dateInput = ref<Date>()
 const clockIn = async (date?: Date) => {
   const d = date ?? new Date()
 
-  await fetch(`${import.meta.env.VITE_HOST}:4000/api/clocks/${userId}`, {
+  await authFetch(`${import.meta.env.VITE_HOST}:4000/api/clocks/${userId}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ clock: { time: d.toISOString(), status: true } })
@@ -42,21 +43,21 @@ const clockOut = async (date?: Date) => {
   // TODO: all of this should be done in one API endpoint
 
   // Create new clock
-  await fetch(`${import.meta.env.VITE_HOST}:4000/api/clocks/${userId}`, {
+  await authFetch(`${import.meta.env.VITE_HOST}:4000/api/clocks/${userId}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ clock: newClock })
   })
 
   // Create corresponding working time
-  await fetch(`${import.meta.env.VITE_HOST}:4000/api/workingtimes/${userId}`, {
+  await authFetch(`${import.meta.env.VITE_HOST}:4000/api/workingtimes/${userId}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ working_time: { start: clock?.time.toISOString(), end: newClock.time } })
   })
 
   // Update previous clock to indicate that user is not currently working
-  await fetch(`${import.meta.env.VITE_HOST}:4000/api/clocks/${clock.id}`, {
+  await authFetch(`${import.meta.env.VITE_HOST}:4000/api/clocks/${clock.id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ clock: { status: false } })

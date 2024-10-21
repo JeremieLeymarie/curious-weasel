@@ -8,6 +8,7 @@ import { readableDate, readableDateTime, getReadableInterval } from '@/utils/dat
 import Card from 'primevue/card'
 import Button from 'primevue/button'
 import { useUserStore } from '@/stores/user'
+import { authFetch } from '@/requests/fetch'
 
 const clocks = ref<Clock[]>()
 const user = ref<User>()
@@ -22,7 +23,7 @@ onMounted(() => {
 })
 
 const getClocks = async (userId: string) => {
-  const response = await fetch(`${import.meta.env.VITE_HOST}:4000/api/clocks/${userId}`)
+  const response = await authFetch(`${import.meta.env.VITE_HOST}:4000/api/clocks/${userId}`)
     .then((res) => res.json())
     .catch((err) => console.error(err))
 

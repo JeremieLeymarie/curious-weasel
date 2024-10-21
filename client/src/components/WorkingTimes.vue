@@ -15,6 +15,7 @@ import AccordionHeader from 'primevue/accordionheader'
 import AccordionContent from 'primevue/accordioncontent'
 import Divider from 'primevue/divider'
 import ProtectedViewVue from './ProtectedView.vue'
+import { authFetch } from '@/requests/fetch'
 
 const router = useRouter()
 const route = useRoute()
@@ -28,7 +29,7 @@ const user = useUserStore()
 
 const deleteWorkingTime = async (id: string) => {
   try {
-    let res = await fetch(`${import.meta.env.VITE_HOST}:4000/api/workingtimes/` + id, {
+    let res = await authFetch(`${import.meta.env.VITE_HOST}:4000/api/workingtimes/` + id, {
       method: 'DELETE'
     })
     getWorkingTimes()
