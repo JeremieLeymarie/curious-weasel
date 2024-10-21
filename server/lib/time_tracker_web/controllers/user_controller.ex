@@ -7,10 +7,7 @@ defmodule TimeTrackerWeb.UserController do
   action_fallback(TimeTrackerWeb.FallbackController)
 
   def index(conn, params) do
-    # TODO: get actual logged in user
-    current_user = UserContext.get_user(1)
-
-    users = UserContext.list_users(params, current_user)
+    users = UserContext.list_users(params, TimeTracker.Plug.Authenticate.temp_get_current_user())
 
     render(conn, :index, users: users)
   end
@@ -38,7 +35,25 @@ defmodule TimeTrackerWeb.UserController do
   end
 
   def show(conn, %{"id" => id}) do
-    case UserContext.get_user(id) do
+    current_user = TimeTracker.Plug.Authenticate.temp_get_current_user()
+
+    {user_id, _rest} = Integer.parse(id)
+
+    # Current user is a different employee
+    if(current_user.role == :employee && current_user.id != user_id) do
+      conn |> put_status(:unauthorized) |> json(%{error: "Unauthorized"})
+    end
+
+    # Current user doesn't manage the user
+    if(
+      current_user.role == :manager &&
+        !Enum.member?(UserContext.get_managed_user_ids(current_user), user_id) &&
+        user_id != current_user.id
+    ) do
+      conn |> put_status(:unauthorized) |> json(%{error: "Unauthorized"})
+    end
+
+    case UserContext.get_user(user_id) do
       nil -> conn |> put_status(:not_found) |> json(%{error: "User not found"})
       user -> render(conn, :show, user: user)
     end

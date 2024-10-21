@@ -12,10 +12,12 @@ import Dialog from 'primevue/dialog'
 import Divider from 'primevue/divider'
 import UserDropdown from './UserDropdown.vue'
 import ChartManager from '../ChartManager.vue'
+import { getUsers } from '@/requests/user'
 
 const route = useRoute()
 const team = ref<Team>()
 const workingTimes = ref<WorkingTime[]>()
+const users = ref<SimpleUser[]>()
 
 const isModalOpen = ref(false)
 const updatedMembers = ref<SimpleUser[]>()
@@ -26,6 +28,9 @@ const getData = () => {
   })
   getTeamWorkingTimes(route.params.teamId as string).then(res => {
     workingTimes.value = res.map(adapter.from.api.workingTime)
+  })
+  getUsers().then(res => {
+    users.value = res
   })
 }
 
@@ -45,36 +50,38 @@ const submitUpdate = async () => {
 </script>
 
 <template>
-  <Panel v-if="team" :header="`Team ${team.name}`">
-    <div v-if="team.manager" class="flex gap-2">
-      <p class="my-2 font-semibold">Managed by:</p>
-      <router-link :to="`/user/${team.manager.id}`">
-        <Chip :label="team.manager.username" />
-      </router-link>
-    </div>
-    <Divider />
-    <div class="space-y-2">
-      <p>Members:</p>
-      <div class="flex gap-2 flex-wrap">
-        <router-link :to="`/user/${user.id}`" v-for="user in team.users" :key="user.id">
-          <Chip :label="user.username" />
+  <div v-if="team && users">
+    <Panel :header="`Team ${team.name}`">
+      <div v-if="team.manager" class="flex gap-2">
+        <p class="my-2 font-semibold">Managed by:</p>
+        <router-link :to="`/user/${team.manager.id}`">
+          <Chip :label="team.manager.username" />
         </router-link>
-        <Button outlined size="small" icon="pi pi-pencil" @click="isModalOpen = true"></Button>
       </div>
-    </div>
-  </Panel>
+      <Divider />
+      <div class="space-y-2">
+        <p>Members:</p>
+        <div class="flex gap-2 flex-wrap">
+          <router-link :to="`/user/${user.id}`" v-for="user in team.users" :key="user.id">
+            <Chip :label="user.username" />
+          </router-link>
+          <Button outlined size="small" icon="pi pi-pencil" @click="isModalOpen = true"></Button>
+        </div>
+      </div>
+    </Panel>
+    <ChartManager :working-times="workingTimes" v-if="workingTimes && team" :team="team" :name="team?.name" />
+    <p v-else>Loading dashboard...</p>
+
+    <Dialog v-model:visible="isModalOpen" modal header="Add member to team"
+      :style="{ width: '40vw', minWidth: '400px' }" :dismissable-mask="true">
+      <span class="text-surface-500 dark:text-surface-400 block my-2">Add or remove team members.</span>
+
+      <UserDropdown :on-change="onChangeMembers" :default-values="team?.users ?? []" :multiple="true" :users="users" />
+      <div class="flex justify-end gap-2 mt-4">
+        <Button type="button" label="Cancel" severity="secondary" @click="isModalOpen = false"></Button>
+        <Button type="button" label="Save" @click="submitUpdate"></Button>
+      </div>
+    </Dialog>
+  </div>
   <p v-else>Loading...</p>
-  <ChartManager :working-times="workingTimes" v-if="workingTimes && team" :team="team" :name="team?.name" />
-  <p v-else>Loading dashboard...</p>
-
-  <Dialog v-model:visible="isModalOpen" modal header="Add member to team" :style="{ width: '40vw', minWidth: '400px' }"
-    :dismissable-mask="true">
-    <span class="text-surface-500 dark:text-surface-400 block my-2">Add or remove team members.</span>
-
-    <UserDropdown :on-change="onChangeMembers" :default-values="team?.users ?? []" :multiple="true" />
-    <div class="flex justify-end gap-2 mt-4">
-      <Button type="button" label="Cancel" severity="secondary" @click="isModalOpen = false"></Button>
-      <Button type="button" label="Save" @click="submitUpdate"></Button>
-    </div>
-  </Dialog>
 </template>

@@ -81,6 +81,10 @@ defmodule TimeTracker.TeamContext do
   def create_team(attrs \\ %{}) do
     manager = Repo.get(User, attrs["manager_id"])
 
+    if manager.role === :employee do
+      raise "Team manager cannot be an employee"
+    end
+
     %Team{}
     |> Team.changeset(%{name: attrs["name"]})
     |> Ecto.Changeset.put_assoc(:manager, manager)

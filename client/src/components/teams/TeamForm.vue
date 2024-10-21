@@ -6,11 +6,21 @@ import Panel from 'primevue/panel'
 import Button from 'primevue/button'
 import { BASE_API_URL } from '@/constants'
 
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import UserDropdown from './UserDropdown.vue'
+import { getUsers } from '@/requests/user'
+import { adapter } from '@/adapters'
 
 const { onSubmit } = defineProps<{ onSubmit: () => void }>()
 const formValues = ref<Partial<Team>>({})
+const users = ref<User[]>()
+
+
+onMounted(() => {
+  getUsers().then(res => {
+    users.value = res
+  })
+})
 
 const onManagerChange = (user: User) => {
   formValues.value.manager = user
@@ -39,7 +49,7 @@ const submit = async (e: Event) => {
 </script>
 
 <template>
-  <Panel header="Add a team">
+  <Panel header="Add a team" v-if="users">
     <form class="my-4 space-y-4" @submit="submit">
       <FloatLabel>
         <InputText v-model="formValues.name" id="name" />
@@ -47,12 +57,13 @@ const submit = async (e: Event) => {
       </FloatLabel>
 
       <FloatLabel class="!mt-8">
-        <UserDropdown :onChange="onManagerChange" :multiple="false" />
+        <UserDropdown :onChange="onManagerChange" :multiple="false"
+          :users="users.filter(user => user.role !== 'employee')" />
         <label>Manager</label>
       </FloatLabel>
 
       <FloatLabel class="!mt-8">
-        <UserDropdown :onChange="onUserChange" multiple />
+        <UserDropdown :onChange="onUserChange" multiple :users="users" />
         <label>Team members</label>
       </FloatLabel>
 

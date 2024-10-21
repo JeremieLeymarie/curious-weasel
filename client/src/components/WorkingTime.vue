@@ -6,7 +6,7 @@ import Button from 'primevue/button'
 import { useUserStore } from '@/stores/user'
 
 const router = useRouter()
-const userStore = useUserStore();
+const { user } = useUserStore();
 
 const start = ref(null)
 const end = ref(null)
@@ -27,7 +27,7 @@ async function createWorkingTime() {
       body: data
     })
     if (res.status == 201) {
-      router.push(`/workingtime`)
+      router.push(`/workingtime/${user?.id}`)
     }
   } else {
     console.log('no end or start')

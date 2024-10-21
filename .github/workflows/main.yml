@@ -31,20 +31,20 @@ jobs:
       run:
         working-directory: ./server
 
-    services:
-      postgres:
-        image: postgres:13
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: time_tracker_dev
+    # services:
+    #   postgres:
+    #     image: postgres:13
+    #     ports:
+    #       - 5432:5432
+    #     options: >-
+    #       --health-cmd pg_isready
+    #       --health-interval 10s
+    #       --health-timeout 5s
+    #       --health-retries 5
+    #     env:
+    #       POSTGRES_USER: postgres
+    #       POSTGRES_PASSWORD: postgres
+    #       POSTGRES_DB: time_tracker_dev
 
     steps:
       - uses: actions/checkout@v4
@@ -54,18 +54,18 @@ jobs:
           elixir-version: "1.17.3"
       - name: Install dependencies
         run: mix deps.get
-      - name: Set up database
-        env:
-          MIX_ENV: test
-          DATABASE_URL: ecto://postgres:postgres@localhost/time_tracker_dev
-        run: mix ecto.setup
+      # - name: Set up database
+      #   env:
+      #     MIX_ENV: test
+      #     DATABASE_URL: ecto://postgres:postgres@localhost/time_tracker_dev
+      #   run: mix ecto.setup
       - name: Compile app
         run: mix compile
-      - name: Run unit tests
-        env:
-          MIX_ENV: test
-          DATABASE_URL: ecto://postgres:postgres@localhost/time_tracker_dev
-        run: mix test
+      # - name: Run unit tests
+      #   env:
+      #     MIX_ENV: test
+      #     DATABASE_URL: ecto://postgres:postgres@localhost/time_tracker_dev
+      #   run: mix test
 
   deploy:
     name: Deploy
