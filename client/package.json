@@ -22,7 +22,6 @@
     "@devexpress/analytics-core": "^24.1.6",
     "@primevue/themes": "^4.1.0",
     "@types/vue-router": "^2.0.0",
-    "axios": "^1.7.7",
     "chart.js": "^4.4.4",
     "date-fns": "^4.1.0",
     "date-fns-tz": "^3.2.0",

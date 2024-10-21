@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import axios from 'axios'
 import { useRoute, useRouter } from 'vue-router'
 import { computed, onMounted, ref, watch } from 'vue'
 import type { WorkingTime } from '@/types'
@@ -57,10 +56,11 @@ const updateWorkingTime = async (id: string, start: Date, end: Date) => {
 
 const getWorkingTimes = async () => {
   try {
-    const response = await axios.get(
-      `${import.meta.env.VITE_HOST}:4000/api/workingtimes/${route.params.userId}`
-    )
-    data.value.workingTimes = response.data.data.map(adapter.from.api.workingTime)
+    let response = await authFetch(`${import.meta.env.VITE_HOST}:4000/api/workingtimes/${route.params.userId}`, {
+      method: 'GET'
+    })
+    response = await response.json()
+    data.value.workingTimes = response.data.map(adapter.from.api.workingTime)
     data.value.loading = false
   } catch (error) {
     console.error('Error fetching working times:', error)
