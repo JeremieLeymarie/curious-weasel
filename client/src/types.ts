@@ -32,3 +32,9 @@ export type Team = {
   id: string
   name: string
 }
+
+export type FetchRequest = {
+  id: number
+  input: RequestInfo | URL
+  init?: RequestInit
+}

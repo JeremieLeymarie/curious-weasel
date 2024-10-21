@@ -14,7 +14,9 @@ const _workingTimeFromAPI = (wt: {
   }
 }
 
-const _clockFromAPI = (clock: { id: number; status: boolean; time: string }): Clock => {
+export type APIClock = { id: number; status: boolean; time: string }
+
+const _clockFromAPI = (clock: APIClock): Clock => {
   return { id: clock.id.toString(), status: clock.status, time: new Date(clock.time) }
 }
 

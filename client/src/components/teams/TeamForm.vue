@@ -4,13 +4,11 @@ import InputText from 'primevue/inputtext'
 import FloatLabel from 'primevue/floatlabel'
 import Panel from 'primevue/panel'
 import Button from 'primevue/button'
-import { BASE_API_URL } from '@/constants'
 
 import { onMounted, ref } from 'vue'
 import UserDropdown from './UserDropdown.vue'
 import { getUsers } from '@/requests/user'
-import { adapter } from '@/adapters'
-import { appFetch } from '@/requests/fetch'
+import { createTeam } from '@/requests/teams'
 
 const { onSubmit } = defineProps<{ onSubmit: () => void }>()
 const formValues = ref<Partial<Team>>({})
@@ -34,16 +32,14 @@ const onUserChange = (users: SimpleUser[]) => {
 const submit = async (e: Event) => {
   e.preventDefault()
 
-  await appFetch(`${BASE_API_URL}/teams`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      team: {
-        name: formValues.value.name,
-        user_ids: formValues.value.users?.map((user) => user.id) ?? [],
-        manager_id: formValues.value.manager?.id
-      }
-    })
+  // TODO: handle errors in a cleaner way
+  if (!formValues.value.name || !formValues.value.manager?.id)
+    return alert("Team name and managers are required")
+
+  await createTeam({
+    name: formValues.value.name,
+    user_ids: formValues.value.users?.map((user) => user.id) ?? [],
+    manager_id: formValues.value.manager?.id
   })
   onSubmit()
 }

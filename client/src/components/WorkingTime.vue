@@ -4,7 +4,7 @@ import { useRouter, useRoute } from 'vue-router'
 import DatePicker from 'primevue/datepicker'
 import Button from 'primevue/button'
 import { useUserStore } from '@/stores/user'
-import { appFetch } from '@/requests/fetch'
+import { createWorkingTime } from '@/requests/workingTimes'
 
 const router = useRouter()
 const { user } = useUserStore();
@@ -13,21 +13,14 @@ const start = ref(null)
 const end = ref(null)
 const route = useRoute()
 
-async function createWorkingTime() {
-  let id = route.params.userId;
-  let data = JSON.stringify({
-    working_time: {
+async function handleCreateWorkingTime() {
+  if (start.value != null && end.value != null) {
+    const response = await createWorkingTime(route.params.userId as string, {
       end: end.value,
       start: start.value
-    }
-  })
-  if (start.value != null && end.value != null) {
-    let res = await appFetch(`${import.meta.env.VITE_HOST}:4000/api/workingtimes/${id}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: data
     })
-    if (res.status == 201) {
+
+    if (response.status == 201) {
       router.push(`/workingtime/${user?.id}`)
     }
   } else {
@@ -51,6 +44,6 @@ async function createWorkingTime() {
         <DatePicker v-model="end" showTime hourFormat="24" fluid />
       </div>
     </div>
-    <Button @click="createWorkingTime()" class="my-6 w-1/12 text-center">Submit</Button>
+    <Button @click="handleCreateWorkingTime()" class="my-6 w-1/12 text-center">Submit</Button>
   </div>
 </template>
