@@ -84,5 +84,9 @@ const today = readableDate(new Date())
       </Card>
     </div>
   </div>
-  <div v-else>User not found...</div>
+  <div v-else>User not found...
+    <router-link to="/login">
+      <button>Log in </button>
+    </router-link>
+  </div>
 </template>

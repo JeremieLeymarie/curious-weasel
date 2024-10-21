@@ -5,7 +5,6 @@ import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import { useUserStore } from '@/stores/user'
 import type { User } from '@/types'
-import { authFetch } from '@/requests/fetch'
 
 const router = useRouter()
 
@@ -19,20 +18,27 @@ async function login() {
       hash_password: password.value
     }
   })
+
+
   if (password.value != null && email.value != null) {
-    let res = await fetch(`${import.meta.env.VITE_HOST}:4000/api/users/sign_in`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: data
-    })
-    if (res.status == 200) {
-      localStorage.clear();
-      let user: User = await res.json()
-      userStore.setUser(user)
-      localStorage.setItem('user', JSON.stringify(user))
-      router.push(`/`)
-    } else {
-      console.log("bad credential")
+    try {
+      let res = await fetch(`${import.meta.env.VITE_HOST}:4000/api/users/sign_in`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: data
+      })
+      if (res.status == 200) {
+        localStorage.removeItem("user")
+        let user: User = await res.json()
+        userStore.setUser(user)
+        localStorage.setItem('user', JSON.stringify(user))
+        console.log(localStorage.getItem("user"))
+        router.push(`/`)
+      } else {
+        console.log("bad credential")
+      }
+    } catch (err) {
+      console.log(err)
     }
   } else {
     console.log('no email or password')
