@@ -56,7 +56,7 @@ const updateWorkingTime = async (id: string, start: Date, end: Date) => {
 
 const getWorkingTimes = async () => {
   try {
-    let response = await authFetch(`${import.meta.env.VITE_HOST}:4000/api/workingtimes/${route.params.userId}`, {
+    let response = await appFetch(`${import.meta.env.VITE_HOST}:4000/api/workingtimes/${route.params.userId}`, {
       method: 'GET'
     })
     response = await response.json()
