@@ -1,8 +1,9 @@
 import { BASE_API_URL } from '@/constants'
 import type { Team } from '@/types'
+import { appFetch } from './fetch'
 
 export const getTeams = async () => {
-  const response: { data: Team[] } = await fetch(`${BASE_API_URL}/teams`)
+  const response: { data: Team[] } = await appFetch(`${BASE_API_URL}/teams`)
     .then((res) => res.json())
     .catch((err) => console.error(err))
 
@@ -10,7 +11,7 @@ export const getTeams = async () => {
 }
 
 export const getTeam = async (teamId: string) => {
-  const response: { data: Team } = await fetch(`${BASE_API_URL}/teams/${teamId}`)
+  const response: { data: Team } = await appFetch(`${BASE_API_URL}/teams/${teamId}`)
     .then((res) => res.json())
     .catch((err) => console.error(err))
 
@@ -18,7 +19,7 @@ export const getTeam = async (teamId: string) => {
 }
 
 export const updateTeam = async (team: { id: string; name?: string; user_ids?: string[] }) => {
-  const response: { data: Team } = await fetch(`${BASE_API_URL}/teams/${team.id}`, {
+  const response: { data: Team } = await appFetch(`${BASE_API_URL}/teams/${team.id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ team })

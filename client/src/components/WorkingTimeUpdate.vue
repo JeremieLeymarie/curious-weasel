@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router'
 import DatePicker from 'primevue/datepicker'
 import Button from 'primevue/button'
 import { useUserStore } from '@/stores/user'
-import { authFetch } from '@/requests/fetch'
+import { appFetch } from '@/requests/fetch'
 
 const { user } = useUserStore()
 
@@ -21,7 +21,7 @@ async function updateWorkingTime(id: any) {
         }
     })
     if (start.value != null && end.value != null) {
-        let res = await authFetch(`${import.meta.env.VITE_HOST}:4000/api/workingtimes/` + route.params.id, {
+        let res = await appFetch(`${import.meta.env.VITE_HOST}:4000/api/workingtimes/` + route.params.id, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: data

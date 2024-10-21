@@ -8,7 +8,7 @@ import { readableDate, readableDateTime, getReadableInterval } from '@/utils/dat
 import Card from 'primevue/card'
 import Button from 'primevue/button'
 import { useUserStore } from '@/stores/user'
-import { authFetch } from '@/requests/fetch'
+import { appFetch } from '@/requests/fetch'
 
 const clocks = ref<Clock[]>()
 const user = ref<User>()
@@ -23,7 +23,7 @@ onMounted(() => {
 })
 
 const getClocks = async (userId: string) => {
-  const response = await authFetch(`${import.meta.env.VITE_HOST}:4000/api/clocks/${userId}`)
+  const response = await appFetch(`${import.meta.env.VITE_HOST}:4000/api/clocks/${userId}`)
     .then((res) => res.json())
     .catch((err) => console.error(err))
 
@@ -56,7 +56,7 @@ const today = readableDate(new Date())
             You have been working for
             <strong>{{
               getReadableInterval({ start: currentClock.time, end: new Date() })
-            }}</strong>
+              }}</strong>
             <span class="text-xs">
               (working time started on {{ readableDateTime(currentClock.time) }})</span>
           </p>
