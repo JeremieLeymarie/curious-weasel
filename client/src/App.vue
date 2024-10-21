@@ -1,9 +1,20 @@
 <script setup lang="ts">
 import Menubar from 'primevue/menubar'
-
 import { computed, ref, watch } from 'vue'
 import { useUserStore } from './stores/user'
-import { onMounted } from 'vue';
+import { onMounted } from 'vue'
+import { Network } from '@capacitor/network'
+
+Network.addListener('networkStatusChange', status => {
+  console.log('Network status changed', status);
+});
+
+const logCurrentNetworkStatus = async () => {
+  const status = await Network.getStatus();
+
+  console.log('Network status:', status);
+};
+
 const userStore = useUserStore()
 
 const isDarkModeEnabled = ref(document.documentElement.classList.contains('my-app-dark'))
