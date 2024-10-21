@@ -10,6 +10,7 @@ import { onMounted, ref } from 'vue'
 import UserDropdown from './UserDropdown.vue'
 import { getUsers } from '@/requests/user'
 import { adapter } from '@/adapters'
+import { authFetch } from '@/requests/fetch'
 
 const { onSubmit } = defineProps<{ onSubmit: () => void }>()
 const formValues = ref<Partial<Team>>({})
@@ -33,7 +34,7 @@ const onUserChange = (users: SimpleUser[]) => {
 const submit = async (e: Event) => {
   e.preventDefault()
 
-  await fetch(`${BASE_API_URL}/teams`, {
+  await authFetch(`${BASE_API_URL}/teams`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
