@@ -31,7 +31,7 @@ const _userFromAPI = (user: APIUser): User => {
 }
 
 const _userFromDexie = (user: DexieUser): User => {
-  return { ...user, teams: user.teams ?? [] }
+  return { ...user, teams: user?.teams ?? [] }
 }
 
 const _teamFromDexie = (team: DexieTeam): Team => {

@@ -2,7 +2,7 @@ import { Network } from '@capacitor/network'
 
 export const isOffline = async () => {
   const status = await Network.getStatus()
-  return true // TODO: remvoe this line
+  // return true // TODO: remvoe this line
   return !status.connected
 }
 
