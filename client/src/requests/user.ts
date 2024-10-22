@@ -1,6 +1,7 @@
-import type { User, UserWithoutId } from '@/types'
+import type { APIUser, User, UserWithoutId } from '@/types'
 import { fetcher, isOffline } from '@/requests/fetch'
 import { db } from '@/storage/db'
+import { adapter } from '@/adapters'
 
 const USER_BASE_URL = `${import.meta.env.VITE_HOST}:4000/api/users`
 
@@ -10,12 +11,12 @@ export const getUser = async (userId: string) => {
   }
 
   // Fetch remote data
-  const response: { data: User } = await fetcher(`${USER_BASE_URL}/${userId}`)
+  const response: { data: APIUser } = await fetcher(`${USER_BASE_URL}/${userId}`)
     .then((res) => res.json())
     .catch((err) => console.error(err))
 
   // Update local database
-  await db.users.put(response.data)
+  await db.users.put(adapter.from.api.to.dexie.user(response.data))
 
   return response.data
 }
@@ -26,19 +27,19 @@ export const getUsers = async () => {
   }
 
   // Fetch remote data
-  const response: { data: User[] } = await fetcher(`${USER_BASE_URL}`)
+  const response: { data: APIUser[] } = await fetcher(`${USER_BASE_URL}`)
     .then((res) => res.json())
     .catch((err) => console.error(err))
 
   // Update local database
   await db.users.clear()
-  await db.users.bulkAdd(response.data)
+  await db.users.bulkAdd(response.data.map(adapter.from.api.to.dexie.user))
 
   return response.data
 }
 
 export const updateUser = async (user: Partial<User>) => {
-  const response: { data: User } = await fetcher(`${USER_BASE_URL}/${user.id}`, {
+  const response: { data: APIUser } = await fetcher(`${USER_BASE_URL}/${user.id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ user })
@@ -50,7 +51,7 @@ export const updateUser = async (user: Partial<User>) => {
 }
 
 export const createUser = async (user: UserWithoutId) => {
-  const response: { data: UserWithoutId } = await fetch(`${USER_BASE_URL}`, {
+  const response: { data: APIUser } = await fetch(`${USER_BASE_URL}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ user })

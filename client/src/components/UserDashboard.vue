@@ -14,7 +14,7 @@ const route = useRoute()
 
 onMounted(() => {
     getWorkingTimes(route.params.userId as string).then(res => {
-        workingTimes.value = res.map(adapter.from.api.workingTime)
+        workingTimes.value = res.map(adapter.from.api.to.client.workingTime)
     })
     getUser(route.params.userId as string).then(res => {
         user.value = res

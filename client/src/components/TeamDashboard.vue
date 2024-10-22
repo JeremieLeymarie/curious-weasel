@@ -13,7 +13,7 @@ const route = useRoute()
 
 onMounted(() => {
     getTeamWorkingTimes(route.params.teamId as string).then(res => {
-        workingTimes.value = res.map(adapter.from.api.workingTime)
+        workingTimes.value = res.map(adapter.from.api.to.client.workingTime)
     })
     getTeam(route.params.teamId as string).then(res => {
         team.value = res

@@ -24,7 +24,7 @@ onMounted(() => {
 
 const getClocksData = async (userId: string) => {
   const clocks = await getClocks(userId)
-  return clocks.map(adapter.from.api.clock)
+  return clocks.map(adapter.from.api.to.client.clock)
 }
 
 const fetchClocks = () => {
@@ -53,7 +53,7 @@ const today = readableDate(new Date())
             You have been working for
             <strong>{{
               getReadableInterval({ start: currentClock.time, end: new Date() })
-              }}</strong>
+            }}</strong>
             <span class="text-xs">
               (working time started on {{ readableDateTime(currentClock.time) }})</span>
           </p>

@@ -55,7 +55,7 @@ const updateWorkingTime = async (id: string, start: Date, end: Date) => {
 const getWorkingTimesData = async () => {
   try {
     const workingTimes = await getWorkingTimes(route.params.userId as string)
-    data.value.workingTimes = workingTimes.map(adapter.from.api.workingTime)
+    data.value.workingTimes = workingTimes.map(adapter.from.api.to.client.workingTime)
     data.value.loading = false
   } catch (error) {
     console.error('Error fetching working times:', error)
