@@ -15,11 +15,28 @@ const router = useRouter()
 
 const handleCreate = async (e: Event) => {
   e.preventDefault()
-
-  if (!formValues.value.email || !formValues.value.username) {
-    // TODO: handle validation
-    return
+  if (formValues.value.email || formValues.value.username || formValues.value.hash_password) {
+    let data = JSON.stringify({
+      user: {
+        email: formValues.value.email,
+        hash_password: formValues.value.hash_password,
+        username: formValues.value.username
+      }
+    })
+    let res = await fetch(`${import.meta.env.VITE_HOST}:4000/api/users/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: data
+    })
+    if (res.status == 201) {
+      router.push(`/users`)
+    } else {
+      console.log("bad credential")
+    }
+  } else {
+    console.log('no email or password')
   }
+
 
   await createUser(formValues.value as User)
   show();
@@ -56,11 +73,6 @@ const show = () => {
         <label for="password">Password</label>
         <InputText id="password" name="password" type="password" placeholder="Create a password"
           class="border-2 w-2/12 min-w-[200px]" v-model="formValues.hash_password" required />
-      </div>
-      <div class="flex flex-col items-center m-3">
-        <label for="role">Role</label>
-        <Select id="role-select" v-model="selectedRole" :options="roles" placeholder="Select a role"
-          class="border-2 w-2/12 min-w-[200px] !text-left" required></Select>
       </div>
       <Toast />
       <Button type="submit" label="Error" class="w-20 mt-4"> Create </Button>
