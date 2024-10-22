@@ -4,7 +4,8 @@ import { useRouter } from 'vue-router'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import { useUserStore } from '@/stores/user'
-import type { User } from '@/types'
+import type { APIUser } from '@/types'
+import { adapter } from '@/adapters'
 
 const router = useRouter()
 
@@ -29,7 +30,7 @@ async function login() {
       })
       if (res.status == 200) {
         localStorage.removeItem("user")
-        let user: User = await res.json()
+        const user = adapter.from.api.to.client.user(await res.json() as APIUser)
         userStore.setUser(user)
         localStorage.setItem('user', JSON.stringify(user))
         console.log(localStorage.getItem("user"))

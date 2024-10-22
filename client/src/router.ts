@@ -13,7 +13,7 @@ import TeamManager from './components/teams/TeamManager.vue'
 import TeamDetail from './components/teams/TeamDetail.vue'
 import UserDashboard from './components/UserDashboard.vue'
 import TeamDashboard from './components/TeamDashboard.vue'
-import Authentication from './components/Authentication.vue'
+import Authentication from './components/AuthenticationComponent.vue'
 
 const routes = [
   { path: '/', component: HomeComponent },
