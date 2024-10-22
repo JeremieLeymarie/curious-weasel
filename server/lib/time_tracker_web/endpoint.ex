@@ -52,7 +52,8 @@ defmodule TimeTrackerWeb.Endpoint do
   plug(CORSPlug,
     origin: [
       "#{System.get_env("HOST", "http://localhost")}:3000",
-      "capacitor://localhost"
+      "capacitor://localhost",
+      "http://localhost:3000",
     ]
   )
 
