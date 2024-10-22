@@ -4,7 +4,6 @@ import { computed, onMounted, ref, watch } from 'vue'
 import type { WorkingTime } from '@/types'
 import { differenceInSeconds, formatDuration, intervalToDuration } from 'date-fns'
 import { getReadableInterval } from '@/utils/date'
-import { adapter } from '@/adapters'
 import Panel from 'primevue/panel'
 import Button from 'primevue/button'
 import { useUserStore } from '@/stores/user'
@@ -127,7 +126,7 @@ onMounted(() => {
     <ProtectedViewVue :authorizedRoles="['manager', 'general_manager']" :resourceId="`${route.params.userId}`">
       <Panel>
         <template #header>
-          <Button size="small" @click="goToNewWTpage"> New Working Time </Button>
+          <Button size="small" @click="goToNewWTpage" v-if="user?.role != 'employee'"> New Working Time </Button>
         </template>
         <div v-if="data.loading" class="text-center text-gray-300">Loading...</div>
         <div v-else>
@@ -148,10 +147,12 @@ onMounted(() => {
                     </p>
                     <p>Duration: {{ calculateDuration(time.start, time.end) }}</p>
                     <div class="flex gap-2 mt-2">
-                      <Button @click="updateWorkingTime(time.id, time.start, time.end)" size="small">
+                      <Button @click="updateWorkingTime(time.id, time.start, time.end)" size="small"
+                        v-if="user?.role != 'employee'">
                         Update
                       </Button>
-                      <Button @click="handleDeleteWorkingTime(time.id)" size="small"> Delete </Button>
+                      <Button @click="handleDeleteWorkingTime(time.id)" size="small" v-if="user?.role != 'employee'">
+                        Delete </Button>
                     </div>
                   </div>
                   <Divider />
