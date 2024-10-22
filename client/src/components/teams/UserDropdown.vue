@@ -4,7 +4,7 @@ import AutoComplete from 'primevue/autocomplete'
 import { ref, watch } from 'vue'
 
 const { onChange, defaultValues, multiple, users } = defineProps<{
-  onChange: ((users: SimpleUser[]) => void) | ((user: SimpleUser) => void)
+  onChange: ((users: SimpleUser[]) => void)
   defaultValues?: SimpleUser[]
   users: SimpleUser[]
   multiple: boolean
@@ -15,7 +15,11 @@ const values = ref<SimpleUser[] | SimpleUser>(defaultValues ?? [])
 
 
 watch(values, () => {
-  onChange(values.value)
+  if (Array.isArray(values.value))
+    onChange(values.value)
+  else
+    onChange([values.value])
+
 })
 
 const search = (e: any) => {

@@ -9,9 +9,10 @@
     "preview": "vite preview",
     "test:unit": "vitest",
     "test:e2e": "nightwatch tests/e2e/*",
-    "type-check": "vue-tsc --noEmit",
+    "type-check": "vue-tsc --noEmit --project tsconfig.app.json",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "build-mobile": "npm run build && cap sync"
   },
   "dependencies": {
     "@capacitor/android": "^6.1.2",
@@ -19,17 +20,12 @@
     "@capacitor/core": "^6.1.2",
     "@capacitor/ios": "^6.1.2",
     "@capacitor/network": "^6.0.2",
-    "@devexpress/analytics-core": "^24.1.6",
     "@primevue/themes": "^4.1.0",
     "@types/vue-router": "^2.0.0",
     "chart.js": "^4.4.4",
     "date-fns": "^4.1.0",
     "date-fns-tz": "^3.2.0",
-    "devexpress-dashboard": "^24.1.6",
-    "devexpress-dashboard-vue": "^24.1.6",
-    "devextreme": "^24.1.6",
-    "devextreme-vue": "^24.1.6",
-    "jwt-decode": "^4.0.0",
+    "dexie": "^4.0.8",
     "native-run": "^2.0.1",
     "pinia": "^2.1.7",
     "primeicons": "^7.0.0",
@@ -37,8 +33,6 @@
     "tailwind": "^4.0.0",
     "tailwindcss-primeui": "^0.3.4",
     "vue": "^3.4.29",
-    "vue-chartjs": "^5.3.1",
-    "vue-mq": "^1.0.1",
     "vue-router": "^4.4.5"
   },
   "devDependencies": {

@@ -4,7 +4,6 @@ import ChartManager from './ChartManager.vue';
 import { getTeamWorkingTimes } from '@/requests/workingTimes';
 import { useRoute } from 'vue-router';
 import type { Team, WorkingTime } from '@/types';
-import { adapter } from '@/adapters';
 import { getTeam } from '@/requests/teams';
 
 const workingTimes = ref<WorkingTime[]>()
@@ -13,7 +12,7 @@ const route = useRoute()
 
 onMounted(() => {
     getTeamWorkingTimes(route.params.teamId as string).then(res => {
-        workingTimes.value = res.map(adapter.from.api.workingTime)
+        workingTimes.value = res
     })
     getTeam(route.params.teamId as string).then(res => {
         team.value = res

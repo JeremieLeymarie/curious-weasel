@@ -4,7 +4,6 @@ import { type WorkingTime, type SimpleUser, type Team } from '@/types'
 import { onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { getTeamWorkingTimes } from '@/requests/workingTimes'
-import { adapter } from '@/adapters'
 import Chip from 'primevue/chip'
 import Button from 'primevue/button'
 import Panel from 'primevue/panel'
@@ -27,7 +26,7 @@ const getData = () => {
     team.value = res
   })
   getTeamWorkingTimes(route.params.teamId as string).then(res => {
-    workingTimes.value = res.map(adapter.from.api.workingTime)
+    workingTimes.value = res
   })
   getUsers().then(res => {
     users.value = res

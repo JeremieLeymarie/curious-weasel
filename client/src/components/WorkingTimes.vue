@@ -14,7 +14,7 @@ import AccordionHeader from 'primevue/accordionheader'
 import AccordionContent from 'primevue/accordioncontent'
 import Divider from 'primevue/divider'
 import ProtectedViewVue from './ProtectedView.vue'
-import { appFetch } from '@/requests/fetch'
+import { deleteWorkingTime, getWorkingTimes } from '@/requests/workingTimes'
 
 const router = useRouter()
 const route = useRoute()
@@ -24,14 +24,12 @@ const data = ref<{ workingTimes: WorkingTime[]; loading: boolean }>({
   loading: true
 })
 
-const user = useUserStore()
+const { user } = useUserStore()
 
-const deleteWorkingTime = async (id: string) => {
+const handleDeleteWorkingTime = async (id: string) => {
   try {
-    let res = await appFetch(`${import.meta.env.VITE_HOST}:4000/api/workingtimes/` + id, {
-      method: 'DELETE'
-    })
-    getWorkingTimes()
+    let res = await deleteWorkingTime(id);
+    getWorkingTimesData()
     if (res.status == 204) {
       console.log('ok')
     } else {
@@ -54,13 +52,10 @@ const updateWorkingTime = async (id: string, start: Date, end: Date) => {
   }
 }
 
-const getWorkingTimes = async () => {
+const getWorkingTimesData = async () => {
   try {
-    let response = await appFetch(`${import.meta.env.VITE_HOST}:4000/api/workingtimes/${route.params.userId}`, {
-      method: 'GET'
-    })
-    response = await response.json()
-    data.value.workingTimes = response.data.map(adapter.from.api.workingTime)
+    const workingTimes = await getWorkingTimes(route.params.userId as string)
+    data.value.workingTimes = workingTimes
     data.value.loading = false
   } catch (error) {
     console.error('Error fetching working times:', error)
@@ -96,9 +91,9 @@ const getPeriod = (start: Date) => {
   return hour < 12 ? 'Morning' : 'Afternoon'
 }
 
-onMounted(getWorkingTimes)
+onMounted(getWorkingTimesData)
 
-watch(() => route.params.userId, getWorkingTimes)
+watch(() => route.params.userId, getWorkingTimesData)
 
 const groupedWorkingTimes = computed(() => {
   const workingTimeByDate: Record<string, WorkingTime[]> = {}
@@ -122,12 +117,12 @@ const groupedWorkingTimes = computed(() => {
 })
 
 onMounted(() => {
-  getWorkingTimes()
+  getWorkingTimesData()
 })
 </script>
 
 <template>
-  <h3 class="text-2xl mb-4">Working Times for User {{ user.username }}</h3>
+  <h3 class="text-2xl mb-4">Working Times for User {{ user?.username }}</h3>
   <div class="space-y-4">
     <ProtectedViewVue :authorizedRoles="['manager', 'general_manager']" :resourceId="`${route.params.userId}`">
       <Panel>
@@ -156,7 +151,7 @@ onMounted(() => {
                       <Button @click="updateWorkingTime(time.id, time.start, time.end)" size="small">
                         Update
                       </Button>
-                      <Button @click="deleteWorkingTime(time.id)" size="small"> Delete </Button>
+                      <Button @click="handleDeleteWorkingTime(time.id)" size="small"> Delete </Button>
                     </div>
                   </div>
                   <Divider />

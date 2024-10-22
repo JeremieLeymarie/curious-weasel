@@ -17,7 +17,7 @@ export type WorkingTime = {
   id: string
   start: Date
   end: Date
-  userId: string
+  // userId: string
 }
 
 export type Clock = {
@@ -31,4 +31,44 @@ export type Team = {
   manager?: SimpleUser
   id: string
   name: string
+}
+
+export type FetchRequest = {
+  id: number
+  input: RequestInfo | URL
+  init?: RequestInit
+}
+
+export type APIUser = {
+  id: string
+  username: string
+  hash_password?: string
+  email: string
+  role: UserRole
+  teams: APITeam[] | null
+  managed_teams: APITeam[] | null
+  working_times: APIWorkingTime[] | null
+  clocks: APIClock[] | null
+}
+
+export type APITeam = {
+  id: string
+  name: string
+  users: SimpleUser[] | null
+  manager: SimpleUser | null
+}
+
+export type APIClock = { id: string; status: boolean; time: string }
+
+export type APIWorkingTime = {
+  id: string
+  start: string
+  end: string
+}
+
+export type APITeamRequest = {
+  id: string
+  name: string
+  user_ids: string[]
+  manager_id: string
 }

@@ -1,30 +1,17 @@
 <script setup lang="ts">
 import type { User, UserWithoutId } from '@/types'
 import { ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import Select from 'primevue/select'
 import Toast from 'primevue/toast'
 import { useToast } from 'primevue/usetoast'
-import { appFetch } from '@/requests/fetch'
+import { createUser } from '@/requests/user'
 
 const formValues = ref<Partial<UserWithoutId>>({})
-const BASE_URL = `${import.meta.env.VITE_HOST}:4000/api/users`
-const route = useRoute()
 const router = useRouter()
 
-const createUser = async (user: UserWithoutId) => {
-  const response: { data: UserWithoutId } = await fetch(`${BASE_URL}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ user: user })
-  })
-    .then((res) => res.json())
-    .catch((err) => console.error(err))
-
-  return response.data
-}
 
 const handleCreate = async (e: Event) => {
   e.preventDefault()

@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router'
 import DatePicker from 'primevue/datepicker'
 import Button from 'primevue/button'
 import { useUserStore } from '@/stores/user'
-import { appFetch } from '@/requests/fetch'
+import { updateWorkingTimes } from '@/requests/workingTimes'
 
 const { user } = useUserStore()
 
@@ -13,19 +13,9 @@ const router = useRouter()
 const route = useRoute()
 const start = ref(new Date(route.params.start as string))
 const end = ref(new Date(route.params.end as string))
-async function updateWorkingTime(id: any) {
-    let data = JSON.stringify({
-        working_time: {
-            end: end.value,
-            start: start.value
-        }
-    })
+async function handleUpdateWorkingTime(id: any) {
     if (start.value != null && end.value != null) {
-        let res = await appFetch(`${import.meta.env.VITE_HOST}:4000/api/workingtimes/` + route.params.id, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: data
-        })
+        const res = await updateWorkingTimes({ start: start.value.toISOString(), end: end.value.toISOString(), id, })
         if (res.status == 200) {
             router.push(`/workingtime/${user?.id}`)
         }
@@ -49,7 +39,8 @@ async function updateWorkingTime(id: any) {
                 <DatePicker v-model="end" showTime hourFormat="24" fluid />
             </div>
         </div>
-        <Button @click="updateWorkingTime(1)" class="bg-[#1D0455] text-white rounded-full p-2 my-6 w-1/12 text-center">
+        <Button @click="handleUpdateWorkingTime(1)"
+            class="bg-[#1D0455] text-white rounded-full p-2 my-6 w-1/12 text-center">
             Submit
         </Button>
     </div>
