@@ -12,7 +12,8 @@ const router = useRouter()
 const email = ref(null)
 const password = ref(null)
 const userStore = useUserStore();
-async function login() {
+async function login(e: Event) {
+  e.preventDefault()
   let data = JSON.stringify({
     user: {
       email: email.value,
@@ -49,7 +50,7 @@ async function login() {
 
 <template>
   <h3 class="text-2xl text-center mt-8">Login to your app</h3>
-  <div>
+  <form @submit="login">
     <div class="text-center mt-6">
       <div class="flex flex-col items-center m-2">
         <label for="email">Email address</label>
@@ -61,11 +62,11 @@ async function login() {
         <InputText id="password" type="password" placeholder="Create a password" class="border-2 w-3/12 min-w-[200px]"
           v-model="password" />
       </div>
-      <Button @click="login" type="button" class="w-20 mt-4"> Login </Button>
+      <Button @click="login" type="submit" class="w-20 mt-4"> Login </Button>
       <p>Or</p>
       <router-link to="/register">
         Register
       </router-link>
     </div>
-  </div>
+  </form>
 </template>
