@@ -52,18 +52,6 @@ export const updateUser = async (user: Partial<User>) => {
   return response.data
 }
 
-export const createUser = async (user: UserWithoutId) => {
-  const response: { data: APIUser } = await fetch(`${USER_BASE_URL}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ user })
-  })
-    .then((res) => res.json())
-    .catch((err) => console.error(err))
-
-  return response.data
-}
-
 export const deleteUser = async (userId: string) => {
   await fetcher(`${USER_BASE_URL}/${userId}`, { method: 'DELETE' })
 }

@@ -4,10 +4,8 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
-import Select from 'primevue/select'
 import Toast from 'primevue/toast'
 import { useToast } from 'primevue/usetoast'
-import { createUser } from '@/requests/user'
 
 const formValues = ref<Partial<UserWithoutId>>({})
 const router = useRouter()
@@ -30,17 +28,13 @@ const handleCreate = async (e: Event) => {
     })
     if (res.status == 201) {
       router.push(`/users`)
+      show();
     } else {
       console.log("bad credential")
     }
   } else {
     console.log('no email or password')
   }
-
-
-  await createUser(formValues.value as User)
-  show();
-  router.push('/');
 }
 const selectedRole = ref();
 const roles = ref([
