@@ -15,7 +15,9 @@ export const getWorkingTimes = async (userId: string): Promise<WorkingTime[]> =>
     .then((res) => res.json())
     .catch((err) => console.error(err))
 
-  await db.workingTimes.bulkPut(response.data.map((wt) => ({ ...wt, userId })))
+  await db.workingTimes.bulkPut(
+    response.data.map((wt) => adapter.from.api.to.dexie.workingTime(wt, { userId }))
+  )
 
   return response.data.map(adapter.from.api.to.client.workingTime)
 }
@@ -32,7 +34,7 @@ export const getTeamWorkingTimes = async (teamId: string): Promise<WorkingTime[]
     .then((res) => res.json())
     .catch((err) => console.error(err))
 
-  await db.workingTimes.bulkPut(response.data.map((wt) => ({ ...wt, teamId })))
+  await response.data.map((wt) => adapter.from.api.to.dexie.workingTime(wt, { teamId }))
 
   return response.data.map(adapter.from.api.to.client.workingTime)
 }

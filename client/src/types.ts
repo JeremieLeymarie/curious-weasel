@@ -1,3 +1,5 @@
+export type PartialId<T extends { id: string }> = Omit<T, 'id'> & { id?: string }
+
 export type UserRole = 'general_manager' | 'manager' | 'employee'
 
 export type User = {
@@ -41,7 +43,7 @@ export type FetchRequest = {
 }
 
 export type APIUser = {
-  id: string
+  id: number
   username: string
   hash_password?: string
   email: string
@@ -53,16 +55,16 @@ export type APIUser = {
 }
 
 export type APITeam = {
-  id: string
+  id: number
   name: string
   users: SimpleUser[] | null
   manager: SimpleUser | null
 }
 
-export type APIClock = { id: string; status: boolean; time: string }
+export type APIClock = { id: number; status: boolean; time: string }
 
 export type APIWorkingTime = {
-  id: string
+  id: number
   start: string
   end: string
 }

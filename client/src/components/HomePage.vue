@@ -2,7 +2,6 @@
 import { computed, onMounted, ref } from 'vue'
 import ClockManager from './ClockManager.vue'
 import type { Clock, User } from '@/types'
-import { adapter } from '@/adapters'
 import { getUser } from '@/requests/user'
 import { readableDate, readableDateTime, getReadableInterval } from '@/utils/date'
 import Card from 'primevue/card'
@@ -23,8 +22,7 @@ onMounted(() => {
 })
 
 const getClocksData = async (userId: string) => {
-  const clocks = await getClocks(userId)
-  return clocks.map(adapter.from.api.to.client.clock)
+  return await getClocks(userId)
 }
 
 const fetchClocks = () => {

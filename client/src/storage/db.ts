@@ -1,5 +1,8 @@
 import type { FetchRequest, SimpleUser, UserRole } from '@/types'
 import Dexie, { type EntityTable } from 'dexie'
+import { nanoid } from 'nanoid'
+
+export const getTmpId = () => `tmp-${nanoid()}`
 
 export type DexieClock = {
   id: string

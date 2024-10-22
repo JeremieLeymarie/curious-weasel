@@ -1,8 +1,9 @@
+import { db } from '@/storage/db'
 import { Network } from '@capacitor/network'
 
 export const isOffline = async () => {
   const status = await Network.getStatus()
-  // return true // TODO: remvoe this line
+  // return true // TODO: remove this line
   return !status.connected
 }
 
@@ -12,16 +13,16 @@ export const fetcher = async (input: RequestInfo | URL, init?: RequestInit) => {
 
   const token = JSON.parse(user).token
 
-  // if (await isOffline()) {
-  //   // All mutations are stored to be re-executed when network is available
-  //   if (init?.method && init.method !== 'GET') {
-  //     // TODO: store mutations in DB
-  //   }
-  //   return null
-  // }
-
-  return fetch(input, {
+  const requestOptions = {
     ...init,
     headers: { ...init?.headers, Authorization: `Bearer ${token}` }
-  })
+  }
+
+  // All mutations are stored to be re-executed when network is available
+  if ((await isOffline()) && init?.method && init.method !== 'GET') {
+    // TODO: store mutations in DB
+    db.requests.add({ input, init: requestOptions })
+  }
+
+  return fetch(input, requestOptions)
 }

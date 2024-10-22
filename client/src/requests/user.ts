@@ -17,7 +17,7 @@ export const getUser = async (userId: string): Promise<User> => {
     .catch((err) => console.error(err))
 
   // Update local database
-  await db.users.put(response.data)
+  await db.users.put(adapter.from.api.to.dexie.user(response.data))
 
   return adapter.from.api.to.client.user(response.data)
 }
@@ -35,7 +35,7 @@ export const getUsers = async (): Promise<User[]> => {
 
   // Update local database
   await db.users.clear()
-  await db.users.bulkAdd(response.data)
+  await db.users.bulkAdd(response.data.map(adapter.from.api.to.dexie.user))
 
   return response.data.map(adapter.from.api.to.client.user)
 }
