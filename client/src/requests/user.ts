@@ -1,4 +1,4 @@
-import type { APIUser, User, UserWithoutId } from '@/types'
+import type { APIUser, User } from '@/types'
 import { fetcher, isOffline } from '@/requests/fetch'
 import { db } from '@/storage/db'
 import { adapter } from '@/adapters'

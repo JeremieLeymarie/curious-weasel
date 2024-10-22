@@ -18,11 +18,65 @@ export const fetcher = async (input: RequestInfo | URL, init?: RequestInit) => {
     headers: { ...init?.headers, Authorization: `Bearer ${token}` }
   }
 
-  // All mutations are stored to be re-executed when network is available
-  if ((await isOffline()) && init?.method && init.method !== 'GET') {
-    // TODO: store mutations in DB
-    db.requests.add({ input, init: requestOptions })
+  return fetch(input, requestOptions)
+}
+
+export const synchronizeMutations = async () => {
+  if (!(await isOffline())) return null
+
+  const createRequests = await db.recordCreates.toArray()
+  const updateRequests = await db.recordUpdates.toArray()
+
+  if (!createRequests.length && !updateRequests.length) return null
+
+  // Prepare all fetch requests (PUT && POST)
+  const postRequests = createRequests.map(({ body, url }) =>
+    fetcher(url, {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  )
+
+  const putRequests = updateRequests.map(({ body, url }) =>
+    fetcher(url, {
+      method: 'PUT',
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  )
+
+  // Fetch everything
+  const responses = await Promise.all([...postRequests, putRequests])
+
+  // Clear unsynchronized requests
+  await db.recordCreates.clear()
+  await db.recordUpdates.clear()
+
+  return responses
+}
+
+export const addCreateRecord = async (
+  url: string,
+  tmpId: string,
+  record: Record<string, unknown>
+) => {
+  await db.recordCreates.add({ id: tmpId, body: record, url })
+}
+
+export const addUpdateRecord = async (url: string, id: string, record: Record<string, unknown>) => {
+  const recordOnlyExistsLocally = id.startsWith('tmp-')
+
+  const creationRecord = await db.recordCreates.get(id)
+
+  // If record exists only in local database, don't register update request, only modify existing POST unsynchronized payload
+  if (recordOnlyExistsLocally && creationRecord) {
+    return await db.recordCreates.update(id, record)
   }
 
-  return fetch(input, requestOptions)
+  await db.recordUpdates.add({ url, body: record })
 }

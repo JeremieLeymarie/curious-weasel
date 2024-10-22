@@ -1,6 +1,6 @@
 import type { APIWorkingTime, WorkingTime } from '@/types'
-import { fetcher, isOffline } from './fetch'
-import { db } from '@/storage/db'
+import { addCreateRecord, addUpdateRecord, fetcher, isOffline } from './fetch'
+import { db, getTmpId } from '@/storage/db'
 import { adapter } from '@/adapters'
 
 export const getWorkingTimes = async (userId: string): Promise<WorkingTime[]> => {
@@ -34,13 +34,24 @@ export const getTeamWorkingTimes = async (teamId: string): Promise<WorkingTime[]
     .then((res) => res.json())
     .catch((err) => console.error(err))
 
-  await response.data.map((wt) => adapter.from.api.to.dexie.workingTime(wt, { teamId }))
+  await db.workingTimes.bulkAdd(
+    response.data.map((wt) => adapter.from.api.to.dexie.workingTime(wt, { teamId }))
+  )
 
   return response.data.map(adapter.from.api.to.client.workingTime)
 }
 
 export const createWorkingTime = async (userId: string, wt: { start: string; end: string }) => {
-  return fetcher(`${import.meta.env.VITE_HOST}:4000/api/workingtimes/${userId}`, {
+  const URL = `${import.meta.env.VITE_HOST}:4000/api/workingtimes/${userId}`
+
+  if (await isOffline()) {
+    const tmpId = getTmpId()
+    await db.workingTimes.add({ ...wt, userId, id: tmpId })
+    await addCreateRecord(URL, tmpId, { working_time: { ...wt, userId } })
+    return
+  }
+
+  return fetcher(URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ working_time: wt })
@@ -48,13 +59,25 @@ export const createWorkingTime = async (userId: string, wt: { start: string; end
 }
 
 export const deleteWorkingTime = async (id: string) => {
+  if (await isOffline()) {
+    throw new Error('Cannot delete working times: network unreachable')
+  }
+
   return await fetcher(`${import.meta.env.VITE_HOST}:4000/api/workingtimes/${id}`, {
     method: 'DELETE'
   })
 }
 
 export const updateWorkingTimes = async (wt: { end: string; start: string; id: string }) => {
-  return await fetcher(`${import.meta.env.VITE_HOST}:4000/api/workingtimes/${wt.id}`, {
+  const URL = `${import.meta.env.VITE_HOST}:4000/api/workingtimes/${wt.id}`
+
+  if (await isOffline()) {
+    await db.workingTimes.update(wt.id, wt)
+    await addUpdateRecord(URL, wt.id, { working_time: wt })
+    return
+  }
+
+  return await fetcher(URL, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({

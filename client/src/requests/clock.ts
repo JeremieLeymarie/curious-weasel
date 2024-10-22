@@ -1,21 +1,23 @@
 import { db, getTmpId } from '@/storage/db'
-import { fetcher, isOffline } from './fetch'
+import { addCreateRecord, addUpdateRecord, fetcher, isOffline } from './fetch'
 import type { APIClock, Clock } from '@/types'
 import { adapter } from '@/adapters'
 
 export const createClock = async (userId: string, clock: Omit<APIClock, 'id'>) => {
+  const URL = `${import.meta.env.VITE_HOST}:4000/api/clocks/${userId}`
+
   if (await isOffline()) {
-    await db.clocks.add({ ...clock, id: getTmpId() })
+    const tmpId = getTmpId()
+    await db.clocks.add({ ...clock, id: tmpId })
+    await addCreateRecord(URL, tmpId, { clock })
+    return
   }
 
-  const response: { data: APIClock } = await fetcher(
-    `${import.meta.env.VITE_HOST}:4000/api/clocks/${userId}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ clock })
-    }
-  )
+  const response: { data: APIClock } = await fetcher(URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ clock })
+  })
     .then((res) => res.json())
     .catch((err) => console.error(err))
 
@@ -23,11 +25,15 @@ export const createClock = async (userId: string, clock: Omit<APIClock, 'id'>) =
 }
 
 export const updateClock = async (clock: Omit<Partial<APIClock>, 'id'> & { id: string }) => {
+  const URL = `${import.meta.env.VITE_HOST}:4000/api/clocks/${clock.id}`
+
   if (await isOffline()) {
     await db.clocks.update(clock.id, clock)
+    await addUpdateRecord(URL, clock.id, { clock })
+    return
   }
 
-  return fetcher(`${import.meta.env.VITE_HOST}:4000/api/clocks/${clock.id}`, {
+  return fetcher(URL, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ clock })
