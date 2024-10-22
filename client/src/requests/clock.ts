@@ -31,6 +31,6 @@ export const getClocks = async (userId: string) => {
     .then((res) => res.json())
     .catch((err) => console.error(err))
 
-  db.clocks.bulkAdd(response.data)
+  await db.clocks.bulkPut(response.data)
   return response.data
 }
