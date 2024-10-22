@@ -39,7 +39,7 @@ async function handleUpdateWorkingTime(id: any) {
                 <DatePicker v-model="end" showTime hourFormat="24" fluid />
             </div>
         </div>
-        <Button @click="handleUpdateWorkingTime(1)"
+        <Button @click="handleUpdateWorkingTime(route.params.id)"
             class="bg-[#1D0455] text-white rounded-full p-2 my-6 w-1/12 text-center">
             Submit
         </Button>
