@@ -16,7 +16,7 @@ const userStore = useUserStore();
 
 onMounted(() => {
   if (!userStore.user) return
-  getUser(userStore.user.id).then((res) => {
+  getUser(userStore.user.id.toString()).then((res) => {
     user.value = res
   })
   fetchClocks()

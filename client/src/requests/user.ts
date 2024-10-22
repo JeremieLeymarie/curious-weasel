@@ -7,7 +7,7 @@ const USER_BASE_URL = `${import.meta.env.VITE_HOST}:4000/api/users`
 
 export const getUser = async (userId: string): Promise<User> => {
   if (await isOffline()) {
-    const user = (await db.users.filter((u) => u.id.toString() === userId).toArray())[0]
+    const user = (await db.users.filter((u) => u.id.toString() === userId.toString()).toArray())[0]
     return adapter.from.dexie.to.client.user(user)
   }
 
