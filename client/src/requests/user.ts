@@ -5,9 +5,10 @@ import { adapter } from '@/adapters'
 
 const USER_BASE_URL = `${import.meta.env.VITE_HOST}:4000/api/users`
 
-export const getUser = async (userId: string) => {
+export const getUser = async (userId: string): Promise<User> => {
   if (await isOffline()) {
-    return await db.users.toArray()
+    const user = (await db.users.filter((u) => u.id.toString() === userId).toArray())[0]
+    return adapter.from.dexie.to.client.user(user)
   }
 
   // Fetch remote data
@@ -16,14 +17,15 @@ export const getUser = async (userId: string) => {
     .catch((err) => console.error(err))
 
   // Update local database
-  await db.users.put(adapter.from.api.to.dexie.user(response.data))
+  await db.users.put(response.data)
 
-  return response.data
+  return adapter.from.api.to.client.user(response.data)
 }
 
-export const getUsers = async () => {
+export const getUsers = async (): Promise<User[]> => {
   if (await isOffline()) {
-    return await db.users.toArray()
+    const dexieUsers = await db.users.toArray()
+    return dexieUsers.map(adapter.from.dexie.to.client.user)
   }
 
   // Fetch remote data
@@ -33,9 +35,9 @@ export const getUsers = async () => {
 
   // Update local database
   await db.users.clear()
-  await db.users.bulkAdd(response.data.map(adapter.from.api.to.dexie.user))
+  await db.users.bulkAdd(response.data)
 
-  return response.data
+  return response.data.map(adapter.from.api.to.client.user)
 }
 
 export const updateUser = async (user: Partial<User>) => {

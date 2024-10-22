@@ -1,31 +1,33 @@
 import { BASE_API_URL } from '@/constants'
-import type { APITeam, Team } from '@/types'
+import type { APITeam, APITeamRequest, Team } from '@/types'
 import { fetcher, isOffline } from './fetch'
 import { db } from '@/storage/db'
+import { adapter } from '@/adapters'
 
-export const getTeams = async () => {
-  if (await isOffline()) return db.teams.toArray()
+export const getTeams = async (): Promise<Team[]> => {
+  if (await isOffline()) {
+    const dexieTeams = await db.teams.toArray()
+    return dexieTeams.map(adapter.from.dexie.to.client.team)
+  }
 
-  const response: { data: Team[] } = await fetcher(`${BASE_API_URL}/teams`)
+  const response: { data: APITeam[] } = await fetcher(`${BASE_API_URL}/teams`)
     .then((res) => res.json())
     .catch((err) => console.error(err))
 
-  db.teams.clear()
-  const dexieTeams = response.data.map((team) => ({
-    ...team,
-    users: team.users ?? null,
-    manager: team.manager ?? null,
-    id: Number(team.id)
-  }))
-  db.teams.bulkAdd(dexieTeams)
+  await db.teams.clear()
+  await db.teams.bulkAdd(response.data)
 
-  return response.data
+  return response.data.map(adapter.from.api.to.client.team)
 }
 
-export const getTeam = async (teamId: string) => {
-  if (await isOffline()) return db.teams.get(Number(teamId))
+export const getTeam = async (teamId: string): Promise<Team> => {
+  if (await isOffline()) {
+    const team = await db.teams.get(teamId)
+    if (!team) throw new Error(`Team ${teamId} not found in local database`)
+    return adapter.from.dexie.to.client.team(team)
+  }
 
-  const response: { data: Team } = await fetcher(`${BASE_API_URL}/teams/${teamId}`)
+  const response: { data: APITeam } = await fetcher(`${BASE_API_URL}/teams/${teamId}`)
     .then((res) => res.json())
     .catch((err) => console.error(err))
 
@@ -33,13 +35,14 @@ export const getTeam = async (teamId: string) => {
     ...response.data,
     users: response.data.users ?? null,
     manager: response.data.manager ?? null,
-    id: Number(response.data.id)
+    id: response.data.id
   })
-  return response.data
+
+  return adapter.from.api.to.client.team(response.data)
 }
 
 export const updateTeam = async (team: { id: string; name?: string; user_ids?: string[] }) => {
-  const response: { data: Team } = await fetcher(`${BASE_API_URL}/teams/${team.id}`, {
+  const response: { data: APITeam } = await fetcher(`${BASE_API_URL}/teams/${team.id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ team })
@@ -50,7 +53,7 @@ export const updateTeam = async (team: { id: string; name?: string; user_ids?: s
   return response.data
 }
 
-export const createTeam = async (team: Omit<APITeam, 'id'>) => {
+export const createTeam = async (team: Omit<APITeamRequest, 'id'>) => {
   const response = await fetcher(`${BASE_API_URL}/teams`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

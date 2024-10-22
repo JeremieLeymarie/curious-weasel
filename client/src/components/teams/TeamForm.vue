@@ -21,8 +21,8 @@ onMounted(() => {
   })
 })
 
-const onManagerChange = (user: User) => {
-  formValues.value.manager = user
+const onManagerChange = (users: SimpleUser[]) => {
+  formValues.value.manager = users[0]
 }
 
 const onUserChange = (users: SimpleUser[]) => {

@@ -4,7 +4,6 @@ import ChartManager from './ChartManager.vue';
 import { getWorkingTimes } from '@/requests/workingTimes';
 import { useRoute } from 'vue-router';
 import type { User, WorkingTime } from '@/types';
-import { adapter } from '@/adapters';
 import { getUser } from '@/requests/user';
 
 
@@ -14,7 +13,7 @@ const route = useRoute()
 
 onMounted(() => {
     getWorkingTimes(route.params.userId as string).then(res => {
-        workingTimes.value = res.map(adapter.from.api.to.client.workingTime)
+        workingTimes.value = res
     })
     getUser(route.params.userId as string).then(res => {
         user.value = res

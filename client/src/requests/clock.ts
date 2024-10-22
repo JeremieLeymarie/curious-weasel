@@ -2,7 +2,7 @@ import { db } from '@/storage/db'
 import { fetcher, isOffline } from './fetch'
 import type { APIClock } from '@/types'
 
-export const createClock = async (userId: string, clock: APIClock) => {
+export const createClock = async (userId: string, clock: Omit<APIClock, 'id'>) => {
   const response = await fetcher(`${import.meta.env.VITE_HOST}:4000/api/clocks/${userId}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

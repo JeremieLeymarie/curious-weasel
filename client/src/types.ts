@@ -17,7 +17,7 @@ export type WorkingTime = {
   id: string
   start: Date
   end: Date
-  userId: string
+  // userId: string
 }
 
 export type Clock = {
@@ -54,15 +54,21 @@ export type APIUser = {
 export type APITeam = {
   id: string
   name: string
-  user_ids: string[]
-  manager_id: string
+  users: SimpleUser[] | null
+  manager: SimpleUser | null
 }
 
-export type APIClock = { id: number; status: boolean; time: string }
+export type APIClock = { id: string; status: boolean; time: string }
 
 export type APIWorkingTime = {
-  id: number
+  id: string
   start: string
   end: string
-  user_id: number
+}
+
+export type APITeamRequest = {
+  id: string
+  name: string
+  user_ids: string[]
+  manager_id: string
 }

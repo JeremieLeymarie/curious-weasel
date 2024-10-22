@@ -24,7 +24,7 @@ const data = ref<{ workingTimes: WorkingTime[]; loading: boolean }>({
   loading: true
 })
 
-const user = useUserStore()
+const { user } = useUserStore()
 
 const handleDeleteWorkingTime = async (id: string) => {
   try {
@@ -55,7 +55,7 @@ const updateWorkingTime = async (id: string, start: Date, end: Date) => {
 const getWorkingTimesData = async () => {
   try {
     const workingTimes = await getWorkingTimes(route.params.userId as string)
-    data.value.workingTimes = workingTimes.map(adapter.from.api.to.client.workingTime)
+    data.value.workingTimes = workingTimes
     data.value.loading = false
   } catch (error) {
     console.error('Error fetching working times:', error)
@@ -122,7 +122,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <h3 class="text-2xl mb-4">Working Times for User {{ user.username }}</h3>
+  <h3 class="text-2xl mb-4">Working Times for User {{ user?.username }}</h3>
   <div class="space-y-4">
     <ProtectedViewVue :authorizedRoles="['manager', 'general_manager']" :resourceId="`${route.params.userId}`">
       <Panel>

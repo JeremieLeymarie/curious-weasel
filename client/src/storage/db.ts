@@ -2,22 +2,24 @@ import type { FetchRequest, SimpleUser, UserRole } from '@/types'
 import Dexie, { type EntityTable } from 'dexie'
 
 export type DexieClock = {
-  id: number
+  id: string
   time: string
   status: boolean
 }
 
 export type DexieWorkingTime = {
-  id: number
+  id: string
   start: string
   end: string
+  userId?: string
+  teamId?: string
 }
 
 export type DexieTeam = {
-  id: number
+  id: string
   name: string
-  users: SimpleUser[] | null
-  manager: SimpleUser | null
+  users?: SimpleUser[] | null
+  manager?: SimpleUser | null
 }
 
 export type SimpleTeam = {
@@ -26,7 +28,7 @@ export type SimpleTeam = {
 }
 
 export type DexieUser = {
-  id: number
+  id: string
   username: string
   email: string
   role: UserRole
