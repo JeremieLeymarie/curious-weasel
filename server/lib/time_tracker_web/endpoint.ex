@@ -53,7 +53,7 @@ defmodule TimeTrackerWeb.Endpoint do
     origin: [
       "#{System.get_env("HOST", "http://localhost")}:3000",
       "capacitor://localhost",
-      "http://localhost:3000"
+      "http://localhost:3000",
     ]
   )
 
