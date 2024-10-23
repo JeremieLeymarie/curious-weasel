@@ -9,15 +9,27 @@ import { onMounted, ref } from 'vue'
 import UserDropdown from './UserDropdown.vue'
 import { getUsers } from '@/requests/user'
 import { createTeam } from '@/requests/teams'
+import { Network } from '@capacitor/network'
+import { isOffline } from '@/requests/fetch'
 
 const { onSubmit } = defineProps<{ onSubmit: () => void }>()
 const formValues = ref<Partial<Team>>({})
 const users = ref<User[]>()
 
+const isDisabled = ref(false)
+
+Network.addListener('networkStatusChange', status => {
+  isDisabled.value = !status.connected
+
+});
+
 
 onMounted(() => {
   getUsers().then(res => {
     users.value = res
+  })
+  isOffline().then(offline => {
+    isDisabled.value = offline
   })
 })
 
@@ -65,7 +77,7 @@ const submit = async (e: Event) => {
       </FloatLabel>
 
       <div>
-        <Button label="Submit" type="submit" />
+        <Button label="Submit" type="submit" :disabled="isDisabled" />
       </div>
     </form>
   </Panel>

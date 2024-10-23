@@ -37,6 +37,10 @@ export const getTeam = async (teamId: string): Promise<Team> => {
 }
 
 export const updateTeam = async (team: { id: string; name?: string; user_ids?: string[] }) => {
+  if (await isOffline()) {
+    throw new Error('Cannot update team: network is unreachable')
+  }
+
   const response: { data: APITeam } = await fetcher(`${BASE_API_URL}/teams/${team.id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
@@ -49,6 +53,10 @@ export const updateTeam = async (team: { id: string; name?: string; user_ids?: s
 }
 
 export const createTeam = async (team: Omit<APITeamRequest, 'id'>) => {
+  if (await isOffline()) {
+    throw new Error('Cannot create team: network is unreachable')
+  }
+
   const response = await fetcher(`${BASE_API_URL}/teams`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

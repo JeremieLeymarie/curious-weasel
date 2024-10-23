@@ -1,5 +1,5 @@
 import type { APIUser, User } from '@/types'
-import { fetcher, isOffline } from '@/requests/fetch'
+import { addUpdateRecord, fetcher, isOffline } from '@/requests/fetch'
 import { db } from '@/storage/db'
 import { adapter } from '@/adapters'
 
@@ -40,8 +40,17 @@ export const getUsers = async (): Promise<User[]> => {
   return response.data.map(adapter.from.api.to.client.user)
 }
 
-export const updateUser = async (user: Partial<User>) => {
-  const response: { data: APIUser } = await fetcher(`${USER_BASE_URL}/${user.id}`, {
+export const updateUser = async (user: Partial<User> & { id: string }) => {
+  const URL = `${USER_BASE_URL}/${user.id}`
+
+  if (await isOffline()) {
+    const updatedUser = { ...(await db.users.get(user.id)), ...user }
+    await db.users.update(user.id, updatedUser)
+    await addUpdateRecord(URL, user.id, { body: { user: updatedUser } })
+    return
+  }
+
+  const response: { data: APIUser } = await fetcher(URL, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ user })
@@ -53,6 +62,10 @@ export const updateUser = async (user: Partial<User>) => {
 }
 
 export const deleteUser = async (userId: string) => {
+  if (await isOffline()) {
+    throw new Error('Cannot delete user: network unreachable')
+  }
+
   await fetcher(`${USER_BASE_URL}/${userId}`, { method: 'DELETE' })
 }
 

@@ -14,6 +14,8 @@ import TeamDetail from './components/teams/TeamDetail.vue'
 import UserDashboard from './components/UserDashboard.vue'
 import TeamDashboard from './components/TeamDashboard.vue'
 import Authentication from './components/AuthenticationComponent.vue'
+import OfflinePage from './components/OfflinePage.vue'
+import { isOffline } from './requests/fetch'
 
 const routes = [
   { path: '/', component: HomeComponent },
@@ -28,7 +30,8 @@ const routes = [
   { path: '/register', component: UserRegister },
   { path: '/teams', component: TeamManager },
   { path: '/teams/:teamId', component: TeamDetail },
-  { path: '/login', component: Authentication }
+  { path: '/login', component: Authentication },
+  { path: '/offline', component: OfflinePage }
 ]
 
 export const router = createRouter({
@@ -37,9 +40,14 @@ export const router = createRouter({
 })
 
 router.beforeEach(async (to) => {
+  // Pages that shoudln't be allowed without network connection
+  const onlinePages = ['/user/new', '/register', '/login']
+  if ((await isOffline()) && onlinePages.includes(to.path)) return '/offline'
+
   const { user } = useUserStore()
   const publicPages = ['/login', '/register']
   const authRequired = !publicPages.includes(to.path)
+
   if (authRequired && !user) {
     return '/login'
   }
