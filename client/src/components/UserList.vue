@@ -140,35 +140,8 @@ const handleUpdate = async (user: User) => {
   }
 }
 
-// TT 
 const currentMenuUser = ref<User>()
-
-const COMMON_MENU_ITEMS = computed(() => [{
-  label: 'Profile',
-  items: [
-    {
-      label: 'Working Time',
-      command: () => {
-        router.push('/workingtime/' + currentMenuUser.value?.id);
-      }
-    },
-    {
-      label: 'Account',
-      command: () => {
-        router.push('/user/' + currentMenuUser.value?.id);
-      }
-    },
-    {
-      label: 'Dashboard',
-      command: () => {
-        router.push('/chart-manager/' + currentMenuUser.value?.id);
-
-      }
-    }
-  ]
-}])
-
-const managerMenuItems = computed(() => {
+const MenuItems = computed(() => {
   const user = currentMenuUser.value
 
   if (!user) return []
@@ -177,41 +150,18 @@ const managerMenuItems = computed(() => {
     {
       label: 'Options',
       items: [
-        {
-          label: "Demote",
-          command: () => {
-            handleUpdate(user)
-          }
-        },
-        ...(isDeleteDisabled.value ? [] : [{
-          label: 'Delete',
-          command: () => {
-            handleDelete(user.id)
-          }
-        }])
-      ],
-    },
-    ...COMMON_MENU_ITEMS.value
-
-  ]
-}
-)
-
-const employeeMenuItems = computed(() => {
-  const user = currentMenuUser.value
-
-  if (!user) return []
-
-  return [
-    {
-      label: 'Options',
-      items: [
-        {
+        ...(user.role == "manager" ? [] : [{
           label: "Promote",
           command: () => {
             handleUpdate(user)
           }
-        },
+        }]),
+        ...(user.role == "employee" ? [] : [{
+          label: "Demote",
+          command: () => {
+            handleUpdate(user)
+          }
+        }]),
         ...(isDeleteDisabled.value ? [] : [{
           label: 'Delete',
           command: () => {
@@ -220,19 +170,37 @@ const employeeMenuItems = computed(() => {
         }])
       ]
     },
-    ...COMMON_MENU_ITEMS.value
+    {
+      label: 'Profile',
+      items: [
+        {
+          label: 'Working Time',
+          command: () => {
+            router.push('/workingtime/' + currentMenuUser.value?.id);
+          }
+        },
+        {
+          label: 'Account',
+          command: () => {
+            router.push('/user/' + currentMenuUser.value?.id);
+          }
+        },
+        {
+          label: 'Dashboard',
+          command: () => {
+            router.push('/chart-manager/' + currentMenuUser.value?.id);
+
+          }
+        }
+      ]
+    }
   ]
 })
 
-const employeeMenu = ref();
-const managerMenu = ref();
-const employeeToggle = (event: Event, user: User) => {
+const menu = ref();
+const Toggle = (event: Event, user: User) => {
   currentMenuUser.value = user
-  employeeMenu.value.toggle(event);
-};
-const managerToggle = (event: Event, user: User) => {
-  currentMenuUser.value = user
-  managerMenu.value.toggle(event);
+  menu.value.toggle(event);
 };
 </script>
 
@@ -258,16 +226,11 @@ const managerToggle = (event: Event, user: User) => {
             <Column field="weekly" header="Weekly avg" sortable></Column>
             <Column header="Info" class="w-24" v-if="userStore.user?.role == 'general_manager'" sortable>
               <template #body="user">
-                <Button type="button" icon="pi pi-ellipsis-v" @click="employeeToggle($event, user.data)"
-                  v-if="user.data.role != 'general_manager' && user.data.role != 'manager'" aria-haspopup="true"
-                  aria-controls="overlay_menu" rounded outlined />
-                <Menu ref="employeeMenu" id="overlay_menu" :model="employeeMenuItems"
-                  v-if="user.data.role != 'general_manager'" :popup="true" />
-                <Button type="button" icon="pi pi-ellipsis-v" @click="managerToggle($event, user.data)"
-                  v-if="user.data.role != 'general_manager' && user.data.role != 'employee'" aria-haspopup="true"
-                  aria-controls="overlay_menu" rounded outlined />
-                <Menu ref="managerMenu" id="overlay_menu" :model="managerMenuItems"
-                  v-if="user.data.role != 'general_manager'" :popup="true" />
+                <Button type="button" icon="pi pi-ellipsis-v" @click="Toggle($event, user.data)"
+                  v-if="user.data.role != 'general_manager'" aria-haspopup="true" aria-controls="overlay_menu" rounded
+                  outlined />
+                <Menu ref="menu" id="overlay_menu" :model="MenuItems" v-if="user.data.role != 'general_manager'"
+                  :popup="true" />
                 <Button size="small" class="mt-1" icon="pi pi-trash" outlined rounded severity="danger"
                   v-if="user.data.role == 'general_manager'" @click="handleDelete(user.data.id)"
                   :disabled="isDeleteDisabled"></Button>
