@@ -7,6 +7,7 @@ export type User = {
   email: string
   role: UserRole
   teams: Team[]
+  working_times?: WorkingTime[]
 }
 
 export type SimpleUser = Pick<User, 'id' | 'username'>

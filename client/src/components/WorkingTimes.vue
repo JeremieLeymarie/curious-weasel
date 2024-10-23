@@ -121,7 +121,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <h3 class="text-2xl mb-4">Working Times for User {{ user?.username }}</h3>
+  <h3 class="text-2xl mb-4">Working Times</h3>
   <div class="space-y-4">
     <ProtectedViewVue :authorizedRoles="['manager', 'general_manager']" :resourceId="`${route.params.userId}`">
       <Panel>

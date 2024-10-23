@@ -8,29 +8,96 @@ import Button from 'primevue/button'
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import { useUserStore } from '@/stores/user'
+import Menu from 'primevue/menu';
+import { useRouter } from 'vue-router'
 
-let users = ref<User[]>()
+
+type MenuItem = { label: string; command?: (e: Event) => void; items?: MenuItem[] }
+type ListUser = User & { menuItems: MenuItem[]; daily: string; weekly: string }
+let users = ref<ListUser[]>()
 const userStore = useUserStore();
+const router = useRouter()
 
 onMounted(() => {
   getUsers().then((res) => {
-    users.value = getModifyUsers(res)
+    users.value = formatUserList(res)
   })
 })
 
-const getModifyUsers = (res: any) => {
-  let newUsers = res
-  for (let i = 0; i < newUsers.length; i++) {
-    if (newUsers[i].working_times) {
-      newUsers[i].Daily = calculate1DayDuration(newUsers[i].working_times)
-      newUsers[i].weekly = calculate7DayDuration(newUsers[i].working_times)
-    } else {
-      newUsers[i].Daily = '0 seconds'
-      newUsers[i].weekly = '0 seconds'
+const formatUserList = (users: User[]): ListUser[] => {
+  const formattedUsers = users.map(user => {
+    return {
+      ...user,
+      ...getUserAverageWT(user),
+      menuItems: getMenuItems(user),
+    }
+  }
+  )
+
+  return formattedUsers
+
+}
+
+const getMenuItems = (user: User): MenuItem[] => {
+  return [
+    {
+      label: 'Options',
+      items: [
+        {
+          label: user.role === "manager" ? 'Demote' : "Promote",
+          command: () => {
+            handleUpdate(user)
+          }
+        },
+        {
+          label: 'Delete',
+          command: () => {
+            handleDelete(user.id)
+          }
+        }
+      ]
+    },
+    {
+      label: 'Profile',
+      items: [
+        {
+          label: 'Working Time',
+          command: () => {
+            router.push('/workingtime/' + user.id);
+          }
+        },
+        {
+          label: 'Account',
+          command: () => {
+            router.push('/user/' + user.id);
+          }
+        },
+        {
+          label: 'Dashboard',
+          command: () => {
+            router.push('/chart-manager/' + user.id);
+
+          }
+        }
+      ]
+    }
+  ]
+
+}
+
+const getUserAverageWT = (user: User) => {
+
+  if (user.working_times) {
+    return {
+      ...user, daily: calculate1DayDuration(user.working_times),
+      weekly: calculate7DayDuration(user.working_times)
+    }
+  } else {
+    return {
+      ...user, daily: "0 seconds", weekly: '0 seconds'
     }
   }
 
-  return newUsers
 }
 
 const calculate7DayDuration = (times: any[]) => {
@@ -79,7 +146,7 @@ const calculate1DayDuration = (times: any[]) => {
 const handleDelete = async (id: string) => {
   await deleteUser(id)
   getUsers().then((res) => {
-    users.value = getModifyUsers(res)
+    users.value = formatUserList(res)
   })
 }
 
@@ -92,7 +159,7 @@ const handleUpdate = async (user: User) => {
       email: user.email
     })
     getUsers().then((res) => {
-      users.value = getModifyUsers(res)
+      users.value = formatUserList(res)
     })
   }
   if (user.role == 'employee') {
@@ -103,10 +170,15 @@ const handleUpdate = async (user: User) => {
       email: user.email
     })
     getUsers().then((res) => {
-      users.value = getModifyUsers(res)
+      users.value = formatUserList(res)
     })
   }
 }
+const menu = ref();
+
+const toggle = (event: Event) => {
+  menu.value.toggle(event);
+};
 </script>
 
 <template>
@@ -131,10 +203,12 @@ const handleUpdate = async (user: User) => {
             <Column field="weekly" header="Weekly avg" sortable></Column>
             <Column header="Info" class="w-24" v-if="userStore.user?.role == 'general_manager'" sortable>
               <template #body="user">
-                <Button size="small" @click="handleUpdate(user.data)"
-                  v-if="user.data.role == 'employee'">Promote</Button>
-                <Button size="small" @click="handleUpdate(user.data)" v-if="user.data.role == 'manager'">Demote</Button>
-                <Button size="small" class="mt-1" severity="danger" @click="handleDelete(user.data.id)">Delete</Button>
+                <Button type="button" icon="pi pi-ellipsis-v" @click="toggle" v-if="user.data.role != 'general_manager'"
+                  aria-haspopup="true" aria-controls="overlay_menu" rounded outlined />
+                <Menu ref="menu" id="overlay_menu" :model="user.data.menuItems" v-if="user.data.role != 'general_manager'"
+                  :popup="true" />
+                <Button size="small" class="mt-1" icon="pi pi-trash" outlined rounded severity="danger"
+                  v-if="user.data.role == 'general_manager'" @click="handleDelete(user.data.id)"></Button>
               </template>
             </Column>
           </DataTable>
