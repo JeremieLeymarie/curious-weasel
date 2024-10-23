@@ -174,10 +174,105 @@ const handleUpdate = async (user: User) => {
     })
   }
 }
-const menu = ref();
 
-const toggle = (event: Event) => {
+// TT 
+let usertmp = ref<User>()
+let item2 = [
+  {
+    label: 'Options',
+    items: [
+      {
+        label: "Demote",
+        command: () => {
+          handleUpdate(usertmp)
+        }
+      },
+      {
+        label: 'Delete',
+        command: () => {
+          handleDelete(usertmp.id)
+        }
+      }
+    ]
+  },
+  {
+    label: 'Profile',
+    items: [
+      {
+        label: 'Working Time',
+        command: () => {
+          router.push('/workingtime/' + usertmp.id);
+        }
+      },
+      {
+        label: 'Account',
+        command: () => {
+          router.push('/user/' + usertmp.id);
+        }
+      },
+      {
+        label: 'Dashboard',
+        command: () => {
+          router.push('/chart-manager/' + usertmp.id);
+
+        }
+      }
+    ]
+  }
+]
+
+let item = [
+  {
+    label: 'Options',
+    items: [
+      {
+        label: "Promote",
+        command: () => {
+          handleUpdate(usertmp)
+        }
+      },
+      {
+        label: 'Delete',
+        command: () => {
+          handleDelete(usertmp.id)
+        }
+      }
+    ]
+  },
+  {
+    label: 'Profile',
+    items: [
+      {
+        label: 'Working Time',
+        command: () => {
+          router.push('/workingtime/' + usertmp.id);
+        }
+      },
+      {
+        label: 'Account',
+        command: () => {
+          router.push('/user/' + usertmp.id);
+        }
+      },
+      {
+        label: 'Dashboard',
+        command: () => {
+          router.push('/chart-manager/' + usertmp.id);
+
+        }
+      }
+    ]
+  }
+]
+const menu = ref();
+const menu2 = ref();
+const toggle = (event: Event, user: User) => {
+  usertmp = user
   menu.value.toggle(event);
+};
+const toggle2 = (event: Event, user: User) => {
+  usertmp = user
+  menu2.value.toggle(event);
 };
 </script>
 
@@ -203,9 +298,15 @@ const toggle = (event: Event) => {
             <Column field="weekly" header="Weekly avg" sortable></Column>
             <Column header="Info" class="w-24" v-if="userStore.user?.role == 'general_manager'" sortable>
               <template #body="user">
-                <Button type="button" icon="pi pi-ellipsis-v" @click="toggle" v-if="user.data.role != 'general_manager'"
-                  aria-haspopup="true" aria-controls="overlay_menu" rounded outlined />
-                <Menu ref="menu" id="overlay_menu" :model="user.data.menuItems" v-if="user.data.role != 'general_manager'"
+                <Button type="button" icon="pi pi-ellipsis-v" @click="toggle($event, user.data)"
+                  v-if="user.data.role != 'general_manager' && user.data.role != 'manager'" aria-haspopup="true"
+                  aria-controls="overlay_menu" rounded outlined />
+                <Menu ref="menu" id="overlay_menu" :model="item" v-if="user.data.role != 'general_manager'"
+                  :popup="true" />
+                <Button type="button" icon="pi pi-ellipsis-v" @click="toggle2($event, user.data)"
+                  v-if="user.data.role != 'general_manager' && user.data.role != 'employee'" aria-haspopup="true"
+                  aria-controls="overlay_menu" rounded outlined />
+                <Menu ref="menu2" id="overlay_menu" :model="item2" v-if="user.data.role != 'general_manager'"
                   :popup="true" />
                 <Button size="small" class="mt-1" icon="pi pi-trash" outlined rounded severity="danger"
                   v-if="user.data.role == 'general_manager'" @click="handleDelete(user.data.id)"></Button>
