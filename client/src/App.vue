@@ -33,20 +33,8 @@ const items = computed(() => [
   { label: 'Home', icon: 'pi pi-home', route: '/' },
   { label: 'Working Times', icon: 'pi pi-clock', route: `/workingtime/${userStore.user?.id}` },
   { label: 'Dashboard', icon: 'pi pi-chart-bar', route: `/chart-manager/${userStore.user?.id}` },
-  ...(userStore.user?.role !== "employee" ? [{
-    label: 'Manage',
-    icon: 'pi pi-users',
-    items: [
-      {
-        label: 'Employees',
-        route: '/users'
-      },
-      {
-        label: 'Teams',
-        route: '/teams'
-      }
-    ]
-  }] : []),
+  ...(userStore.user?.role !== "employee" ? [{  label:'Employees', icon: 'pi pi-users', route: '/users' },
+    { label: 'Teams', icon: 'pi pi-sitemap', route: '/teams' }] : []),
   { label: 'Account', icon: 'pi pi-user', route: `/user/${userStore.user?.id}` },
   {
     icon: isDarkModeEnabled.value ? 'pi pi-sun' : 'pi pi-moon',
