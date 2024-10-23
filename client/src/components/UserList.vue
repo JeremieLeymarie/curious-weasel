@@ -52,10 +52,10 @@ const formatUserList = (users: User[]): ListUser[] => {
 
 const getUserAverageWT = (user: User) => {
 
-  if (user.working_times) {
+  if (user.workingTimes) {
     return {
-      ...user, daily: calculate1DayDuration(user.working_times),
-      weekly: calculate7DayDuration(user.working_times)
+      ...user, daily: calculate1DayDuration(user.workingTimes),
+      weekly: calculate7DayDuration(user.workingTimes)
     }
   } else {
     return {

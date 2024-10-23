@@ -31,6 +31,10 @@ const _dexieWorkingTimeFromAPI = (
   return { ...wt, ...additionalData, id: wt.id.toString() }
 }
 
+const _dexieWorkingTimeFromClient = (wt: WorkingTime): DexieWorkingTime => {
+  return { ...wt, start: wt.start.toISOString(), end: wt.end.toISOString() }
+}
+
 // CLOCK ADAPTERS
 
 const _clockFromAPI = (clock: APIClock): Clock => {
@@ -48,11 +52,20 @@ const _dexieClockFromAPI = (clock: APIClock): DexieClock => {
 // USER ADAPTERS
 
 const _userFromAPI = (user: APIUser): User => {
-  return { ...user, teams: user.teams ? user.teams.map(_teamFromAPI) : [], id: user.id.toString() }
+  return {
+    ...user,
+    teams: user.teams ? user.teams.map(_teamFromAPI) : [],
+    id: user.id.toString(),
+    workingTimes: user.working_times?.map(_workingTimeFromAPI)
+  }
 }
 
 const _userFromDexie = (user: DexieUser): User => {
-  return { ...user, teams: user?.teams ?? [] }
+  return {
+    ...user,
+    teams: user?.teams ?? [],
+    workingTimes: []
+  }
 }
 
 const _dexieUserFromAPI = (user: APIUser): DexieUser => {
@@ -63,6 +76,10 @@ const _dexieUserFromAPI = (user: APIUser): DexieUser => {
     teams: user.teams?.map(_dexieTeamFromAPI),
     managedTeams: user.managed_teams?.map(_dexieTeamFromAPI)
   }
+}
+
+const _dexieUserFromClient = (user: User): DexieUser => {
+  return { ...user, workingTimes: user.workingTimes?.map(_dexieWorkingTimeFromClient) }
 }
 
 // TEAM ADAPTERS
@@ -109,6 +126,14 @@ export const adapter = {
           team: _teamFromDexie,
           workingTime: _workingTimeFromDexie,
           clock: _clockFromDexie
+        }
+      }
+    },
+    client: {
+      to: {
+        dexie: {
+          workingTime: _dexieWorkingTimeFromClient,
+          user: _dexieUserFromClient
         }
       }
     }

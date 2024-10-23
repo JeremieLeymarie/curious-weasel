@@ -44,7 +44,10 @@ export const updateUser = async (user: Partial<User> & { id: string }) => {
   const URL = `${USER_BASE_URL}/${user.id}`
 
   if (await isOffline()) {
-    const updatedUser = { ...(await db.users.get(user.id)), ...user }
+    const updatedUser = {
+      ...(await db.users.get(user.id)),
+      ...{ username: user.username, email: user.email, role: user.role }
+    }
     await db.users.update(user.id, updatedUser)
     await addUpdateRecord(URL, user.id, { user: updatedUser })
     return
