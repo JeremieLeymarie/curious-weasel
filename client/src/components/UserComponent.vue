@@ -13,6 +13,8 @@ import Toast from 'primevue/toast'
 import { useToast } from 'primevue/usetoast';
 import ProtectedViewVue from './ProtectedView.vue'
 import { useUserStore } from '@/stores/user'
+import { Network } from '@capacitor/network'
+import { isOffline } from '@/requests/fetch'
 
 
 const confirm = useConfirm()
@@ -24,6 +26,11 @@ const formValues = ref<Partial<User>>({})
 
 const route = useRoute()
 const router = useRouter()
+const isDeleteDisabled = ref(false)
+
+Network.addListener('networkStatusChange', status => {
+  isDeleteDisabled.value = !status.connected
+});
 
 watch(
   () => route.params.id,
@@ -32,6 +39,8 @@ watch(
       user.value = res
       formValues.value = res
     })
+
+    isOffline().then(offline => { isDeleteDisabled.value = offline })
   }
 )
 
@@ -67,7 +76,7 @@ const handleLogout = () => {
   router.push('/login')
 }
 
-const confirm2 = () => {
+const confirmDelete = () => {
   confirm.require({
     message: 'Do you want to delete this account?',
     header: 'Are you sure?',
@@ -83,7 +92,7 @@ const confirm2 = () => {
       severity: 'danger'
     },
     accept: () => {
-      // handleDelete()
+      handleDelete()
       toast.add({
         severity: 'success',
         summary: 'Confirmed',
@@ -111,8 +120,8 @@ const confirm2 = () => {
         <Toast />
         <ConfirmDialog></ConfirmDialog>
         <div class="card flex flex-wrap gap-2 justify-center">
-          <Button @click="confirm2()" label="Delete" severity="danger" outlined size="small"
-            v-if="user.id == userStore.user?.id"></Button>
+          <Button @click="confirmDelete()" label="Delete" severity="danger" outlined size="small"
+            v-if="user.id == userStore.user?.id" :disabled="isDeleteDisabled"></Button>
           <Button @click="handleLogout" severity="danger" size="small" v-if="user.id == userStore.user?.id">Log
             out</Button>
         </div>

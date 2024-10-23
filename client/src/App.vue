@@ -9,7 +9,6 @@ import { getCurrentInstance } from 'vue'
 
 const isSynchronizing = ref(false)
 
-// TODO: also do this on load if some mutations are not synchronized
 Network.addListener('networkStatusChange', status => {
   console.log('Network status changed', status);
   if (status.connected)
