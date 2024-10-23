@@ -134,13 +134,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <h3 class="text-2xl mb-4">Working Times</h3>
+  <h3 class="text-2xl mb-4">Working Times <Button size="small" @click="goToNewWTpage" v-if="user?.role != 'employee'"
+      icon="pi pi-plus" outlined rounded /></h3>
   <div class="space-y-4">
     <ProtectedViewVue :authorizedRoles="['manager', 'general_manager']" :resourceId="`${route.params.userId}`">
       <Panel>
-        <template #header>
-          <Button size="small" @click="goToNewWTpage" v-if="user?.role != 'employee'"> New Working Time </Button>
-        </template>
         <div v-if="data.loading" class="text-center text-gray-300">Loading...</div>
         <div v-else>
           <Accordion :value="[]" multiple>
@@ -160,13 +158,12 @@ onMounted(() => {
                     </p>
                     <p>Duration: {{ calculateDuration(time.start, time.end) }}</p>
                     <div class="flex gap-2 mt-2">
-                      <Button @click="updateWorkingTime(time.id, time.start, time.end)" size="small"
-                        v-if="user?.role != 'employee'">
-                        Update
+                      <Button @click="updateWorkingTime(time.id, time.start, time.end)" size="small" icon="pi pi-pencil"
+                        outlined rounded v-if="user?.role != 'employee'">
                       </Button>
                       <Button @click="handleDeleteWorkingTime(time.id)" size="small" v-if="user?.role != 'employee'"
-                        :disabled="isDeleteDisabled" severity="danger">
-                        Delete </Button>
+                        :disabled="isDeleteDisabled" icon="pi pi-trash" outlined rounded severity="danger">
+                      </Button>
                     </div>
                   </div>
                   <Divider />

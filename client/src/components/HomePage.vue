@@ -72,7 +72,7 @@ const today = readableDate(new Date())
             <i class="pi pi-sun !text-2xl"></i>
             <p class="p-3 text-center">You have {{}} days off left.</p>
           </div>
-          <Button class="my-4">
+          <Button class="my-4" outlined>
             <RouterLink :to="`/chart-manager/${userStore.user?.id}`"><a>Consult dashboard</a></RouterLink>
           </Button>
         </template>

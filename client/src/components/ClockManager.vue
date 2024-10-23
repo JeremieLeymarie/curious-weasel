@@ -67,7 +67,7 @@ const manualClock = () => {
 <template>
   <div>
     <div class="flex items-center justify-left my-6">
-      <Button class="text-xl w-[120px]" @click="clock ? clockOut() : clockIn()">
+      <Button outlined class="text-xl w-[120px]" @click="clock ? clockOut() : clockIn()">
         Clock {{ clock ? 'out' : 'in' }}
       </Button>
     </div>
@@ -77,7 +77,7 @@ const manualClock = () => {
       <div class="gap-4 flex">
         <DatePicker id="datepicker-24h" v-model="dateInput" showTime hourFormat="24" fluid />
 
-        <Button type="submit" class="w-[80px]" @click="manualClock()"> Submit </Button>
+        <Button outlined type="submit" class="w-[80px]" @click="manualClock()"> Submit </Button>
       </div>
     </div>
   </div>

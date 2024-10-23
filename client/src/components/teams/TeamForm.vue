@@ -77,7 +77,7 @@ const submit = async (e: Event) => {
       </FloatLabel>
 
       <div>
-        <Button label="Submit" type="submit" :disabled="isDisabled" />
+        <Button label="Submit" type="submit" :disabled="isDisabled" outlined />
       </div>
     </form>
   </Panel>

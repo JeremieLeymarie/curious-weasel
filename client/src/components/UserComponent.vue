@@ -119,9 +119,9 @@ const confirmDelete = () => {
         <Toast />
         <ConfirmDialog></ConfirmDialog>
         <div class="card flex flex-wrap gap-2 justify-center">
-          <Button @click="confirmDelete()" label="Delete" severity="danger" outlined size="small"
+          <Button @click="confirmDelete()" label="Delete" severity="danger" outlined size="small" rounded
             v-if="user.id == userStore.user?.id" :disabled="isDeleteDisabled"></Button>
-          <Button @click="handleLogout" severity="danger" size="small" v-if="user.id == userStore.user?.id">Log
+          <Button @click="handleLogout" severity="danger" size="small" v-if="user.id == userStore.user?.id" rounded>Log
             out</Button>
         </div>
       </div>
@@ -129,7 +129,7 @@ const confirmDelete = () => {
         <template #header>
           <div class="flex items-center gap-4">
             <h3 class="text-xl">My information</h3>
-            <Button type="submit" @click="handleUpdate" size="small">Edit</Button>
+            <Button type="submit" @click="handleUpdate" size="small" icon="pi pi-pencil" outlined rounded></Button>
           </div>
         </template>
         <form class="space-y-4">

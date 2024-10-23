@@ -209,7 +209,7 @@ const Toggle = (event: Event, user: User) => {
     <div class="flex gap-4 items-center">
       <h3 class="text-2xl">Employees</h3>
       <RouterLink to="/user/new">
-        <Button icon="pi pi-plus" class="!text-lg" outlined />
+        <Button icon="pi pi-plus" class="!text-lg" outlined rounded />
       </RouterLink>
     </div>
     <hr class="h-1 mt-2 mb-6 bg-[#1D0455] border-0" />
