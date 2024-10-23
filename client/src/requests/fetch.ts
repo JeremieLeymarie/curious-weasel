@@ -21,6 +21,8 @@ export const fetcher = async (input: RequestInfo | URL, init?: RequestInit) => {
   return fetch(input, requestOptions)
 }
 
+const FAKE_SYNCHRONIZATION_DELAY = 500 // in ms
+
 export const synchronizeMutations = async () => {
   if (await isOffline()) return null
 
@@ -56,6 +58,8 @@ export const synchronizeMutations = async () => {
   // Clear unsynchronized requests
   await db.recordCreates.clear()
   await db.recordUpdates.clear()
+
+  await new Promise((res) => setTimeout(res, FAKE_SYNCHRONIZATION_DELAY))
 
   return responses
 }

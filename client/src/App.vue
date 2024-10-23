@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ProgressSpinner from 'primevue/progressspinner';
 import Menubar from 'primevue/menubar'
 import { computed, ref, watch } from 'vue'
 import { useUserStore } from './stores/user'
@@ -7,17 +8,21 @@ import { Network } from '@capacitor/network'
 import { synchronizeMutations } from './requests/fetch'
 import { getCurrentInstance } from 'vue'
 
+
 const isSynchronizing = ref(false)
 
 Network.addListener('networkStatusChange', status => {
   console.log('Network status changed', status);
-  if (status.connected)
+  if (status.connected) {
+    isSynchronizing.value = true
     synchronizeMutations().then((res) => {
+      isSynchronizing.value = false
       if (res) {
         const instance = getCurrentInstance();
         instance?.proxy?.$forceUpdate();
       }
     })
+  }
 });
 
 onMounted(() => {
@@ -86,6 +91,10 @@ const toggleDarkMode = () => {
   </header>
   <main class="p-12">
     <RouterView :key="$route.path" v-if="!isSynchronizing" />
-    <div v-else>Synchronizing your data...</div>
+    <div v-else class="flex w-full justify-center items-center flex-col gap-4 text-muted-color animate-pulse"
+      strokeWidth="4">
+      <p>Synchronizing your data...</p>
+      <ProgressSpinner class="!w-[50px] !h-[50px]" />
+    </div>
   </main>
 </template>
