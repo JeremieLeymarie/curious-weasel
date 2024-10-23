@@ -60,7 +60,6 @@ const handleUpdate = (event: Event) => {
     id: user.value.id,
     username: formValues.value.username ?? user.value.username,
     email: formValues.value.email ?? user.value.username,
-    teams: []
   })
 }
 
