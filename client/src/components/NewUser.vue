@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { User, UserWithoutId } from '@/types'
+import type { UserWithoutId } from '@/types'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import InputText from 'primevue/inputtext'

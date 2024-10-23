@@ -10,6 +10,8 @@ import Column from 'primevue/column';
 import { useUserStore } from '@/stores/user'
 import Menu from 'primevue/menu';
 import { useRouter } from 'vue-router'
+import { Network } from '@capacitor/network'
+import { isOffline } from '@/requests/fetch'
 
 
 type MenuItem = { label: string; command?: (e: Event) => void; items?: MenuItem[] }
@@ -18,9 +20,21 @@ let users = ref<ListUser[]>()
 const userStore = useUserStore();
 const router = useRouter()
 
+const isDeleteDisabled = ref(false)
+
+Network.addListener('networkStatusChange', status => {
+  isDeleteDisabled.value = !status.connected
+  getUsers().then((res) => {
+    users.value = formatUserList(res)
+  })
+});
+
 onMounted(() => {
   getUsers().then((res) => {
     users.value = formatUserList(res)
+  })
+  isOffline().then(offline => {
+    isDeleteDisabled.value = offline
   })
 })
 
@@ -49,12 +63,12 @@ const getMenuItems = (user: User): MenuItem[] => {
             handleUpdate(user)
           }
         },
-        {
+        ...(isDeleteDisabled.value ? [] : [{
           label: 'Delete',
           command: () => {
             handleDelete(user.id)
           }
-        }
+        }])
       ]
     },
     {
@@ -309,7 +323,8 @@ const toggle2 = (event: Event, user: User) => {
                 <Menu ref="menu2" id="overlay_menu" :model="item2" v-if="user.data.role != 'general_manager'"
                   :popup="true" />
                 <Button size="small" class="mt-1" icon="pi pi-trash" outlined rounded severity="danger"
-                  v-if="user.data.role == 'general_manager'" @click="handleDelete(user.data.id)"></Button>
+                  v-if="user.data.role == 'general_manager'" @click="handleDelete(user.data.id)"
+                  :disabled="isDeleteDisabled"></Button>
               </template>
             </Column>
           </DataTable>

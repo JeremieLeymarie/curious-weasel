@@ -1,5 +1,8 @@
-import type { FetchRequest, SimpleUser, UserRole } from '@/types'
+import type { SimpleUser, UserRole } from '@/types'
 import Dexie, { type EntityTable } from 'dexie'
+import { nanoid } from 'nanoid'
+
+export const getTmpId = () => `tmp-${nanoid()}`
 
 export type DexieClock = {
   id: string
@@ -38,12 +41,31 @@ export type DexieUser = {
   managedTeams?: SimpleTeam[]
 }
 
+export type RecordCreate = {
+  id: string
+  url: string
+  body: Record<string, unknown>
+}
+
+export type RecordUpdate = {
+  id: number
+  url: string
+  body: Record<string, unknown>
+}
+
+export type RecordDelete = {
+  id: number
+  url: string
+}
+
 const db = new Dexie('time-tracker') as Dexie & {
   users: EntityTable<DexieUser, 'id'>
   workingTimes: EntityTable<DexieWorkingTime, 'id'>
   clocks: EntityTable<DexieClock, 'id'>
   teams: EntityTable<DexieTeam, 'id'>
-  requests: EntityTable<FetchRequest, 'id'>
+  recordCreates: EntityTable<RecordCreate, 'id'>
+  recordUpdates: EntityTable<RecordUpdate, 'id'>
+  recordDeletes: EntityTable<RecordDelete, 'id'>
 }
 
 db.version(1).stores({
@@ -51,7 +73,9 @@ db.version(1).stores({
   workingTimes: 'id',
   clocks: 'id',
   teams: 'id',
-  requests: 'id++'
+  recordCreates: 'id++',
+  recordUpdates: 'id++',
+  recordDeletes: 'id++'
 })
 
 export { db }

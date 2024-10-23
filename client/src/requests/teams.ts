@@ -15,7 +15,7 @@ export const getTeams = async (): Promise<Team[]> => {
     .catch((err) => console.error(err))
 
   await db.teams.clear()
-  await db.teams.bulkAdd(response.data)
+  await db.teams.bulkAdd(response.data.map(adapter.from.api.to.dexie.team))
 
   return response.data.map(adapter.from.api.to.client.team)
 }
@@ -31,17 +31,16 @@ export const getTeam = async (teamId: string): Promise<Team> => {
     .then((res) => res.json())
     .catch((err) => console.error(err))
 
-  db.teams.put({
-    ...response.data,
-    users: response.data.users ?? null,
-    manager: response.data.manager ?? null,
-    id: response.data.id
-  })
+  db.teams.put(adapter.from.api.to.dexie.team(response.data))
 
   return adapter.from.api.to.client.team(response.data)
 }
 
 export const updateTeam = async (team: { id: string; name?: string; user_ids?: string[] }) => {
+  if (await isOffline()) {
+    throw new Error('Cannot update team: network is unreachable')
+  }
+
   const response: { data: APITeam } = await fetcher(`${BASE_API_URL}/teams/${team.id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
@@ -54,6 +53,10 @@ export const updateTeam = async (team: { id: string; name?: string; user_ids?: s
 }
 
 export const createTeam = async (team: Omit<APITeamRequest, 'id'>) => {
+  if (await isOffline()) {
+    throw new Error('Cannot create team: network is unreachable')
+  }
+
   const response = await fetcher(`${BASE_API_URL}/teams`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
