@@ -1,24 +1,31 @@
 <script setup lang="ts">
 import Menubar from 'primevue/menubar'
+import ProgressSpinner from 'primevue/progressspinner';
 import { computed, ref, watch } from 'vue'
 import { useUserStore } from './stores/user'
 import { onMounted } from 'vue'
 import { Network } from '@capacitor/network'
 import { synchronizeMutations } from './requests/fetch'
 import { getCurrentInstance } from 'vue'
-import { PanelMenuClasses } from 'primevue/panelmenu/style'
 
 const isSynchronizing = ref(false)
 
 Network.addListener('networkStatusChange', status => {
   console.log('Network status changed', status);
-  if (status.connected)
+  if (status.connected) {
+    isSynchronizing.value = true
     synchronizeMutations().then((res) => {
       if (res) {
         const instance = getCurrentInstance();
         instance?.proxy?.$forceUpdate();
+        isSynchronizing.value = false
       }
     })
+  }
+  else {
+    const instance = getCurrentInstance();
+    instance?.proxy?.$forceUpdate();
+  }
 });
 
 onMounted(() => {
@@ -82,17 +89,20 @@ const toggleDarkMode = () => {
   </header>
   <main class="p-12">
     <RouterView :key="$route.path" v-if="!isSynchronizing" />
-    <div v-else>Synchronizing your data...</div>
+    <div v-else class="w-full flex flex-col gap-4 justify-center items-center text-muted-color animate-pulse">
+      <p class="w-max">
+        Synchronizing your data...</p>
+      <ProgressSpinner class="!w-[5Opx] !h-[5Opx]" stroke-width="4" />
+    </div>
   </main>
 </template>
 
 <style scoped>
-
 @media screen and (min-device-width : 320px) and (max-device-width : 480px) {
-  
+
   .menubar {
-  margin-top: 3rem;
-  margin-bottom: 2rem;
+    margin-top: 3rem;
+    margin-bottom: 2rem;
   }
 }
 </style>

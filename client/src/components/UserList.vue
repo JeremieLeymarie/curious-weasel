@@ -51,7 +51,6 @@ const formatUserList = (users: User[]): ListUser[] => {
 }
 
 const getUserAverageWT = (user: User) => {
-  console.log(user)
   if (user.workingTimes) {
     return {
       ...user, daily: calculate1DayDuration(user.workingTimes),
