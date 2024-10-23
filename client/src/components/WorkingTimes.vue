@@ -14,6 +14,8 @@ import AccordionContent from 'primevue/accordioncontent'
 import Divider from 'primevue/divider'
 import ProtectedViewVue from './ProtectedView.vue'
 import { deleteWorkingTime, getWorkingTimes } from '@/requests/workingTimes'
+import { Network } from '@capacitor/network'
+import { isOffline } from '@/requests/fetch'
 
 const router = useRouter()
 const route = useRoute()
@@ -22,6 +24,13 @@ const data = ref<{ workingTimes: WorkingTime[]; loading: boolean }>({
   workingTimes: [],
   loading: true
 })
+
+
+const isDeleteDisabled = ref(false)
+
+Network.addListener('networkStatusChange', status => {
+  isDeleteDisabled.value = !status.connected
+});
 
 const { user } = useUserStore()
 
@@ -90,7 +99,11 @@ const getPeriod = (start: Date) => {
   return hour < 12 ? 'Morning' : 'Afternoon'
 }
 
-onMounted(getWorkingTimesData)
+onMounted(() => {
+  getWorkingTimesData(); isOffline().then(offline => {
+    isDeleteDisabled.value = offline
+  })
+})
 
 watch(() => route.params.userId, getWorkingTimesData)
 
@@ -151,7 +164,8 @@ onMounted(() => {
                         v-if="user?.role != 'employee'">
                         Update
                       </Button>
-                      <Button @click="handleDeleteWorkingTime(time.id)" size="small" v-if="user?.role != 'employee'">
+                      <Button @click="handleDeleteWorkingTime(time.id)" size="small" v-if="user?.role != 'employee'"
+                        :disabled="isDeleteDisabled" severity="danger">
                         Delete </Button>
                     </div>
                   </div>

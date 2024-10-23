@@ -15,7 +15,7 @@ export const getTeams = async (): Promise<Team[]> => {
     .catch((err) => console.error(err))
 
   await db.teams.clear()
-  await db.teams.bulkAdd(response.data)
+  await db.teams.bulkAdd(response.data.map(adapter.from.api.to.dexie.team))
 
   return response.data.map(adapter.from.api.to.client.team)
 }
@@ -31,12 +31,7 @@ export const getTeam = async (teamId: string): Promise<Team> => {
     .then((res) => res.json())
     .catch((err) => console.error(err))
 
-  db.teams.put({
-    ...response.data,
-    users: response.data.users ?? null,
-    manager: response.data.manager ?? null,
-    id: response.data.id
-  })
+  db.teams.put(adapter.from.api.to.dexie.team(response.data))
 
   return adapter.from.api.to.client.team(response.data)
 }

@@ -4,16 +4,30 @@ import { computed, ref, watch } from 'vue'
 import { useUserStore } from './stores/user'
 import { onMounted } from 'vue'
 import { Network } from '@capacitor/network'
+import { synchronizeMutations } from './requests/fetch'
+import { getCurrentInstance } from 'vue'
+
+const isSynchronizing = ref(false)
 
 Network.addListener('networkStatusChange', status => {
   console.log('Network status changed', status);
+  if (status.connected)
+    synchronizeMutations().then((res) => {
+      if (res) {
+        const instance = getCurrentInstance();
+        instance?.proxy?.$forceUpdate();
+      }
+    })
 });
 
-const logCurrentNetworkStatus = async () => {
-  const status = await Network.getStatus();
-
-  console.log('Network status:', status);
-};
+onMounted(() => {
+  synchronizeMutations().then((res) => {
+    if (res) {
+      const instance = getCurrentInstance();
+      instance?.proxy?.$forceUpdate();
+    }
+  })
+})
 
 const userStore = useUserStore()
 
@@ -71,6 +85,7 @@ const toggleDarkMode = () => {
     </div>
   </header>
   <main class="p-12">
-    <RouterView :key="$route.path" />
+    <RouterView :key="$route.path" v-if="!isSynchronizing" />
+    <div v-else>Synchronizing your data...</div>
   </main>
 </template>
