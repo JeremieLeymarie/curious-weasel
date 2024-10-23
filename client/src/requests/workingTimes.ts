@@ -72,8 +72,9 @@ export const updateWorkingTimes = async (wt: { end: string; start: string; id: s
   const URL = `${import.meta.env.VITE_HOST}:4000/api/workingtimes/${wt.id}`
 
   if (await isOffline()) {
-    await db.workingTimes.update(wt.id, wt)
-    await addUpdateRecord(URL, wt.id, { working_time: wt })
+    const updatedWorkingTime = { ...(await db.workingTimes.get(wt.id)), ...wt }
+    await db.workingTimes.update(wt.id, updatedWorkingTime)
+    await addUpdateRecord(URL, wt.id, { working_time: updatedWorkingTime })
     return
   }
 

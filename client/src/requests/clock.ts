@@ -28,8 +28,9 @@ export const updateClock = async (clock: Omit<Partial<APIClock>, 'id'> & { id: s
   const URL = `${import.meta.env.VITE_HOST}:4000/api/clocks/${clock.id}`
 
   if (await isOffline()) {
-    await db.clocks.update(clock.id, clock)
-    await addUpdateRecord(URL, clock.id, { clock })
+    const updatedClock = { ...(await db.clocks.get(clock.id)), ...clock }
+    await db.clocks.update(clock.id, updatedClock)
+    await addUpdateRecord(URL, clock.id, { clock: updatedClock })
     return
   }
 

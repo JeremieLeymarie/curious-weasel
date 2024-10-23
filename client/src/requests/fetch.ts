@@ -22,7 +22,7 @@ export const fetcher = async (input: RequestInfo | URL, init?: RequestInit) => {
 }
 
 export const synchronizeMutations = async () => {
-  if (!(await isOffline())) return null
+  if (await isOffline()) return null
 
   const createRequests = await db.recordCreates.toArray()
   const updateRequests = await db.recordUpdates.toArray()
@@ -75,7 +75,7 @@ export const addUpdateRecord = async (url: string, id: string, record: Record<st
 
   // If record exists only in local database, don't register update request, only modify existing POST unsynchronized payload
   if (recordOnlyExistsLocally && creationRecord) {
-    return await db.recordCreates.update(id, record)
+    return await db.recordCreates.update(id, { body: { ...creationRecord.body, ...record } })
   }
 
   await db.recordUpdates.add({ url, body: record })
