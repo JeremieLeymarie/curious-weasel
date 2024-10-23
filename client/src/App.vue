@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import ProgressSpinner from 'primevue/progressspinner';
 import Menubar from 'primevue/menubar'
 import { computed, ref, watch } from 'vue'
 import { useUserStore } from './stores/user'
@@ -7,22 +6,19 @@ import { onMounted } from 'vue'
 import { Network } from '@capacitor/network'
 import { synchronizeMutations } from './requests/fetch'
 import { getCurrentInstance } from 'vue'
-
+import { PanelMenuClasses } from 'primevue/panelmenu/style'
 
 const isSynchronizing = ref(false)
 
 Network.addListener('networkStatusChange', status => {
   console.log('Network status changed', status);
-  if (status.connected) {
-    isSynchronizing.value = true
+  if (status.connected)
     synchronizeMutations().then((res) => {
-      isSynchronizing.value = false
       if (res) {
         const instance = getCurrentInstance();
         instance?.proxy?.$forceUpdate();
       }
     })
-  }
 });
 
 onMounted(() => {
@@ -52,8 +48,8 @@ const items = computed(() => [
   { label: 'Home', icon: 'pi pi-home', route: '/' },
   { label: 'Working Times', icon: 'pi pi-clock', route: `/workingtime/${userStore.user?.id}` },
   { label: 'Dashboard', icon: 'pi pi-chart-bar', route: `/chart-manager/${userStore.user?.id}` },
-  ...(userStore.user?.role !== "employee" ? [{  label:'Employees', icon: 'pi pi-users', route: '/users' },
-    { label: 'Teams', icon: 'pi pi-sitemap', route: '/teams' }] : []),
+  ...(userStore.user?.role !== "employee" ? [{ label: 'Employees', icon: 'pi pi-users', route: '/users' },
+  { label: 'Teams', icon: 'pi pi-sitemap', route: '/teams' }] : []),
   { label: 'Account', icon: 'pi pi-user', route: `/user/${userStore.user?.id}` },
   {
     icon: isDarkModeEnabled.value ? 'pi pi-sun' : 'pi pi-moon',
@@ -71,30 +67,32 @@ const toggleDarkMode = () => {
     <RouterLink to="/">
       <img alt="Gotham City logo" class="ml-10" src="./assets/img/Logo_White2.png" width="90" />
     </RouterLink>
-    <div>
-      <Menubar :model="items">
-        <template #item="{ item, props, hasSubmenu }">
+    <div class="flex">
+      <Menubar :model="items" class="menubar">
+        <template #item="{ item, props }">
           <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
             <a v-ripple :href="href" v-bind="props.action" @click="navigate">
               <span :class="item.icon" />
               <span class="ml-2">{{ item.label }}</span>
             </a>
           </router-link>
-          <a v-else v-ripple :href="item.url" :target="item.target" v-bind="props.action">
-            <span v-if="item.icon" :class="item.icon"></span>
-            <span v-if="item.label" class="ml-2">{{ item.label }}</span>
-            <span v-if="hasSubmenu" class="pi pi-fw pi-angle-down ml-2"></span>
-          </a>
         </template>
       </Menubar>
     </div>
   </header>
   <main class="p-12">
     <RouterView :key="$route.path" v-if="!isSynchronizing" />
-    <div v-else class="flex w-full justify-center items-center flex-col gap-4 text-muted-color animate-pulse"
-      strokeWidth="4">
-      <p>Synchronizing your data...</p>
-      <ProgressSpinner class="!w-[50px] !h-[50px]" />
-    </div>
+    <div v-else>Synchronizing your data...</div>
   </main>
 </template>
+
+<style scoped>
+
+@media screen and (min-device-width : 320px) and (max-device-width : 480px) {
+  
+  .menubar {
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+  }
+}
+</style>
