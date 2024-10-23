@@ -64,7 +64,7 @@ const _userFromDexie = (user: DexieUser): User => {
   return {
     ...user,
     teams: user?.teams ?? [],
-    workingTimes: []
+    workingTimes: user.workingTimes?.map(_workingTimeFromDexie) ?? []
   }
 }
 
@@ -74,7 +74,10 @@ const _dexieUserFromAPI = (user: APIUser): DexieUser => {
     id: user.id.toString(),
     clocks: user.clocks?.map(_dexieClockFromAPI),
     teams: user.teams?.map(_dexieTeamFromAPI),
-    managedTeams: user.managed_teams?.map(_dexieTeamFromAPI)
+    managedTeams: user.managed_teams?.map(_dexieTeamFromAPI),
+    workingTimes: user.working_times?.map((wt) =>
+      _dexieWorkingTimeFromAPI(wt, { userId: user.id.toString() })
+    )
   }
 }
 

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { User } from '../types'
+import type { User, WorkingTime } from '../types'
 import { computed, onMounted, ref } from 'vue'
 import { differenceInSeconds, formatDuration, intervalToDuration } from 'date-fns'
 import { deleteUser, getUsers, updateUser } from '@/requests/user'
@@ -51,7 +51,7 @@ const formatUserList = (users: User[]): ListUser[] => {
 }
 
 const getUserAverageWT = (user: User) => {
-
+  console.log(user)
   if (user.workingTimes) {
     return {
       ...user, daily: calculate1DayDuration(user.workingTimes),
@@ -65,7 +65,7 @@ const getUserAverageWT = (user: User) => {
 
 }
 
-const calculate7DayDuration = (times: any[]) => {
+const calculate7DayDuration = (times: WorkingTime[]) => {
   let lastweek = []
   if (times.length < 7) {
     for (let i = 0; i < times.length; i++) {
@@ -79,7 +79,7 @@ const calculate7DayDuration = (times: any[]) => {
 
   if (lastweek[0]) {
     const timeInSeconds = lastweek.reduce((total, time) => {
-      return total + differenceInSeconds(new Date(time.end), new Date(time.start))
+      return total + differenceInSeconds(time.end, time.start)
     }, 0)
     const duration = intervalToDuration({ start: 0, end: timeInSeconds * 1000 })
 
@@ -91,11 +91,11 @@ const calculate7DayDuration = (times: any[]) => {
   }
 }
 
-const calculate1DayDuration = (times: any[]) => {
+const calculate1DayDuration = (times: WorkingTime[]) => {
   if (times[0]) {
     const timeInSeconds = differenceInSeconds(
-      new Date(times[times.length - 1].end),
-      new Date(times[times.length - 1].start)
+      times[times.length - 1].end,
+      times[times.length - 1].start
     )
 
     const duration = intervalToDuration({ start: 0, end: timeInSeconds * 1000 })
