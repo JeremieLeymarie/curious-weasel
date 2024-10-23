@@ -70,8 +70,8 @@ export type APIWorkingTime = {
 }
 
 export type APITeamRequest = {
-  id: string
+  id: number
   name: string
-  user_ids: string[]
-  manager_id: string
+  user_ids: number[]
+  manager_id: number
 }

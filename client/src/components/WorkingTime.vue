@@ -15,14 +15,12 @@ const route = useRoute()
 
 async function handleCreateWorkingTime() {
   if (start.value != null && end.value != null) {
-    const response = await createWorkingTime(route.params.userId as string, {
+    await createWorkingTime(route.params.userId as string, {
       end: end.value,
       start: start.value
     })
 
-    if (response.status == 201) {
-      router.push(`/workingtime/${user?.id}`)
-    }
+    router.push(`/workingtime/${user?.id}`)
   } else {
     console.log('no end or start')
   }
@@ -44,6 +42,6 @@ async function handleCreateWorkingTime() {
         <DatePicker v-model="end" showTime hourFormat="24" fluid />
       </div>
     </div>
-    <Button @click="handleCreateWorkingTime()" class="my-6 w-1/12 text-center">Submit</Button>
+    <Button @click="handleCreateWorkingTime()" class="my-6">Submit</Button>
   </div>
 </template>

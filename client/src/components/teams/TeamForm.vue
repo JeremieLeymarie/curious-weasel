@@ -50,8 +50,8 @@ const submit = async (e: Event) => {
 
   await createTeam({
     name: formValues.value.name,
-    user_ids: formValues.value.users?.map((user) => user.id) ?? [],
-    manager_id: formValues.value.manager?.id
+    user_ids: formValues.value.users?.map((user) => Number(user.id)) ?? [],
+    manager_id: Number(formValues.value.manager?.id)
   })
   onSubmit()
 }

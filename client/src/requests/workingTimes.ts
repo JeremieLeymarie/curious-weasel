@@ -34,7 +34,7 @@ export const getTeamWorkingTimes = async (teamId: string): Promise<WorkingTime[]
     .then((res) => res.json())
     .catch((err) => console.error(err))
 
-  await db.workingTimes.bulkAdd(
+  await db.workingTimes.bulkPut(
     response.data.map((wt) => adapter.from.api.to.dexie.workingTime(wt, { teamId }))
   )
 
@@ -60,7 +60,7 @@ export const createWorkingTime = async (userId: string, wt: { start: string; end
 
 export const deleteWorkingTime = async (id: string) => {
   if (await isOffline()) {
-    throw new Error('Cannot delete working times: network unreachable')
+    throw new Error('Cannot delete working time: network unreachable')
   }
 
   return await fetcher(`${import.meta.env.VITE_HOST}:4000/api/workingtimes/${id}`, {

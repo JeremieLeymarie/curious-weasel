@@ -15,10 +15,8 @@ const start = ref(new Date(route.params.start as string))
 const end = ref(new Date(route.params.end as string))
 async function handleUpdateWorkingTime(id: any) {
     if (start.value != null && end.value != null) {
-        const res = await updateWorkingTimes({ start: start.value.toISOString(), end: end.value.toISOString(), id, })
-        if (res.status == 200) {
-            router.push(`/workingtime/${user?.id}`)
-        }
+        await updateWorkingTimes({ start: start.value.toISOString(), end: end.value.toISOString(), id, })
+        router.push(`/workingtime/${user?.id}`)
     } else {
         console.log('no end or start')
     }
@@ -39,8 +37,7 @@ async function handleUpdateWorkingTime(id: any) {
                 <DatePicker v-model="end" showTime hourFormat="24" fluid />
             </div>
         </div>
-        <Button @click="handleUpdateWorkingTime(route.params.id)"
-            class="bg-[#1D0455] text-white rounded-full p-2 my-6 w-1/12 text-center">
+        <Button @click="handleUpdateWorkingTime(route.params.id)" class="my-6">
             Submit
         </Button>
     </div>
