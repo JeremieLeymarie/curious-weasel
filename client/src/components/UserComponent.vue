@@ -113,7 +113,8 @@ const confirm2 = () => {
         <div class="card flex flex-wrap gap-2 justify-center">
           <Button @click="confirm2()" label="Delete" severity="danger" outlined size="small"
             v-if="user.id == userStore.user?.id"></Button>
-          <Button @click="handleLogout" severity="danger" size="small">Log out</Button>
+          <Button @click="handleLogout" severity="danger" size="small" v-if="user.id == userStore.user?.id">Log
+            out</Button>
         </div>
       </div>
       <Panel class="space-y-4 my-4 p-2">
