@@ -85,6 +85,6 @@ jobs:
             cd time-tracker 
             cp ../.env .env 
             cp ../.env client/.env 
-            docker compose up down 
+            docker compose down 
             docker compose build --no-cache 
             docker compose up -d
